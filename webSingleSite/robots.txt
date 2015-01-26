@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /mytimezone
+Disallow: /history
+Disallow: /currentuser
+Disallow: /demo
+Disallow: /admin
+Disallow: /formedia
+Disallow: /displayboard/run/
+Disallow: /leaflet-0-7-1/

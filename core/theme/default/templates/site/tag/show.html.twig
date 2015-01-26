@@ -1,0 +1,44 @@
+
+{#
+ # @package Core
+ # @link http://ican.openacalendar.org/ OpenACalendar Open Source Software - Website
+ # @license http://ican.openacalendar.org/license.html 3-clause BSD
+ # @copyright (c) 2013-2014, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% extends 'site/tag/page.html.twig' %}
+
+{% block pageTitle %}{{ tag.title }} - {% endblock %} 
+
+
+{% block htmlHeader %}
+{% endblock %}
+
+{% block tabDetails %}currentTab{% endblock %}
+	
+{% block actions %}
+{% endblock %}
+
+
+{% block innerContent %}
+
+	<div class="mainShowTag">
+
+		<p>{{ tag.description | nl2br  | linkify }}</p>
+
+		{% include '/site/eventListFilterParams.html.twig' %}
+
+		<ul class="mainListEvents">
+			{% for event in events %}
+				{% include '/site/common/mainListEvent.html.twig' with {'event':event, 'showCurrentUserOptions':true, 'showVenueAndArea':true}  %}
+			{% else %}
+				<li class="nodata">
+					No events found.
+				</li>					
+			{% endfor %}
+		</ul>
+
+	</div>
+
+{% endblock %}
+

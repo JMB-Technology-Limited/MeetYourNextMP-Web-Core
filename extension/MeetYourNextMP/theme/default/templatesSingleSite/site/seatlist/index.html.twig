@@ -1,0 +1,69 @@
+{#
+ # @package com.meetyournextmp
+ # @license Closed Source
+ # @copyright (c) 2013-2015, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% extends 'site/page.html.twig' %}
+
+
+{% block pageTitle %}Seats - {% endblock %}
+
+{% block tabDetails %}currentTab{% endblock %}
+	
+{% block htmlHeader %}
+	<link rel="canonical" href="{{ config.getWebSiteDomainSecure(currentSite.slug) }}/seat" />
+	{% if not currentSite.isWebRobotsAllowed %}<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">{% endif %}
+{% endblock %}
+
+
+{% block actions %}
+	<li class="action">
+	</li>
+{% endblock %}
+	
+	
+{% block content %}
+
+	<div id="innerPageWrapper">
+		<div id="innerPage">
+
+
+			<div  class="innerPageLeft">
+				<form action="" method="get" id="SearchForm">
+					Please select your seat or type to search: <input type="text" name="freeTextSearch" value="{{  freeTextSearch|e('html_attr') }}">
+				</form>
+			</div>
+
+			<div  class="innerPageRight">
+				<div class="infoBoxWrapper">
+					<div class="infoBoxTitle">Your seat</div>
+					<div class="infoBoxContent">
+						<p>What is your postcode?</p>
+						<form action="/postcode/" method="get">
+							<input type="text" name="postcode" placeholder="eg EH1 1EG">
+							<input type="submit" value="Find my events!">
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<div class="afterInnerPageContent"></div>
+
+			<ul class="mainListAreas" id="SearchAreas">
+				{% for area in areas %}
+					{% include '/site/common/mainListArea.html.twig' with {'area':area}  %}
+				{% endfor %}
+			</ul>
+
+			<div id="afterInnerPageContent"></div>
+		</div>
+	</div>
+
+{% endblock %}
+
+	
+{% block scripts %}
+	<script src="/theme/default/js/seatlist.js?v={{ config.assetsVersion }}" type="text/javascript"></script>
+{% endblock %}
+

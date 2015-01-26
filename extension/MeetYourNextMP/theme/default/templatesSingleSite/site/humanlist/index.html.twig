@@ -1,0 +1,67 @@
+{#
+ # @package com.meetyournextmp
+ # @license Closed Source
+ # @copyright (c) 2013-2015, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% extends 'site/page.html.twig' %}
+
+{% block pageTitle %}Candidates - {% endblock %}
+
+{% block breadcrumbs %}
+	{% if not config.isSingleSiteMode %}<li><a href="/">{{ currentSite.title }}</a></li>{% endif %}
+	<li class="current"><a href="/human">humans</a></li>
+{% endblock %}
+
+{% block content %}
+
+	<h2>Candidates</h2>
+
+	<div id="innerPageWrapper">
+		<ul id="innerPageActions">
+			<li class="action">
+				<li class="tab currentTab"><a href="/human">Candidates</a></li>
+			</li>
+		</ul>
+		<div id="innerPage">
+
+			<div class="innerPageLeft">
+				&nbsp;
+			</div>
+
+			<div class="innerPageRight">
+				<div class="infoBoxWrapper">
+					<div class="infoBoxTitle">Your candidates</div>
+					<div class="infoBoxContent">
+						<p>What is your postcode?</p>
+						<form action="/postcode/" method="get">
+							<input type="hidden" name="page" value="candidates">
+							<input type="text" name="postcode" placeholder="eg EH1 1EG">
+							<input type="submit" value="Find my candidates!">
+						</form>
+						<p>Or <a href="/seat">browse a list of seats</a>.</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="afterInnerPageContent"></div>
+
+			<ul class="mainListHumans">
+				{% for human in humans %}
+					<li class="human">
+						<div class="title"><a href="/human/{{ human.slugForURL }}">{{ human.title }}</a></div>
+						{{ human.description | nl2br }}
+						<div class="afterHumanListing"></div>
+					</li>
+				{% else %}
+					<li class="nodata">
+						No humans found.
+					</li>
+				{% endfor %}
+			</ul>
+
+			<div id="afterInnerPageContent"></div>
+		</div>
+	</div>
+		
+{% endblock %}

@@ -1,0 +1,66 @@
+{#
+ # @package com.meetyournextmp
+ # @license Closed Source
+ # @copyright (c) 2013-2015, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% extends 'site/human/page.html.twig' %}
+
+{% block pageTitle %}{{ human.title }} - {% endblock %}
+
+
+{% block htmlHeader %}
+{% endblock %}
+
+{% block tabDetails %}currentTab{% endblock %}
+	
+{% block actions %}
+{% endblock %}
+
+
+{% block innerContent %}
+
+	<div class="mainShowHuman">
+		<div class="innerPageLeft">
+			<p>{{ human.description | nl2br  | linkify }}</p>
+		</div>
+
+		<div class="innerPageRight">
+			{%  if areas|length > 0 %}
+				<div class="infoBoxWrapper">
+					<div class="infoBoxTitle">More Information</div>
+					<div class="infoBoxContent">
+						{% for area in areas %}
+							<p><a href="/area/{{ area.slugForURL }}">{{  area.title }}</a></p>
+						{% endfor %}
+					</div>
+				</div>
+			{%  endif %}
+		</div>
+
+		<div class="afterInnerPageContent"></div>
+
+		{% include '/site/eventListFilterParams.html.twig' %}
+
+
+		<ul class="mainListEvents">
+			{% for event in events %}
+				{% include '/site/common/mainListEvent.html.twig' with {'event':event, 'showCurrentUserOptions':true, 'showVenueAndArea':true}  %}
+			{% else %}
+				<li class="nodata">
+					No events found.
+
+
+					{% if currentUserActions.has("org.openacalendar","eventNew") or ( currentUser is null and anyVerifiedUserActions.has("org.openacalendar","eventNew") ) %}
+						<p>Do you know of any events this candidate is speaking at? <a href="/event/new">Please help us by adding them!</a></p>
+					{% endif %}
+
+
+				</li>					
+			{% endfor %}
+		</ul>
+
+	</div>
+
+{% endblock %}
+

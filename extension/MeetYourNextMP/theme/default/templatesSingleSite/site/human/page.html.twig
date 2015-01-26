@@ -1,0 +1,55 @@
+{#
+ # @package com.meetyournextmp
+ # @license Closed Source
+ # @copyright (c) 2013-2015, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% extends 'site/page.html.twig' %}
+
+
+{% block breadcrumbs %}
+	{% if not config.isSingleSiteMode %}<li><a href="/">{{ currentSite.title }}</a></li>{% endif %}
+	<li><a href="/human">humans</a></li>
+	<li class="current"><a href="/human/{{ human.slugForURL }}">{{ human.title }}</a></li>
+{% endblock %}
+
+
+{% block content %}
+
+	<h2>{{  human.title }}</h2>
+	
+	<div id="innerPageWrapper">
+		<ul id="innerPageActions">
+			{% block actions %}{% endblock %}
+			{#
+			<li class="action">
+				<a href="/api1/human/{{ human.slug }}/events.ical" onclick="showExportPopup(); return false;">
+					<div class="iconDownloadSmall"></div> export
+				</a>
+			</li>
+			#}
+			{% if currentSite.getIsWebRobotsAllowed %}
+				<li class="action">
+					<a href="#" onclick="showSharePopup(); return false;">
+						<div class="iconShareSmall"></div>  share
+					</a>
+				</li>
+			{% endif %}	
+			<li class="tab {% block tabDetails %}{% endblock %}"><a href="/admin/human/{{ human.slugForUrl }}">Details</a></li>
+		</ul>
+		<div id="innerPage">
+
+			{% block innerContent %}{% endblock %}
+
+			<div id="afterInnerPageContent"></div>
+		</div>
+	</div>
+
+
+{% endblock %}
+
+
+{% block scriptsForState %}
+	<script type="text/javascript">var exportData = { human:{{ human.slug }}, humanSlugURL:"{{ human.slugForURL|e('js') }}", humanTitle:"{{ human.title|e('js') }}" }</script>
+{% endblock %}
+

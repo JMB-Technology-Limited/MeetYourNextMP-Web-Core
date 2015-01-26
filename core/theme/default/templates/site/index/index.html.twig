@@ -1,0 +1,78 @@
+{#
+ # @package Core
+ # @link http://ican.openacalendar.org/ OpenACalendar Open Source Software - Website
+ # @license http://ican.openacalendar.org/license.html 3-clause BSD
+ # @copyright (c) 2013-2014, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% extends 'site/page.html.twig' %}
+
+{% block pageTitle %}Welcome - {% endblock %} 
+
+{% block htmlHeader %}
+	<link rel="canonical" href="{{ config.getWebSiteDomainSecure(currentSite.slug) }}/" />
+	<link rel="alternate"  type="text/calendar" title="{{ currentSite.title | escape('html_attr') }}" href="/api1/events.ical" />
+	{% if not currentSite.isWebRobotsAllowed %}<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">{% endif %}
+{% endblock %}
+
+{% block breadcrumbs %}
+	{# no breadcrumbs on front page. Ppl know where they are. Apparently it confuses ppl #}
+{% endblock %}
+
+
+{% block content %}
+
+	<div id="innerPageWrapper">
+		<div id="innerPage">
+
+			<div class="innerPageLeft">
+				{% if currentSite.descriptionText %}
+					<p>{{ currentSite.descriptionText | nl2br | linkify }}</p>
+				{% else %}
+					<p>Welcome to the calender for {{ currentSite.title  }}.</p>
+				{% endif %}
+			</div>
+
+			<div class="innerPageRight">
+				&nbsp;
+			</div>
+
+			<div class="afterInnerPageContent"></div>
+
+			<ul class="mainListEvents">
+				<li class="export">
+					<a href="/api1/events.ical" onclick="showExportPopup(); return false;">
+						<div class="iconDownloadSmall"></div> export
+					</a>
+					{% if currentSite.getIsWebRobotsAllowed %}
+						<a href="#" onclick="showSharePopup(); return false;">
+							<div class="iconShareSmall"></div> share
+						</a>
+					{% endif %}
+				</li>
+				{% for event in events %}
+					{% include '/site/common/mainListEvent.html.twig' with {'event':event, 'showCurrentUserOptions':true, 'showVenueAndArea':true}  %}
+				{% else %}
+					<li class="nodata">
+						There are no upcoming events.
+						{% if currentUserActions.has("org.openacalendar","eventNew") %}Why not <a href="/event/new">add one</a>?{% endif %}
+					</li>
+				{% endfor %}
+			</ul>
+
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block scriptsForState %}
+	<script type="text/javascript">var exportData = {}</script>
+{% endblock %}
+
+	
+{% block scripts %}
+	<script type="text/javascript" src="/theme/default/js/userAtEvents.site.js?v={{ config.assetsVersion }}"></script>
+{% endblock %}
+
+
+

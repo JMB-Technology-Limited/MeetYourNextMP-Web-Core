@@ -1,0 +1,95 @@
+{#
+ # @package com.meetyournextmp
+ # @license Closed Source
+ # @copyright (c) 2013-2015, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% extends 'site/event/page.html.twig' %}
+
+
+
+
+{% block pageTitle %}Edit Humans for {{ event.summaryDisplay }} - {% endblock %} 
+
+
+{% block innerContent %}
+
+	<div class="innerPageRight">
+
+	<h3>Current Candidates attending</h3>
+
+		<ul class="mainListHumans">
+			{% for human in humans %}
+				<li class="human">
+					<form method="post">
+						<input type="hidden" name="CSFRToken" value="{{ getCSFRToken() }}">
+						<input type="hidden" name="removeHuman" value="{{ human.slug }}">
+						<span class="title">{{ human.title }}</a></span>
+						<input type="submit" value="Remove Candidate">
+					</form>
+					<p>{{ human.description | nl2br | linkify }}</p>
+				</li>
+			{% else %}
+				<li>
+					We don't know what candidates are at this event.
+				</li>
+			{% endfor %}
+		</ul>
+
+		<form method="get" action="/event/{{ event.slugForURL }}">
+			<input type="submit" value="OK, Finished editing!">
+		</form>
+
+	</div>
+
+
+	<div class="innerPageLeft">
+
+		<h3>Add other candidates</h3>
+
+		<div class="filterListEventWrapper">
+			<form method="get" class="filterListEvent">
+
+				{% if area %}
+					<div class="inputField">
+						<select name="limitToArea">
+							<option value="yes" {%  if filterLimitToArea %}selected{% endif %}>in {{  area.title }} only</option>
+							<option value="no" {%  if not filterLimitToArea %}selected{% endif %}>anywhere</option>
+						</select>
+					</div>
+				{% endif %}
+
+				<div class="inputField">
+					<label>Search: <input type="text" name="freeTextSearch" value="{{ filterFreeTextSearch | e('html_attr') }}" autocomplete="off"></label>
+				</div>
+
+				<div class="submitField">
+					<input type="submit" value="Filter">
+				</div>
+			</form>
+		</div>
+
+		<ul class="mainListHumans">
+			{% for human in humansToAdd %}
+				<li class="human">
+					<form method="post">
+						<input type="hidden" name="CSFRToken" value="{{ getCSFRToken() }}">
+						<input type="hidden" name="addHuman" value="{{ human.slug }}">
+						<span class="title">{{ human.title }}</span>
+						<input type="submit" value="Add Candidate">
+					</form>
+					<p>{{ human.description | nl2br | linkify }}</p>
+				</li>
+			{% else %}
+				<li>
+					No humans found to add.
+				</li>
+			{% endfor %}
+		</ul>
+
+	</div>
+
+	<div class="afterInnerPageContent"></div>
+
+{% endblock %}
+

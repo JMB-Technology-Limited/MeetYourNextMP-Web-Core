@@ -1,0 +1,43 @@
+{#
+ # @package com.meetyournextmp
+ # @license Closed Source
+ # @copyright (c) 2013-2015, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% extends 'site/area/page.html.twig' %}
+
+
+{% block pageTitle %}{{ area.title }} - {% endblock %}
+
+
+{% block htmlHeader %}
+{% endblock %}
+
+{% block actions %}
+{% endblock %}
+
+
+{% block innerContent %}
+
+	<ul class="mainListHumans">
+		{% for human in humans %}
+			<li class="human">
+				<div class="title"><a href="/human/{{ human.slugForURL }}">{{ human.title }}</a></div>
+				{{ human.description | nl2br | linkify }}
+				<div class="afterHumanListing"></div>
+			</li>
+		{% else %}
+			<li class="nodata">
+				No humans found.
+			</li>
+		{% endfor %}
+	</ul>
+
+{% endblock %}
+
+
+{% block tabHumans %}currentTab{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+

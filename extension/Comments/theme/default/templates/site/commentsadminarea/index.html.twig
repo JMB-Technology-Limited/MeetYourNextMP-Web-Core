@@ -1,0 +1,74 @@
+{#
+ # @license CLOSED SOURCE
+ # @copyright (c) 2013-2015, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% extends 'site/page.html.twig' %}
+
+{% block pageTitle %}Comments Admin for area {{  area.title }} - {% endblock %}
+
+{% block breadcrumbs %}
+	{% if not config.isSingleSiteMode %}<li><a href="/">{{ currentSite.title }}</a></li>{% endif %}
+	<li><a href="/admin">admin</a></li>
+	<li><a href="/admin/comment">comments</a></li>
+{% endblock %}
+
+{% block content %}
+
+	<ul class="mainListAreaComments">
+		{%  if areaComments|length > 0 %}
+			{% for areaComment in areaComments %}
+				<li class="areaComment">
+					<div class="title">#{{  areaComment.slug }}: {{ areaComment.title }}</div>
+					<div class="comment">{{ areaComment.comment | nl2br  | linkify }}</div>
+					<div class="created">
+						Posted at
+						<time datetime="{{ areaComment.getCreatedAt|tolocaltimeformatted('c', currentTimeZone) }}">
+							{{ areaComment.getCreatedAt|tolocaltimeformatted12or24hourclock('D jS M Y g:ia', 'D jS M Y H:i', currentUserClock12Hour, currentTimeZone) }}
+							({{ areaComment.getCreatedAt | timesinceinwords }})
+							by {{  areaComment.userAccountUsername }}
+						</time>
+					</div>
+					{%  if areaComment.isDeleted %}
+						<form action="#" method="post" onsubmit="return confirm('Are you sure you want to RESTORE?')">
+							<input type="hidden" name="CSFRToken" value="{{ getCSFRToken() }}">
+							<input type="hidden" name="areaCommentSlug" value="{{  areaComment.slug }}">
+							<input type="hidden" name="action" value="undelete">
+							<input type="submit" value="Restore from being deleted">
+						</form>
+					{%  else %}
+						<form action="#" method="post" onsubmit="return confirm('Are you sure you want to DELETE?')">
+							<input type="hidden" name="CSFRToken" value="{{ getCSFRToken() }}">
+							<input type="hidden" name="areaCommentSlug" value="{{  areaComment.slug }}">
+							<input type="hidden" name="action" value="delete">
+							<input type="submit" value="Delete">
+						</form>
+					{%  endif %}
+					{%  if areaComment.isClosedByAdmin %}
+						<form action="#" method="post" onsubmit="return confirm('Are you sure you want to RESTORE?')">
+							<input type="hidden" name="CSFRToken" value="{{ getCSFRToken() }}">
+							<input type="hidden" name="areaCommentSlug" value="{{  areaComment.slug }}">
+							<input type="hidden" name="action" value="unclose">
+							<input type="submit" value="Restore from being closed">
+						</form>
+					{%  else %}
+						<form action="#" method="post" onsubmit="return confirm('Are you sure you want to CLOSE?')">
+							<input type="hidden" name="CSFRToken" value="{{ getCSFRToken() }}">
+							<input type="hidden" name="areaCommentSlug" value="{{  areaComment.slug }}">
+							<input type="hidden" name="action" value="close">
+							<input type="submit" value="Close">
+						</form>
+					{%  endif %}
+				</li>
+			{% endfor %}
+		{%  else %}
+			<li class="nodata">No comments</li>
+		{%  endif %}
+	</ul>
+
+
+
+{% endblock %}
+
+
+

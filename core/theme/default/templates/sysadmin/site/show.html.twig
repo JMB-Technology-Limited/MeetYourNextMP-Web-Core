@@ -1,0 +1,228 @@
+{#
+ # @package Core
+ # @link http://ican.openacalendar.org/ OpenACalendar Open Source Software - Website
+ # @license http://ican.openacalendar.org/license.html 3-clause BSD
+ # @copyright (c) 2013-2014, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% extends 'sysadmin/page.html.twig' %}
+
+{% block pageTitle %}Site {{  site.title }} - {% endblock %}
+
+{% block content %}
+
+
+	<table class="oneData">
+		<tr>
+			<th>ID</th>
+			<td>{{ site.id }}</td>
+		</tr>
+		<tr>
+			<th>Title</th>
+			<td>{{ site.title }}</td>
+		</tr>
+		<tr>
+			<th>Slug</th>
+			<td>{{ site.slug }}</td>
+		</tr>
+		<tr>
+			<th>Description</th>
+			<td>{{ site.descriptionText }}</td>
+		</tr>
+		<tr>
+			<th>Footer Text</th>
+			<td>{{ site.footerText }}</td>
+		</tr>
+		<tr>
+			<th>Prompt Emails Days In Advance</th>
+			<td>{{ site.promptEmailsDaysInAdvance }}</td>
+		</tr>
+		<tr>
+			<th>Web Robots</th>
+			<td>{% if site.isWebRobotsAllowed %}<span class="yes">yes</span>{% else %}<span class="no">no</span>{% endif %}</td>
+		</tr>
+		<tr>
+			<th>Listed in index</th>
+			<td>{% if site.isListedInIndex %}<span class="yes">yes</span>{% else %}<span class="no">no</span>{% endif %}</td>
+		</tr>
+		<tr>
+			<th>Closed by sys admin</th>
+			<td>
+				{% if site.isClosedBySysAdmin %}<span class="yes">yes</span>{% else %}<span class="no">no</span>{% endif %}				
+			</td>
+		</tr>
+		{% if site.isClosedBySysAdmin %}
+			<tr>
+				<th>Closed by sys admin reason</th>
+				<td>
+					{{ site.ClosedBySysAdminReason }}
+				</td>
+			</tr>
+		{% endif %}
+		<tr>
+			<th>Is Feature Group</th>
+			<td>{% if site.isFeatureGroup %}<span class="yes">yes</span>{% else %}<span class="no">no</span>{% endif %}</td>
+		</tr>		
+		<tr>
+			<th>Is Feature Map</th>
+			<td>{% if site.isFeatureMap %}<span class="yes">yes</span>{% else %}<span class="no">no</span>{% endif %}</td>
+		</tr>		
+		<tr>
+			<th>Is Feature Importer</th>
+			<td>{% if site.isFeatureImporter %}<span class="yes">yes</span>{% else %}<span class="no">no</span>{% endif %}</td>
+		</tr>		
+		<tr>
+			<th>Is Feature Curated List</th>
+			<td>{% if site.isFeatureCuratedList %}<span class="yes">yes</span>{% else %}<span class="no">no</span>{% endif %}</td>
+		</tr>		
+		<tr>
+			<th>Is Feature Physical Events</th>
+			<td>{% if site.isFeaturePhysicalEvents %}<span class="yes">yes</span>{% else %}<span class="no">no</span>{% endif %}</td>
+		</tr>		
+		<tr>
+			<th>Is Feature Virtual Events</th>
+			<td>{% if site.isFeatureVirtualEvents %}<span class="yes">yes</span>{% else %}<span class="no">no</span>{% endif %}</td>
+		</tr>		
+		{% if sitequota %}
+			<tr>
+				<th>Quota</th>
+				<td>{{ sitequota.title }} (<a href="/sysadmin/sitequota/{{ sitequota.code }}/">{{ sitequota.code }}</a>)</td>
+			</tr>
+		{% endif %}
+		<tr>
+			<th>Created</th>
+			<td>{% if site.createdAt %}{{ site.createdAt |tolocaltimeformatted('D H:i jS M Y', currentTimeZone ) }}{% endif %}</td>
+		</tr>
+		<tr>
+			<th>More</th>
+			<td>
+				<ul>
+					<li><a href="/sysadmin/site/{{ site.id }}/country">Countries</a></li>
+					<li><a href="/sysadmin/site/{{ site.id }}/watchers">Watchers</a></li>
+					<li>
+						<a href="/sysadmin/site/{{ site.id }}/event">Events</a>
+						<form id="GoToEvent" onsubmit="goToEvent(); return false;">
+							Slug: <input type="text" name="slug"><input type="submit" value="Go directly!">
+						</form>
+					</li>
+					<li>
+						<a href="/sysadmin/site/{{ site.id }}/group">Groups</a>
+						<form id="GoToGroup" onsubmit="goToGroup(); return false;">
+							Slug: <input type="text" name="slug"><input type="submit" value="Go directly!">
+						</form>
+					</li>
+					<li>
+						<a href="/sysadmin/site/{{ site.id }}/venue">Venues</a>
+						<form id="GoToVenue" onsubmit="goToVenue(); return false;">
+							Slug: <input type="text" name="slug"><input type="submit" value="Go directly!">
+						</form>
+					</li>
+					<li>
+						<a href="/sysadmin/site/{{ site.id }}/media">Medias</a>
+						<form id="GoToMedia" onsubmit="goToMedia(); return false;">
+							Slug: <input type="text" name="slug"><input type="submit" value="Go directly!">
+						</form>
+					</li>
+					<li>
+						<a href="/sysadmin/site/{{ site.id }}/area">Areas</a>
+						<form id="GoToArea" onsubmit="goToArea(); return false;">
+							Slug: <input type="text" name="slug"><input type="submit" value="Go directly!">
+						</form>
+					</li>
+					<li>
+						<a href="/sysadmin/site/{{ site.id }}/curatedlist">Curated Lists</a>
+						<form id="GoToCuratedList" onsubmit="goToCuratedList(); return false;">
+							Slug: <input type="text" name="slug"><input type="submit" value="Go directly!">
+						</form>
+					</li>
+					<li>
+						<a href="/sysadmin/site/{{ site.id }}/tag">Tags</a>
+						<form id="GoToTag" onsubmit="goToTag(); return false;">
+							Slug: <input type="text" name="slug"><input type="submit" value="Go directly!">
+						</form>
+					</li>
+					<li>
+						<a href="/sysadmin/site/{{ site.id }}/usergroup">User Groups</a>
+					</li>
+					<li>
+						<a href="/sysadmin/site/{{ site.id }}/usernoteditor">Users Not Editors</a>
+					</li>
+				</ul>
+			</td>
+		</tr>
+
+	</table>
+
+
+	<form action="#" method="post" class="action">
+		{{ form_errors(form) }}
+		{{ form_rest(form) }}
+		<input type="submit" name="Do Action" />
+	</form>
+
+	<ul class="actionHelp">
+		<li>close  <span class="param">reason</a></li>
+		<li>open</li>
+		<li>webrobots <span class="param">boolean</a></li>
+		<li>listedinindex <span class="param">boolean</a></li>
+		<li>featuregroup <span class="param">boolean</a></li>
+		<li>featuremap <span class="param">boolean</a></li>
+		<li>featureimporter <span class="param">boolean</a></li>
+		<li>featurecuratedlist <span class="param">boolean</a></li>
+		<li>featurevirtualevents <span class="param">boolean</a></li>
+		<li>featurephysicalevents <span class="param">boolean</a></li>
+		<li>quota <span class="param">code</a></li>
+		<li>newslug <span class="param">slug</a></li>
+	</ul>
+
+{% endblock %}
+
+
+
+{% block scripts %}
+	<script type="text/javascript">
+		function goToEvent() {
+			var slug = parseInt($('#GoToEvent input[name="slug"]').val());
+			if (!isNaN(slug)) {
+				window.location.href = '/sysadmin/site/{{ site.id }}/event/'+slug;
+			}
+		}
+		function goToGroup() {
+			var slug = parseInt($('#GoToGroup input[name="slug"]').val());
+			if (!isNaN(slug)) {
+				window.location.href = '/sysadmin/site/{{ site.id }}/group/'+slug;
+			}
+		}
+		function goToVenue() {
+			var slug = parseInt($('#GoToVenue input[name="slug"]').val());
+			if (!isNaN(slug)) {
+				window.location.href = '/sysadmin/site/{{ site.id }}/venue/'+slug;
+			}
+		}
+		function goToArea() {
+			var slug = parseInt($('#GoToArea input[name="slug"]').val());
+			if (!isNaN(slug)) {
+				window.location.href = '/sysadmin/site/{{ site.id }}/area/'+slug;
+			}
+		}
+		function goToTag() {
+			var slug = parseInt($('#GoToTag input[name="slug"]').val());
+			if (!isNaN(slug)) {
+				window.location.href = '/sysadmin/site/{{ site.id }}/tag/'+slug;
+			}
+		}
+		function goToMedia() {
+			var slug = parseInt($('#GoToMedia input[name="slug"]').val());
+			if (!isNaN(slug)) {
+				window.location.href = '/sysadmin/site/{{ site.id }}/media/'+slug;
+			}
+		}
+		function goToCuratedList() {
+			var slug = parseInt($('#GoToCuratedList input[name="slug"]').val());
+			if (!isNaN(slug)) {
+				window.location.href = '/sysadmin/site/{{ site.id }}/curatedlist/'+slug;
+			}
+		}
+	</script>
+{% endblock %}
+

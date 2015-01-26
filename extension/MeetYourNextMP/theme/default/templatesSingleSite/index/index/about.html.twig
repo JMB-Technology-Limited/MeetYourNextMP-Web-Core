@@ -1,0 +1,92 @@
+{#
+ # @package com.meetyournextmp
+ # @license Closed Source
+ # @copyright (c) 2013-2015, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% extends 'site/page.html.twig' %}
+
+{% block pageTitle %}About - {% endblock %}
+
+{% block htmlHeader %}
+	{% if not currentSite.isWebRobotsAllowed %}<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">{% endif %}
+{% endblock %}
+
+{% block breadcrumbs %}
+	<li class="current"><a href="/about">about</a></li>
+{% endblock %}
+
+
+{% block content %}
+
+	<div id="innerPageWrapper">
+		<div id="innerPage">
+
+			<h3>Welcome</h3>
+
+			<p>We want to help everyone meet their candidates and make an informed choice at the UK general election. We list events and hustings that:</p>
+
+			<h3>What events do you list?</h3>
+
+			<ol class="normal">
+				<li>Are open to the general public, regardless of membership or lack of membership of a particular group and</li>
+				<li>Have representatives of more that one political party speaking or are run by an independent body.</li>
+			</ol>
+
+			<h3>Where is the data from?</h3>
+
+			<p>We crowd source the data by asking people like you to add events they know of. We make all the data available as Open Data for reuse by anyone who wants to publicse such events.</p>
+
+			{% if currentUser is null %}
+				<p>Please <a href="{{ config.getWebIndexDomainSecure() }}/you/register">create an account</a> to add events using our easy web process.</p>
+			{%  endif %}
+
+			<h3>Please use our data!</h3>
+
+			<p>All our event data is Open Data. (Attribution would be nice!)</p>
+
+			<p>There are no limitations, unless your use starts to cause problems for our servers.
+				(If you are concerned it might, get in touch first.)</p>
+
+			<p>Click export on pages for options, or get in touch to ask.</p>
+
+			<h3>Please link to us!</h3>
+
+			<p>You can link to our pages directly.</p>
+
+			<p>Information on seats is sourced from <a href="http://mapit.mysociety.org/">mapit.mysociety.org</a>. If you use this, there are special links to link to us.</p>
+
+			<ul>
+				<li><a href="/linktoseat.html?mapitid=65550">/linktoseat.html?mapitid=65550</a></li>
+				<li><a href="/linktoseat.html?gssid=E14000923">/linktoseat.html?gssid=E14000923</a></li>
+			</ul>
+
+			<p>You can also link to us by seat name. The name must exactly match (case insensitive).</p>
+
+			<ul>
+				<li><a href="/linktoseat.html?title=Edinburgh+East">/linktoseat.html?title=Edinburgh+East</a></li>
+			</ul>
+
+			<p>Information on candidates is sourced from <a href="https://yournextmp.com/">Your Next MP</a>. If you use this, there are special links to link to us.</p>
+
+			<ul>
+				<li><a href="/linktocandidate.html?ynmpid=4993">/linktocandidate.html?ynmpid=4993</a></li>
+			</ul>
+
+			<h3>I have a question!</h3>
+
+			<p>To ask any questions about this, please <a href="https://groups.google.com/forum/#!forum/democracy-club">ask on this Google Groups email list</a>
+				or <a href="/contact">contact us directly</a>.</p>
+
+
+			<h3>Who runs this?</h3>
+
+			<p>This site is run by <a href="http://jmbtechnology.co.uk/">JMB Technology Limited</a>, Scottish Company SC440747.</p>
+
+			<p>Support gratefully received from <a href="https://democracyclub.org.uk/">Democracy Club</a>.</p>
+
+		</div>
+	</div>
+
+{% endblock %}
+

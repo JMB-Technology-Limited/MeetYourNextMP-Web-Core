@@ -1,0 +1,68 @@
+{#
+ # @package com.meetyournextmp
+ # @license Closed Source
+ # @copyright (c) 2013-2015, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% extends 'site/page.html.twig' %}
+
+
+
+{% block pageTitle %}Help us - not a single husting! - {% endblock %}
+
+{% block breadcrumbs %}
+	{% if not config.isSingleSiteMode %}<li><a href="/">{{ currentSite.title }}</a></li>{% endif %}
+	<li><a href="/help">help us</a></li>
+	<li><a href="/help/noeventsseat">not a single husting</a></li>
+
+{% endblock %}
+
+
+{% block content %}
+
+
+	<div id="innerPageWrapper">
+		<div id="innerPage">
+			<div class="innerPageLeft">
+				<h2>Not a single husting!</h2>
+
+				<p>For some seats, we don't know of a single husting - can you help us by finding one or asking the candidates why not?</p>
+
+				{%  if not currentUser %}
+
+					<p>First, quickly create a user account:</p>
+
+					<div class="bigButtonContainer">
+						<a  class="button" href="{{ config.getWebIndexDomainSecure() }}/you/login">Login</a>
+						<a  class="button" href="{{ config.getWebIndexDomainSecure() }}/you/register">Register</a>
+					</div>
+
+				{%  endif %}
+
+
+			</div>
+
+			<div class="innerPageRight">
+
+
+
+
+			</div>
+
+			<div class="afterInnerPageContent"></div>
+
+			<ul class="mainListAreas" id="SearchAreas">
+				{% for area in areas %}
+					{% include '/site/common/mainListArea.html.twig' with {'area':area}  %}
+				{% endfor %}
+			</ul>
+
+
+
+			<div class="afterInnerPageContent"></div>
+
+		</div>
+	</div>
+
+{%  endblock %}
+

@@ -1,0 +1,65 @@
+{#
+ # @package Core
+ # @link http://ican.openacalendar.org/ OpenACalendar Open Source Software - Website
+ # @license http://ican.openacalendar.org/license.html 3-clause BSD
+ # @copyright (c) 2013-2014, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% extends 'email/email.html.twig' %}
+
+{% block content %}
+	
+	<p>Hello {{ user.username }}</p>
+
+	{% if newEvents|length > 0 %}
+		<p>There are new events:</p>
+		{%  for event in newEvents %}
+			<div style="margin: 5px 10px; padding: 2px 0 10px 0;">
+				<div style="background: #231F20; ; float: left; height: 60px; margin: 2px; text-align: center; width: 60px;">
+					{# If event less than 6 days in future show day of week. If further in future show date and month. #}
+					{% if event.getStartAt.Timestamp < "now"|date("U") + 6*24*60*60  %}
+						<span style="color: white; font-size: 12pt;font-weight: bold;display: block;">{{ event.getStartAt|tolocaltimeformatted('D', currentTimeZone) }}</span>
+						<span style="color: white; font-size: 12pt;font-weight: bold;display: block;">{{ event.getStartAt|tolocaltimeformatted('jS', currentTimeZone) }}</span>
+						<span style="color: white; font-size: 10pt;">{{ event.getStartAt|tolocaltimeformatted12or24hourclock('g:ia', 'H:i', currentUserClock12Hour, currentTimeZone) }}</span>
+					{% else %}
+						<span style="color: white; font-size: 12pt;font-weight: bold;display: block;">{{ event.getStartAt|tolocaltimeformatted('jS', currentTimeZone) }}</span>
+						<span style="color: white; font-size: 12pt;font-weight: bold;display: block;">{{ event.getStartAt|tolocaltimeformatted('M', currentTimeZone) }}</span>
+						<span style="color: white; font-size: 10pt;">{{ event.getStartAt|tolocaltimeformatted12or24hourclock('g:ia', 'H:i', currentUserClock12Hour, currentTimeZone) }}</span>
+					{% endif %}
+				</div>
+				<a href="{{ config.getWebSiteDomainSecure(event.siteSlug) }}/event/{{event.slugForUrl}}">
+					{{ event.summaryDisplay }}
+				</a>
+				<br>
+				{{ event.description  |  truncate(1000) | nl2br}}
+				<div style="clear: both;"></div>
+			</div>
+		{%  endfor %}
+	{%  endif %}
+
+	<p>Changes have been made to things you watch:</p>
+
+	{% for historyItem in histories %}
+		{%  if historyItem.siteEmailTemplate %}
+			{%  include historyItem.siteEmailTemplate with { 'historyItem':historyItem } %}
+		{% endif %}
+	{% endfor %}
+
+	{%  for content in contents %}
+		<p>
+			You watch {{ content.watchedThingTitle }} -
+			To see <a href="{{  content.watchedThingURL }}">the full history, click here</a>.
+		</p>
+
+	{%  endfor %}
+
+	<p>Thanks,<br>
+	{{ config.siteTitle }}</p>
+		
+	<p>ps. To <a href="{{ unsubscribeURL }}">change which emails you get, click here</a>.</p>
+
+	{%  for content in contents %}
+		<p>ps. To <a href="{{ content.unwatchURL }}"> stop watching {{ content.watchedThingTitle }}, click here</a>.</p>
+	{%  endfor %}
+
+{% endblock %}

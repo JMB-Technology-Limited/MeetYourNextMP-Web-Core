@@ -1,0 +1,60 @@
+{#
+ # @license CLOSED SOURCE
+ # @copyright (c) 2013-2015, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+<div class="innerPageLeftRightTitle">
+	<p class="humanTitle">Comments</p>
+</div>
+<div class="innerPageLeft">
+
+	<ul class="mainListEventComments">
+		{%  if eventComments|length > 0 %}
+			{% for eventComment in eventComments %}
+				<li class="eventComment">
+					<div class="title">{{ eventComment.title }}</div>
+					<div class="comment">{{ eventComment.comment | nl2br  | linkify }}</div>
+					<div class="created">
+						Posted at
+						<time datetime="{{ eventComment.getCreatedAt|tolocaltimeformatted('c', currentTimeZone) }}">
+							{{ eventComment.getCreatedAt|tolocaltimeformatted12or24hourclock('D jS M Y g:ia', 'D jS M Y H:i', currentUserClock12Hour, currentTimeZone) }}
+							({{ eventComment.getCreatedAt | timesinceinwords }})
+							by {{  eventComment.userAccountUsername }}
+						</time>
+					</div>
+				</li>
+			{% endfor %}
+		{%  else %}
+			<li class="nodata">No comments</li>
+		{%  endif %}
+	</ul>
+
+</div>
+<div class="innerPageRight">
+	{%  if currentUserActions.has("org.openacalendar.comments","eventNewComment") %}
+		<div class="infoBoxWrapper">
+			<div class="infoBoxTitle">Did you attend?</div>
+			<div class="infoBoxContent">
+				<p>
+					Did you make a record of what happened at the event? A tweet, a blog post, a audio or video recording?
+				</p>
+				<p>
+					Please <a href="/event/{{  event.slugForURL }}/new/comment">post links here</a> and help others see what happened.
+				</p>
+			</div>
+		</div>
+	{%  elseif not currentUser %}{# TODO and loogid in user would have #}
+		<div class="infoBoxWrapper">
+			<div class="infoBoxTitle">Did you attend?</div>
+			<div class="infoBoxContent">
+				<p>
+					Did you make a record of what happened at the event? A tweet, a blog post, a audio or video recording?
+				</p>
+				<p>
+					Please <a href="{{ config.getWebIndexDomainSecure() }}/you/register">create a user account</a> or <a href="{{ config.getWebIndexDomainSecure() }}/you/login">login</a> to post links here and help others see what happened.
+				</p>
+			</div>
+		</div>
+	{%  endif %}
+</div>
+<div class="afterInnerPageContent"></div>

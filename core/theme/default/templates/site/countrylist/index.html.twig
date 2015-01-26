@@ -1,0 +1,76 @@
+{#
+ # @package Core
+ # @link http://ican.openacalendar.org/ OpenACalendar Open Source Software - Website
+ # @license http://ican.openacalendar.org/license.html 3-clause BSD
+ # @copyright (c) 2013-2014, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% extends 'site/page.html.twig' %}
+
+
+{% block pageTitle %}Countries - {% endblock %} 
+
+{% block htmlHeader %}
+	<link rel="canonical" href="{{ config.getWebSiteDomainSecure(currentSite.slug) }}/country/" />
+	{% if not currentSite.isWebRobotsAllowed %}<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">{% endif %}
+	{% include 'site/common/mapLibrary.css.html.twig' %}
+{% endblock %}
+
+{% block breadcrumbs %}
+	{% if not config.isSingleSiteMode %}<li><a href="/">{{ currentSite.title }}</a></li>{% endif %}
+	<li class="current"><a href="/country">countries</a></li>
+{% endblock %}
+
+
+{% block content %}
+
+
+	<div id="bodyLeft">
+		<ul class="mainListCountries">
+			{% for country in countries %}
+				<li class="country">
+					<div class="title"><a href="/country/{{ country.twoCharCode }}">{{ country.title }} <img src="/theme/default/img/countries/{{ country.twoCharCode|lower }}.png" alt="Flag"></a></div>
+				</li>
+			{% else %}
+				<li>
+					There are no countries.
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
+				
+	<div id="bodyRight">
+		<div id="MapWrapper">
+			<div id="Map" class="fullWidth"></div>
+			{% if currentSite.isFeatureMap %}
+				<ul class="actionList">
+					<li><a href="/map"><div class="iconEyeLarge"></div> View larger map</a></li>
+				</ul>
+			{% endif %}
+		</div>
+	</div>
+
+	<div id="afterPage2Col"></div>
+
+{% endblock %}
+
+{% block scripts %}
+	<script>
+		var countries = [];
+		{% for country in countries %}
+			{% if country.minlat and country.minlng and country.maxlat and country.maxlng %}
+				countries.push({
+					'title':'{{ country.title | e('js') }}',
+					'code':'{{ country.twoCharCode | e('js') }}',
+					'minLat':{{country.minlat }},
+					'minLng':{{country.minlng }},
+					'maxLat':{{country.maxlat }},
+					'maxLng':{{country.maxlng }}
+				});
+			{% endif %}
+		{% endfor %}
+	</script>
+	{% include 'site/common/mapLibrary.js.html.twig' %}
+	<script src="/theme/default/js/countrieslist.js?v={{ config.assetsVersion }}" type="text/javascript"></script>	
+{% endblock %}
+

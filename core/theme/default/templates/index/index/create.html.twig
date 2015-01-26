@@ -1,0 +1,68 @@
+{#
+ # @package Core
+ # @link http://ican.openacalendar.org/ OpenACalendar Open Source Software - Website
+ # @license http://ican.openacalendar.org/license.html 3-clause BSD
+ # @copyright (c) 2013-2014, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% extends 'index/page2col.html.twig' %}
+
+{% block pageTitle %}Create - {% endblock %}
+
+{% block contentRight %}
+
+	{%  if sites|length > 0 %}
+		<h2>Do you want to add an event to an existing calendar?</h2>
+
+		<ul class="sites">
+			{% for site in sites %}
+				<li class="site">
+					<a href="{{ config.getWebSiteDomainSecure(site.slug) }}/event/new" class="title">
+						<span class="logoWrapper"><img src="{{ config.getWebSiteDomainSecure(site.slug) }}/getLogo.php?v={{ site.logoCacheKey }}" alt="logo"></span>
+						<span class="titleWrapper">{{ site.title }}</span>
+					</a>
+					<a href="{{ config.getWebSiteDomainSecure(site.slug) }}/event/new" class="link">
+						Add to this calendar!
+					</a>
+				</li>
+			{% endfor %}
+		</ul>
+	{%  endif %}
+
+{% endblock %}
+
+
+{% block contentLeft %}
+
+	<h2>Do you want to create a calendar of your own?</h2>
+
+
+	<form action="#" method="post" class="styled">
+		{{ form_errors(form) }}
+
+		{{ form_row(form.title) }}
+
+		<div class="rowWrapper">
+			<div class="errorsWrapper">{{ form_errors(form.slug) }}</div>
+			<div class="labelWrapper">{{ form_label(form.slug) }}</div>
+			<div class="widgetWrapperPlacementOnly smallInputs">http{% if config.hasSSL %}s{%  endif %}://{{ form_widget(form.slug) }}.{{ config.webSiteDomain }}</div>
+			<div class="after"></div>
+		</div>
+			
+		{{ form_row(form.read) }}
+		{{ form_row(form.write) }}
+
+
+		{{ form_rest(form) }}
+
+		<p class="information">Note the address can not be changed later! Everything else can.</p>
+
+		<input type="submit" name="submit" value="Create New Calendar Now" />
+	</form>
+
+{% endblock %}
+
+{% block scripts %}
+	<script type="text/javascript" src="/theme/default/js/createSite.js?v={{ config.assetsVersion }}"></script>
+{% endblock %}
+

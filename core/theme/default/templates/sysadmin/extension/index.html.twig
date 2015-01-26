@@ -1,0 +1,44 @@
+{#
+ # @package Core
+ # @link http://ican.openacalendar.org/ OpenACalendar Open Source Software - Website
+ # @license http://ican.openacalendar.org/license.html 3-clause BSD
+ # @copyright (c) 2013-2014, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% extends 'sysadmin/page.html.twig' %}
+
+{% block pageTitle %}Extension {{  extension.title }} {% endblock %}
+
+{% block content %}
+
+
+	<table class="oneData">
+		<tr>
+			<th>ID</th>
+			<td>{{ extension.id }}</td>
+		</tr>
+		<tr>
+			<th>Title</th>
+			<td>{{ extension.title }}</td>
+		</tr>
+		<tr>
+			<th>Description</th>
+			<td>{{ extension.description }}</td>
+		</tr>
+	</table>
+
+	<h3>User Permissions</h3>
+
+	<table class="data">
+		<tr>
+			<th>ID</th>
+		</tr>
+		{% for userpermission in userpermissions %}
+			<tr>
+				<td>{{ userpermission.userPermissionKey }}</td>
+			</tr>
+		{% endfor %}
+	</table>
+
+{% endblock %}
+

@@ -1,0 +1,103 @@
+{#
+ # @license CLOSED SOURCE
+ # @copyright (c) 2013-2015, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% extends 'site/area/page.html.twig' %}
+
+
+{% block pageTitle %}Comment on {{ area.title }} - {% endblock %}
+
+
+
+{% block actions %}
+	{%  if currentUserActions.has("org.openacalendar.comments","actionAreaNewComment") %}
+		<li class="action">
+			<a href="/area/{{  area.slugForURL }}/new/comment"><div class="iconPencilSmall"></div> Add Comment</a>
+		</li>
+	{% endif %}
+{% endblock %}
+
+{% block innerContent %}
+
+
+	<div class="innerPageRight">
+		{%  if parentAreas|length > 1 %}
+			{%  set nextUpArea = parentAreas[parentAreas|length -1] %}
+			<div class="infoBoxWrapper">
+				<div class="infoBoxTitle">{{ nextUpArea.title }}</div>
+				<div class="infoBoxContent">
+					View <a href="/area/{{  nextUpArea.slugForURL }}/comment">all comments in {{ nextUpArea.title }}</a> instead.
+				</div>
+			</div>
+		{%  endif %}
+		{%  if currentUserActions.has("org.openacalendar.comments","actionAreaNewComment") %}
+			<div class="infoBoxWrapper">
+				<div class="infoBoxTitle">Orgaise a husting?</div>
+				<div class="infoBoxContent">
+					<p>
+						Are you trying to organise an event in {{  area.title }}? If you have any questions or are looking for help, this is the place.
+					</p>
+					<p>
+						Please <a href="/area/{{  area.slugForURL }}/new/comment">post your details here</a> and maybe others will get in touch to help out.
+					</p>
+					{% if currentUserActions.has("org.openacalendar","eventNew") %}
+						<p>If you know details of an event, please do <a href="/event/new?area={{  area.slug }}">add them!</a></p>
+					{%  endif %}
+				</div>
+			</div>
+		{%  elseif not currentUser %}
+			<div class="infoBoxWrapper">
+				<div class="infoBoxTitle">Orgaise a husting?</div>
+				<div class="infoBoxContent">
+					<p>
+						Are you trying to organise an event in {{  area.title }}? If you have any questions or are looking for help, do post here.
+					</p>
+					<p>
+						Please <a href="{{ config.getWebIndexDomainSecure() }}/you/register">create a user account</a> or <a href="{{ config.getWebIndexDomainSecure() }}/you/login">login</a> to post details here.
+					</p>
+				</div>
+			</div>
+		{%  endif %}
+		<p>(Important: If you are the organiser or a candidate attending, there may be implications for you
+			under the <a href="http://www.electoralcommission.org.uk/__data/assets/pdf_file/0010/169480/sp-hustings-npc-ukpge.pdf">laws of the electoral commission. [PDF]</a>.
+			There is <a href="http://www.unlockdemocracy.org.uk/guides/entry/a-guide-for-organising-hustings-during-election-campaigns">a summary from Unlock Democracy here</a>.)</p>
+	</div>
+
+	<div class="innerPageLeft">
+		<ul class="mainListAreaComments">
+			{%  if areaComments|length > 0 %}
+				{% for areaComment in areaComments %}
+					<li class="areaComment">
+						<div class="title">{{ areaComment.title }}</div>
+						<div class="comment">{{ areaComment.comment | nl2br  | linkify }}</div>
+						<div class="created">
+							Posted at
+							<time datetime="{{ areaComment.getCreatedAt|tolocaltimeformatted('c', currentTimeZone) }}">
+								{{ areaComment.getCreatedAt|tolocaltimeformatted12or24hourclock('D jS M Y g:ia', 'D jS M Y H:i', currentUserClock12Hour, currentTimeZone) }}
+								({{ areaComment.getCreatedAt | timesinceinwords }})
+								by {{  areaComment.userAccountUsername }}
+								{%  if areaComment.area is defined %} {# and areaComment.areaID != area.id #}
+									in <a href="/area/{{  areaComment.area.slugForURL }}/comment">{{  areaComment.area.title }}</a>
+								{%  endif %}
+							</time>
+						</div>
+					</li>
+				{% endfor %}
+			{%  else %}
+				<li class="nodata">No comments</li>
+			{%  endif %}
+		</ul>
+	</div>
+	<div class="afterInnerPageContent"></div>
+
+
+
+
+
+
+
+
+
+{% endblock %}
+

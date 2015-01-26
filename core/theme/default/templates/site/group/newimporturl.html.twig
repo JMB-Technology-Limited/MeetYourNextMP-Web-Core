@@ -1,0 +1,56 @@
+{#
+ # @package Core
+ # @link http://ican.openacalendar.org/ OpenACalendar Open Source Software - Website
+ # @license http://ican.openacalendar.org/license.html 3-clause BSD
+ # @copyright (c) 2013-2015, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% extends 'site/group/page.html.twig' %}
+
+{% block pageTitle %}New import in {{ group.title }} - {% endblock %} 
+
+
+{% block innerContent %}
+
+	<p>You can also <a href="/group/{{ group.slugForUrl }}/newevent">add the event details by hand</a>.</p>
+
+	{# We don't client side validate any form with URL fields to get around UI/UX bug. See https://github.com/OpenACalendar/OpenACalendar-Web-Core/issues/221  #}
+	<form action="#" method="post" class="styled" novalidate="novalidate">
+
+		{{ form_errors(form) }}
+
+		{{ form_row(form.title) }}
+		{{ form_row(form.url) }}
+		{{ form_row(form.is_manual_events_creation) }}
+		{{ form_row(form.country_id) }}
+		
+		
+		<div class="rowWrapper">
+			<div class="labelWrapper" id="ChangeEventAreaListLabel">Are all events in one place?</div>
+			<div class="widgetWrapperPlacementOnly">
+				<ul id="ChangeEventAreaList">
+				</ul>
+			</div>
+			<div class="after"></div>
+		</div>
+		
+		
+		{{ form_rest(form) }}
+
+		<input type="submit"  value="Save" />	
+	</form>
+
+{% endblock %}
+
+
+
+{% block scripts %}
+	<script type="text/javascript" src="/theme/default/js/importurlform.js?v={{ config.assetsVersion }}"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			onCountryChange();
+		});		
+	</script>
+{% endblock %}
+
+

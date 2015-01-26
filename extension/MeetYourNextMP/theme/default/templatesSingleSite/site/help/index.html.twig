@@ -1,0 +1,64 @@
+{#
+ # @package com.meetyournextmp
+ # @license Closed Source
+ # @copyright (c) 2013-2015, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% extends 'site/page.html.twig' %}
+
+
+{% block pageTitle %}Help us - {% endblock %}
+
+{% block breadcrumbs %}
+	{% if not config.isSingleSiteMode %}<li><a href="/">{{ currentSite.title }}</a></li>{% endif %}
+	<li><a href="/help">help us</a></li>
+
+{% endblock %}
+
+
+{% block content %}
+
+	<h2>Help Us</h2>
+
+	<div id="innerPageWrapper">
+		<div id="innerPage">
+			<div class="innerPageLeft">
+				<p>We are a crowd sourced site that relies on your kindness to help us.
+				Your help will ensure we have the biggest listings of husting events before the General Election, which we make freely available to others.</p>
+
+				{% if currentUserActions.has("org.openacalendar","eventNew") or ( currentUser is null and anyVerifiedUserActions.has("org.openacalendar","eventNew") ) %}
+
+					<h3>Add an event</h3>
+
+					<p>If you know of any events, add them!</p>
+
+					<p><a href="/event/new">Add an event</a></p>
+
+					<h3>Who is attending?</h3>
+
+					<p>For some events we have, we don't know who is attending. Can you help us by looking up who is attending?</p>
+
+					<p><a href="/help/who">List events where we don't know who is attending</a></p>
+
+					<h3>Not a single husting!</h3>
+
+					<p>For some seats, we don't know of a single husting - can you help us by finding one or asking the candidates why not?</p>
+
+					<p><a href="/help/noeventsseat">List seats where we don't know of a single event</a></p>
+
+				{% endif %}
+
+			</div>
+
+			<div class="innerPageRight">
+
+
+
+			</div>
+
+			<div class="afterInnerPageContent"></div>
+
+		</div>
+	</div>
+
+{% endblock %}

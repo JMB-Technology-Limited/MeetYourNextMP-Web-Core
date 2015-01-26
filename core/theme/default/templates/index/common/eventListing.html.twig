@@ -1,0 +1,76 @@
+{#
+ # @package Core
+ # @link http://ican.openacalendar.org/ OpenACalendar Open Source Software - Website
+ # @license http://ican.openacalendar.org/license.html 3-clause BSD
+ # @copyright (c) 2013-2014, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+<li class="event">
+	{% if event.isdeleted %}
+		<div class="dateTimeIcon">
+			<div class="dateIcon">
+				<span class="deleted">Deleted!</span>
+			</div>
+		</div>
+	{% elseif event.isCancelled %}
+		<div class="dateTimeIcon">
+			<div class="dateIcon">
+				<span class="cancelled">Cancel<br>-led!</span>
+			</div>
+		</div>
+	{% else %}
+		<div class="dateTimeIcon">
+			<time datetime="{{ event.getStartAt|tolocaltimeformatted('c', currentTimeZone) }}">
+				<a href="{{ config.getWebSiteDomainSecure(event.siteSlug) }}/event/{{ event.slugForUrl }}">
+					<div class="dateIcon">
+						<span class="startDay">{{ event.getStartAt|tolocaltimeformatted('D', currentTimeZone) }}</span>
+						<span class="startDate">{{ event.getStartAt|tolocaltimeformatted('jS', currentTimeZone) }}</span>
+						<span class="startMonthYear">{{ event.getStartAt|tolocaltimeformatted('M \'y', currentTimeZone) }}</span>
+					</div>
+					<div class="timeIcon">
+						<span class="startTime">{{ event.getStartAt|tolocaltimeformatted12or24hourclock('g:ia', 'H:i', currentUserClock12Hour, currentTimeZone) }}</span>
+					</div>
+				</a>
+			</time>				
+		</div>
+	{% endif %}
+	{%  if event.hasMediaSlugs %}
+		{% for mediaSlug in event.mediaSlugsAsList(2) %}
+			<div class="media"><a href="{{ config.getWebSiteDomainSecure(event.siteSlug) }}/event/{{ event.slugForURL }}"><img src="{{ config.getWebSiteDomainSecure(event.siteSlug) }}/media/{{ mediaSlug }}/thumbnail"></a></div>
+		{% endfor %}
+	{%  endif %}
+	<div class="title">
+		<a href="{{ config.getWebSiteDomainSecure(event.siteSlug) }}/event/{{ event.slugForUrl }}">
+			{{ event.summaryDisplay }}
+		</a>
+	</div>
+	<p class="description">{{ event.description |  nl2br  | linkify }}</p>
+	{% if showVenueAndArea is defined and showVenueAndArea and event.isPhysical and ( event.venue or event.area )%}
+		<div class="dateAndLocationWrapper">
+			<div class="location">
+				{% if event.venue %}
+					<div class="venue"><a href="{{ config.getWebSiteDomainSecure(event.siteSlug) }}/event/{{ event.slugForUrl }}">{{ event.venue.title }}</a></div>
+				{% endif %}
+				{% if event.area %}
+					<div class="area"><a href="{{ config.getWebSiteDomainSecure(event.siteSlug) }}/event/{{ event.slugForUrl }}">{{ event.area.title }}</a></div>
+				{% endif %}						
+			</div>			
+		</div>
+	{% endif %}	
+	<div class="afterEventListing"></div>
+	{% if showCurrentUserOptions is defined and showCurrentUserOptions and currentUser is not null %}
+		{# The below is a seperate file, as it varies slightly on Site and SingleSite #}
+		{% include '/index/common/eventListing.currentUserOptions.html.twig' %}
+	{% endif %}
+	{% if showOtherUserOptions is defined and showOtherUserOptions %}
+		<div class="currentUserAttendance">
+			{% if event.userIsPlanAttending %}
+				<div class="iconUserAttendingSmall" title="You are attending"></div>
+			{% elseif event.userIsPlanMaybeAttending %}
+				<div class="iconUserMaybeAttendingSmall" title="You are maybe attending"></div>
+			{% else %}
+				<div class="iconUserNotAttendingSmall" title="You are not attending"></div>
+			{% endif %}
+		</div>	
+	{% endif %}
+</li>

@@ -1,0 +1,150 @@
+/**
+ *
+ * @package com.meetyournextmp
+ * @license CLOSED SOURCE
+ * @copyright (c) 2013-2015, JMB Technology Limited, http://jmbtechnology.co.uk/
+ * @author James Baster <james@jarofgreen.co.uk>
+ */
+
+@import("reset.less");
+@import("mixins.less");
+@import("icons.less");
+@import "libSite/main.less";
+@import "libIndexAndSite/main.less";
+@import("libIndexAndSite/popup.less");
+
+
+
+ul.mainListHumans {
+	li.human {
+		margin: @listDataItemsMarginTopBottom @listDataItemsMarginLeftRightNarrowScreen;
+		border-bottom: 2px solid #E9E9E9;
+	}
+	li.nodata {
+		margin: @listDataItemsMarginTopBottom @listDataItemsMarginLeftRightNarrowScreen;
+		font-style: italic;
+	}
+}
+@media screen and (min-width: @narrowScreensMakeTwoColumnsIntoOneBoundary) {
+	ul.mainListHumans {
+		li.human, li.nodata {
+			margin: @listDataItemsMarginTopBottom @listDataItemsMarginLeftRightWideScreen;
+		}
+	}
+}
+
+ul.mainListHumans li.human {
+	min-height: 50px;
+	padding: 5px 0 20px 0;
+	.title {
+		font-size: 1.1em;
+		font-weight: bold;
+		padding: 2px 0;
+		a {
+			color: #333;
+			text-decoration: none;
+		}
+		a:hover {
+			color: black;
+			text-decoration: underline;
+		}
+	}
+	.notfound {
+		text-align: center;
+		font-style: italic;
+	}
+	div.afterHumanListing {
+		clear: both;
+	}
+}
+
+
+.mainShowEvent .humanTitle {
+	font-weight: bold;
+	font-size: 0.8em;
+	a {
+		color: black;
+		text-decoration: none;
+	}
+	a:hover {
+		text-decoration: underline;
+	}
+}
+
+
+
+
+ul.mainListEventComments, ul.mainListAreaComments {
+	li.nodata {
+		font-style: italic;
+	}
+	li.eventComment, li.areaComment {
+		min-height: 50px;
+		margin: 5px 0;
+		padding: 5px;
+		border: 1px @colourLighter2 solid;
+		.rounded-corners(5px);
+		.title {
+			padding: 0;
+			margin: 0 0 5px 0;
+			font-weight: bold;
+			font-size: 1.0em;
+		}
+		.comment {
+			font-size: 0.8em;
+		}
+		.created {
+			margin: 10px 0 0 0;
+			font-size: 0.6em;
+			font-style: italic;
+		}
+	}
+}
+
+ol.normal {
+	li {
+		list-style-type: decimal;
+		margin-left: 30px;
+	}
+}
+
+
+
+ul.mainListAreas {
+	li.area {
+		margin: @listDataItemsMarginTopBottom @listDataItemsMarginLeftRightNarrowScreen;
+		border-bottom: 2px solid #E9E9E9;
+	}
+	li.nodata {
+		margin: @listDataItemsMarginTopBottom @listDataItemsMarginLeftRightNarrowScreen;
+		font-style: italic;
+	}
+}
+@media screen and (min-width: @narrowScreensMakeTwoColumnsIntoOneBoundary) {
+	ul.mainListAreas {
+		li.area, li.nodata {
+			margin: @listDataItemsMarginTopBottom @listDataItemsMarginLeftRightWideScreen;
+		}
+	}
+}
+
+ul.mainListAreas li.area {
+	min-height: 20px;
+	padding: 5px 0 20px 0;
+	.title {
+		font-size: 1.1em;
+		font-weight: bold;
+		padding: 2px 0;
+		a {
+			color: #333;
+			text-decoration: none;
+		}
+		a:hover {
+			color: black;
+			text-decoration: underline;
+		}
+	}
+	div.afterAreaListing {
+		clear: both;
+	}
+}

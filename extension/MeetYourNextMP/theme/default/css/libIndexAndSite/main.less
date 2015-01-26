@@ -1,0 +1,831 @@
+/**
+ *
+ * @package com.meetyournextmp
+ * @license CLOSED SOURCE
+ * @copyright (c) 2013-2015, JMB Technology Limited, http://jmbtechnology.co.uk/
+ * @author James Baster <james@jarofgreen.co.uk>
+ */
+html {
+	background-color: @colourFooter;
+}
+
+body {
+	padding: 0;
+	margin: 0;
+	font-family: arial, sans-serif;
+	background-color: white;
+}
+
+#page {
+	background: white;
+}
+
+
+#header {
+	background-color: @colourMain;
+	background-image: -webkit-linear-gradient(top, @colourLighter1, @colourMain); /* Chrome 10-25, iOS 5+, Safari 5.1+ */
+	background-image:         linear-gradient(to bottom, @colourLighter1, @colourMain); /* Chrome 26, Firefox 16+, IE 10+, Opera */
+	border-bottom: @colourDarker2 2px solid;
+	padding: 5px;
+	#headerContents {
+		max-width: 1200px;
+		margin: 0 auto;
+	}
+	.title {
+		img {
+			max-width: 30px;
+			max-height: 30px;
+		}
+		h1 {
+			color: black;
+			display: inline;
+			font-weight: bold;
+			font-size: 1.6em;
+		}
+		a {
+			text-decoration: none;
+			color: #333;
+			font-size: 14pt;
+			padding: 5px;
+			display:inline-block;
+		}
+		a:hover {
+			color: black;
+			text-decoration: underline;
+		}
+	}
+	ul.menu {
+		padding:0;
+		margin: 0;
+		li#NotificationMenu {
+			img.notificationicon {
+				width: 16px;
+				height: 16px;
+			}
+			ul.submenu#NotificationSubMenu {
+				li {
+					padding: 5px;
+					border-bottom: 1px solid #ccc;
+					.title a {
+						display: block;
+						font-size: 10pt;
+						color: #999;
+						padding: 0;
+					}
+					.timesince, .site {
+						display: inline;
+						font-size: 8pt;
+						color: #999;
+						padding: 2px;
+					}
+				}
+				li.unread .title a {
+					font-size: 12pt;
+					color: #333;
+				}
+			}
+		}
+		li {
+			list-style-type: none;
+			display: inline-block;
+			font-size: 1.4em;
+			a {
+				text-decoration: none;
+				color: #333;
+				padding: 5px;
+				display:inline-block;
+			}
+			ul.submenu {
+				padding:0;
+				margin: 0;
+				display:none;
+				position: absolute;
+				background: #FFF;
+				border-bottom: #4d3e04 2px solid;
+				border-left: #4d3e04 2px solid;
+				border-right: #4d3e04 2px solid;
+				z-index: 999;
+				li {
+					list-style-type: none;
+					display: block;
+					a {
+						text-decoration: none;
+						color: #333;
+						font-size: 14pt;
+						padding: 5px;
+						display:inline-block;
+					}
+					a:hover {
+						color: black;
+						text-decoration: underline;
+					}
+				}
+			}
+		}
+		li.user {
+			float: right;
+		}
+	}
+	.afterMenu {
+		clear: both;
+	}
+}
+
+#body {
+	min-height: 400px;
+	padding: 5px ;
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+h2 {
+	font-weight: bold;
+	font-size: 1.5em;
+	padding: 10px 0;
+}
+
+h3 {
+	font-weight: bold;
+	font-size: 1.2em;
+	padding: 10px 0;
+}
+
+#bodyLeft, #bodyRight {
+	padding: 10px 2px;
+	img {
+		max-width: 100%;
+	}
+	p {
+		padding: 5px 0;
+	}
+}
+/** on wide screens have 2 columns here **/
+@media screen and (min-width: @narrowScreensMakeTwoColumnsIntoOneBoundary) {
+	#bodyLeft{
+		width: 57%;
+		float: left;
+	}
+	#bodyRight{
+		width: 37%;
+		float: right;
+	}
+	#afterPage2Col {
+		clear: both;
+	}
+}
+
+
+/** on wide screens have 2 columns here **/
+@media screen and (min-width: @narrowScreensMakeTwoColumnsIntoOneBoundary) {
+	#bodyLeftEqualWidth {
+		width: 47%;
+		float: left;
+	}
+	#bodyRightEqualWidth{
+		width: 47%;
+		float: right;
+	}
+	#afterPage2Col {
+		clear: both;
+	}
+}
+
+
+
+.flash-notice {
+	margin: 10px 5px;
+	padding: 10px 5px;
+	text-align: center;
+	background: @flashNoticeBackground;
+	border: 2px solid @flashNoticeBorder;
+	.rounded-corners(5px);
+}
+
+
+.flash-error {
+	margin: 10px 5px;
+	padding: 10px 5px;
+	text-align: center;
+	background: @flashErrorBackground;
+	border: 2px solid @flashErrorBorder;
+	.rounded-corners(5px);
+}
+
+p {
+	margin: 10px 0;
+}
+
+ul.mainListEvents {
+	li.event {
+		margin: @listDataItemsMarginTopBottom @listDataItemsMarginLeftRightNarrowScreen;
+		border-bottom: 2px solid #E9E9E9;
+	}
+	li.export {
+		text-align: right;
+		a {
+			color: #333;
+			text-decoration: none;
+		}
+		a:hover {
+			color: black;
+			text-decoration: underline;
+		}
+	}
+	li.nodata, li.info {
+		margin: @listDataItemsMarginTopBottom @listDataItemsMarginLeftRightNarrowScreen;
+		font-style: italic;
+	}
+}
+@media screen and (min-width: @narrowScreensMakeTwoColumnsIntoOneBoundary) {
+	ul.mainListEvents {
+		li.event, li.nodata, li.info {
+			margin: @listDataItemsMarginTopBottom @listDataItemsMarginLeftRightWideScreen;
+		}
+	}
+}
+
+ul.mainListEvents li.event, div.mainShowEvent {
+	margin-bottom: 10px;
+	padding: 20px 0;
+	div.dateTimeIcon {
+		float: left;
+		width: 60px;
+		height: 80px;
+		position: relative;
+		z-index: 100;
+		margin: 0 10px 10px 0;
+		border: 2px solid #231f20;
+		.rounded-corners(4px);
+		div.dateIcon {
+			width: 60px;
+			height: 60px;
+			text-align: center;
+			background: #231f20;
+		}
+		div.timeIcon {
+			padding: 1px;
+			text-align: center;
+		}
+		span.deleted, span.cancelled {
+			padding-top: 5px;
+			display: block;
+			color: white;
+		}
+		span.startDay {
+			font-weight: 200;
+			padding-top: 5px;
+			display: block;
+			color: white;
+		}
+		span.startDate {
+			font-size: 16pt;
+			font-weight: 400;
+			display: block;
+			color: white;
+		}
+		span.startMonthYear {
+			font-weight: 200;
+			display: block;
+			font-size: 0.75em;
+			color: white;
+		}
+		span.startTime {
+			font-size: 11pt;
+			color: black;
+		}
+		a {
+			text-decoration: none;
+			span.startDay {
+				color: white;
+			}
+			span.startDate {
+				color: white;
+			}
+			span.startMonthYear {
+				color: white;
+			}
+			span.startTime {
+				color: black;
+			}
+		}
+	}
+	.media {
+		width: 100px;
+		height: 100px;
+		text-align: center;
+		vertical-align: middle;
+		float: right;
+		margin: 2px;
+		img {
+			max-width: 100px;
+			max-height: 100px;
+		}
+	}
+	div.title {
+		font-size: 16pt;
+		font-weight: bold;
+		line-height: 1.25em;
+		padding: 2px 0 10px 70px;
+		position: relative;
+		top: -5px;
+		a {
+			color: #333;
+			text-decoration: none;
+		}
+		a:hover {
+			color: black;
+			text-decoration: underline;
+		}
+	}
+	p.description {
+		padding: 0px 0px 0px 0px;
+		margin: 0px 0px 10px 0px;
+	}
+	p.groupTitle, p.venueTitle, p.areaTitle, p.countryTitle {
+		font-weight: bold;
+		font-size: 0.8em;
+		a {
+			color: black;
+			text-decoration: none;
+		}
+		a:hover {
+			text-decoration: underline; 
+		}
+	}
+	p.groupDescription, p.venueDescription {
+		font-size: 0.8em;
+		padding: 0px 0px 0px 0px;
+		margin: 0px 0px 10px 0px;
+		a {
+			color: black;
+			text-decoration: none;
+		}
+		a:hover {
+			text-decoration: underline; 
+		}
+	}
+	.map {
+		margin: 10px 0;
+		clear: both;
+		width: 90%;
+		height: 150px;
+	}
+	div.afterEventListing {
+		clear: both;
+	}
+	/** this is used on event listings **/
+	div.currentUserAttendance {
+		text-align: right;
+		a {
+			text-decoration: none;
+		}
+		div.formWrapper {
+			display: inline;
+			form {
+				display: inline;
+			}
+		}
+		div.activationLinkWrapper {
+			display: inline;
+		}
+		.savingIndicator, .savedIndicator {
+			font-style: italic;
+		}
+	}
+	/** this is used on event page **/
+	form.UserAttendingOptions {
+		.savingIndicator, .savedIndicator {
+			font-style: italic;
+		}
+	}
+	.GetTicket {
+		font-weight: bold;
+		font-size: 120%;
+		font-style: italic;
+	}
+}
+
+@media screen and (max-width: @narrowScreensMakeTwoColumnsIntoOneBoundary) {
+	ul.mainListEvents li.event, div.mainShowEvent {
+		.media {
+			display: none;
+		}
+	}
+}
+
+.dateAndLocationWrapper {
+	clear: both;
+	padding: 10px 0 0 0;
+	margin-top: 10px;
+	div.date {
+		display: block;
+		color: #ec2327;
+		font-weight: 400;
+		background: url('/theme/default/img/eventFooterCalendarIcon.png') no-repeat;
+		padding: 5px 10px 5px 20px;
+	}
+	div.location {
+		display: block;
+		color: #ec2327;
+		font-weight: 400;
+		background: url('/theme/default/img/eventFooterLocationIcon.png') no-repeat;
+		padding: 5px 10px 5px 20px;
+		a {
+			color: #ec2327;
+			text-decoration: none;
+		}
+	}
+}
+
+div.mainShowVenue, div.mainShowArea {
+	.locationWrapper {
+		clear: both;
+		padding: 10px 0 0 0;
+		margin-top: 10px;
+		div.location {
+			display: block;
+			color: #ec2327;
+			font-weight: 400;
+			background: url('/theme/default/img/eventFooterLocationIcon.png') no-repeat;
+			padding: 5px 10px 5px 20px;
+			a {
+				color: #ec2327;
+				text-decoration: none;
+			}
+		}
+	}
+	.map {
+		margin: 10px 0;
+		clear: both;
+		width: 90%;
+		height: 150px;
+	}
+}
+
+div.mainShowGroup {
+	p.description {
+		padding: 0px 0px 0px 0px;
+		margin: 0px 0px 10px 0px;
+	}
+}
+
+div.mainShowCountry {
+	.map {
+		margin: 10px 0;
+		clear: both;
+		width: 90%;
+		height: 150px;
+	}
+}
+
+div.filterListEventWrapper {
+	padding: 5px 0;
+	margin: @listDataItemsFilterMarginTopBottom @listDataItemsFilterMarginLeftRightNarrowScreen;
+	form.filterListEvent {
+		background: @colourLighter2;
+		padding: 10px;
+		div.inputField {
+			display: inline;
+			padding: 10px;
+		}
+		#eventListFilterFromWrapper {
+			input {
+				background: url('/theme/default/img/dateFilterBackground.png') no-repeat right white;
+			}
+		}
+		div.submitField {
+			display: inline;
+			padding: 10px;
+			input {
+				background: @colourLighter1;
+				color: black;
+				border: 2px solid @colourLighter1;
+				.rounded-corners(2px);
+				cursor:pointer;
+			}
+		}
+	}
+}
+@media screen and (min-width: @narrowScreensMakeTwoColumnsIntoOneBoundary) {
+	div.filterListEventWrapper {
+		margin: @listDataItemsFilterMarginTopBottom @listDataItemsFilterMarginLeftRightWideScreen;
+	}
+}
+
+
+#innerPageWrapper {
+	clear: both;
+	#innerPageActions {
+		padding: 10px 0 6px 0;
+		border-bottom: 1px solid #666;
+		li.action, li.actionWithSubMenu {
+			padding: 0px 5px;
+			display: inline;
+			float: right;
+			a {
+				color: #333;
+				text-decoration: none;
+			}
+			a:hover {
+				color: black;
+				text-decoration: underline;
+			}
+			@media screen and (max-width: @narrowScreensMakeEverythingHorizontalIntoVerticalBoundary) {
+				display:block;
+				float: none;
+				margin: 15px 0;
+			}
+		}
+		li.actionWithSubMenu ul.submenu {
+			padding:0;
+			margin: 0;
+			display:none;
+			position: absolute;
+			background: #FFF;
+			border-bottom: #4d3e04 2px solid;
+			border-left: #4d3e04 2px solid;
+			border-right: #4d3e04 2px solid;
+			z-index: 999;
+			li {
+				list-style-type: none;
+				display: block;
+				a {
+					text-decoration: none;
+					color: #333;
+					font-size: 12pt;
+					padding: 5px;
+					display:inline-block;
+				}
+				a:hover {
+					color: black;
+					text-decoration: underline;
+				}
+			}
+		}
+		li.tab {
+			.rounded-corners-top(3px);
+			display: inline;
+			padding: 5px;
+			margin: 0;
+			border-top: 1px solid #666;
+			border-left: 1px solid #666;
+			border-right: 1px solid #666;
+			background: #f2f2f2;
+			a {
+				color: black;
+				text-decoration: none;
+			}
+			a:hover {
+				color: blue;
+				text-decoration: underline;
+				
+			}
+			@media screen and (max-width: @narrowScreensMakeEverythingHorizontalIntoVerticalBoundary) {
+				display:block;
+				padding: 15px 5px;
+			}
+		}
+		li.currentTab {
+			background: #fff;	
+			border-top: 1px solid black;
+			border-left: 1px solid black;
+			border-right: 1px solid black;
+			border-bottom: 1px solid #fff;
+			a, a:hover {
+				color: black;
+				text-decoration: none;
+			}
+		}
+	}
+	#innerPage {
+		clear: both;
+		padding: 5px;
+		margin: 2px;
+		.innerPageLeftRightTitle {
+			border-top: 1px solid #ccc;
+			margin-top: 5px;
+		}
+		@media screen and (min-width: 750px) {
+			.innerPageLeft, {
+				width: 57%;
+				float: left;
+			}
+			.innerPageRight {
+				width: 37%;
+				float: right;
+			}
+		}
+		@media screen and (max-width: 750px) {
+			.innerPageLeft.hideIfOneCol, .innerPageRight.hideIfOneCol {
+				display: none;
+			}
+		}
+
+		.afterInnerPageContent {
+			clear: both;
+		}
+		.innerPageRight {
+			.innerPageRightLinkWrapper {
+				padding-bottom: 10px;
+				.innerPageRightLinkHeader {
+					font-size: 0.8em;
+				}
+				.innerPageRightLinkContent {
+					a {
+						font-size: 0.8em;
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
+
+.helpPopupLink {
+	img {
+		max-width: 20px;
+		max-height: 20px;
+	}
+}
+
+ul.timezones {	
+	li {
+		width: 200px;
+		margin: 5px 5px 5px 30px;
+		padding: 2px;
+		list-style-type: circle;
+	}
+}
+
+ul.listOfTextItems {
+	li {
+		margin: 5px 5px 5px 20px;
+		list-style-type: circle;
+	}
+}
+
+.highlightInfoBoxWrapper {
+	.rounded-corners(5px);
+	border: 3px solid @colourDarker2;
+	margin-bottom: 10px;
+	.highlightInfoBoxTitle {
+		background-color: @colourDarker2;
+		color: white;
+		padding: 5px;
+		font-weight: bold;
+	}
+	.highlightInfoBoxContent {
+		padding: 5px;
+		background-color: @colourLighter1;
+	}
+}
+
+.infoBoxWrapper {
+	.rounded-corners(5px);
+	border: 1px solid @colourLighter2;
+	margin-bottom: 10px;
+	.infoBoxTitle {
+		background-color: @colourLighter1;
+		color: #333;
+		padding: 5px;
+		font-size: 0.8em;
+	}
+	.infoBoxContent {
+		padding: 5px;
+	}
+}
+
+
+ul.breadcrumbs {
+	padding: 10px;
+	text-transform:lowercase;
+	li {
+		display: inline;
+		@media screen and (max-width: @narrowScreensMakeEverythingHorizontalIntoVerticalBoundary) {
+			display:block;
+		}
+		font-size: 0.8em;
+		padding: 5px 10px 5px 15px;
+		background: url('/theme/default/img/angleright16.png') left center no-repeat;
+		a {
+			text-decoration: none;
+			color: black;
+		}
+		a:hover {
+			text-decoration: underline;
+			color: black;
+		}
+	}
+	li.current {
+		a, a:hover {
+			text-decoration: none;
+			color: #555;
+		}
+	}
+}
+
+ul.actionList {
+	li.header {
+		padding: 10px 0;
+		font-size: 1.3em;
+		font-weight: bold;
+	}
+	li {
+		img {	
+			padding: 10px 10px 2px 2px;
+			max-width: 32px;
+			max-height: 32px;
+		}
+		a {
+			color: #333;
+			text-decoration: none;
+		}
+		a:hover {
+			color: black;
+			text-decoration: underline;
+		}
+	}
+}
+
+p.errorPageHeader {
+	color: #333;
+	font-size: 4em;
+	font-weight: bold;
+	margin: 2px 0;
+}
+
+p.errorPageText {
+	text-align: right;
+	color: #333;
+	font-size: 1.4em;
+	margin: 2px 0;
+	a {
+		color: #333;
+	}
+	a:hover {
+		color: black;
+	}
+}
+
+/** These Style rules are for the  list of notifications on the users notifications page, not in the header.
+**/
+ul.usernotifications {
+	li.usernotificationunread, li.usernotificationread {
+		padding: 10px;
+		border-bottom: 2px solid #ccc;
+		a.title {
+			display: block;
+			color: #333;
+		}
+		a.title:hover {
+			color: black;
+		}
+		div.timesince, div.site  {
+			display: inline;
+			color: #999;
+			font-size: 0.8em;
+			padding: 5px 0;
+		}
+	}
+	li.usernotificationunread a.title {
+		font-size: 1.4em;
+	}
+	li.usernotificationunread a.title {
+		font-size: 1.1em;
+	}
+}
+
+
+#footer {
+	background: @colourFooter;
+	#footerContents {
+		max-width: 1200px;
+		margin: 0 auto;
+	}
+	margin-top: 50px;
+	padding: 10px 5px;
+	font-style: italic;
+	font-size: 0.8em;
+	color: #333;
+	a {
+		color: #333;
+	}
+	a:hover {
+		color: black;
+	}
+	ul {
+		li {
+			display: inline;
+			padding: 0 5px;
+		}
+	}
+}
+
+@media screen and (max-width: @narrowScreensMakeTwoColumnsIntoOneBoundary) {
+	#footer ul li {
+		padding: 5px 0;
+		display: block;
+	}
+}

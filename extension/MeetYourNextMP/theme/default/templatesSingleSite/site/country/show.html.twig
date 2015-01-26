@@ -1,0 +1,83 @@
+{#
+ # @package com.meetyournextmp
+ # @license Closed Source
+ # @copyright (c) 2013-2015, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% extends 'site/country/page.html.twig' %}
+
+
+{% block pageTitle %}{{ country.title }} - {% endblock %} 
+
+{% block tabDetails %}currentTab{% endblock %}
+	
+{% block htmlHeader %}
+	<link rel="canonical" href="{{ config.getWebSiteDomainSecure(currentSite.slug) }}/country/{{ country.twoCharCode }}/" />
+	{% if not currentSite.isWebRobotsAllowed %}<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">{% endif %}
+	{% include 'site/common/mapLibrary.css.html.twig' %}
+{% endblock %}
+
+
+{% block actions %}
+	<li class="action">
+	</li>
+{% endblock %}
+	
+	
+{% block innerContent %}
+
+
+	<div class="mainShowCountry" itemscope itemtype="http://schema.org/Place">
+		<meta itemprop="name" content="{{ country.title|e('html_attr') }}" />
+
+		<div  class="innerPageLeft">
+
+			{% include 'site/common/areaList.html.twig' with { 'areasToList':childAreas} %}
+
+		</div>
+
+		<div  class="innerPageRight">
+
+			<div class="infoBoxWrapper">
+				<div class="infoBoxTitle">Your seat</div>
+				<div class="infoBoxContent">
+					<p>What is your postcode?</p>
+					<form action="/postcode/" method="get">
+						<input type="text" name="postcode" placeholder="eg EH1 1EG">
+						<input type="submit" value="Find my events!">
+					</form>
+					<p>Or <a href="/seat">browse a list of seats</a>.</p>
+				</div>
+			</div>
+
+
+
+		</div>
+
+		<div class="afterInnerPageContent"></div>
+
+		{% include '/site/eventListFilterParams.html.twig' %}
+
+		<ul class="mainListEvents">
+			{% for event in events %}
+				{% include '/site/common/mainListEvent.html.twig' with {'event':event, 'showCurrentUserOptions':true, 'showVenueAndArea':true}  %}
+			{% else %}
+				<li class="nodata">
+					No events found.
+					{% if currentUserActions.has("org.openacalendar","eventNew") %}Why not <a href="/event/new">add one</a>?{% endif %}
+				</li>
+			{% endfor %}
+		</ul>
+
+	</div>
+
+{% endblock %}
+
+	
+{% block scripts %}
+	<script src="/theme/default/js/eventFilterParams.js?v={{ config.assetsVersion }}" type="text/javascript"></script>
+	<script type="text/javascript" src="/theme/default/js/userAtEvents.site.js?v={{ config.assetsVersion }}"></script>
+	{% include 'site/common/mapLibrary.js.html.twig' %}
+	<script src="/theme/default/js/countryShow.js?v={{ config.assetsVersion }}" type="text/javascript"></script>
+{% endblock %}
+

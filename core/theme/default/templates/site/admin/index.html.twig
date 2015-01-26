@@ -1,0 +1,59 @@
+{#
+ # @package Core
+ # @link http://ican.openacalendar.org/ OpenACalendar Open Source Software - Website
+ # @license http://ican.openacalendar.org/license.html 3-clause BSD
+ # @copyright (c) 2013-2014, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% extends 'site/page2col.html.twig' %}
+
+{% block pageTitle %}Admin - {% endblock %} 
+
+{% block breadcrumbs %}
+	{% if not config.isSingleSiteMode %}<li><a href="/">{{ currentSite.title }}</a></li>{% endif %}
+	<li class="current"><a href="/admin">admin</a></li>
+{% endblock %}
+
+{% block contentLeft %}
+	This is the admin interface.
+{% endblock %}
+
+
+{% block contentRight %}
+
+	<ul class="actionList">
+	
+		<li><a href="/admin/profile"><div class="iconUserLarge"></div> Profile</a></li>
+
+		<li><a href="/admin/visibility"><div class="iconEyeLarge"></div> Visiblity</a></li>
+
+		<li><a href="/admin/usergroup"><div class="iconUsersLarge"></div> User Groups (Permissions)</a></li>
+
+		<li><a href="/admin/user"><div class="iconUsersLarge"></div> Users (Permissions)</a></li>
+
+		{%  if not config.isSingleSiteMode %}
+			<li><a href="/admin/usernoteditor"><div class="iconUsersLarge"></div> Users blocked from being editors (Permissions)</a></li>
+		{% endif %}
+
+		<li><a href="/admin/countries"><div class="iconGlobeLarge"></div> Countries</a></li>
+		
+		{% if currentSite.isFeaturePhysicalEvents %}
+			<li><a href="/admin/areas"><div class="iconGlobeLarge"></div> Areas in a country</a></li>
+		{% endif %}
+		
+		{% if currentSite.getIsFeatureTag %}
+			<li><a href="/admin/tag"><div class="iconTagsLarge"></div> Tags</a></li>
+		{% endif %}
+		
+		<li><a href="/admin/sendemail"><div class="iconEnvelopeOLarge"></div> Send Email with Events</a></li>
+		
+		<li><a href="/admin/features"><div class="iconGearsLarge"></div> Features</a></li>
+		
+		<li><a href="/admin/settings"><div class="iconGearsLarge"></div> Settings</a></li>
+
+		<li><a href="/admin/media"><div class="iconFileImageOLarge"></div> Media Storage</a></li>
+
+	</ul>
+
+{% endblock %}
+

@@ -1,0 +1,19 @@
+{#
+ # @package com.meetyournextmp
+ # @license Closed Source
+ # @copyright (c) 2013-2015, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% extends 'index/page.html.twig' %}
+
+{% block pageTitle %}Privacy - {% endblock %} 
+
+{% block htmlHeader %}
+	<link rel="canonical" href="{{ config.getWebIndexDomainSecure }}/privacy" />
+{% endblock %}
+
+{% block content %}
+	
+	<p>We will not send you marketing, or sell your details to third parties for the purposes of marketing.</p>
+	
+{% endblock %}

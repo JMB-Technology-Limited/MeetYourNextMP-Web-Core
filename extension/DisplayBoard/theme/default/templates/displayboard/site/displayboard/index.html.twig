@@ -1,0 +1,133 @@
+{#
+ # @package org.openacalendar.displayboard
+ # @link http://ican.openacalendar.org/ OpenACalendar Open Source Software - Website
+ # @license http://ican.openacalendar.org/license.html 3-clause BSD
+ # @copyright (c) 2013-2014, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% extends 'site/page.html.twig' %}
+
+{% block pageTitle %}Display Board - {% endblock %} 
+
+{% block htmlHeader %}
+	<link rel="canonical" href="{{ config.getWebSiteDomainSecure(currentSite.slug) }}/displayboard/" />
+	{% if not currentSite.isWebRobotsAllowed %}<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">{% endif %}
+	<link rel="stylesheet" type="text/css" href="/theme/default/css/configdisplayboard.css?v={{ config.assetsVersion }}">
+{% endblock %}
+
+{% block breadcrumbs %}
+	{% if not config.isSingleSiteMode %}<li><a href="/">{{ currentSite.title }}</a></li>{% endif %}
+	<li class="current"><a href="/displayboard/">Display Board</a></li>
+{% endblock %}
+
+
+{% block content %}
+
+	<form action="/displayboard/run/" method="GET" class="styled">
+
+
+		<ul class="eventsFilters">
+			{% set idx = 0 %}
+			{% for eventQuery in data %}
+				<li class="eventsFilter">
+					<div class="rowWrapper">
+						<div class="labelWrapper"><label for="eventArea{{ idx }}">Area Filter:</label></div>
+						<div class="widgetWrapperPlacementOnly">
+							<input type="text" value="{% if eventQuery.area %}{{ eventQuery.area.id }}{% endif %}" name="eventArea{{ idx }}">
+						</div>
+						<div class="after"></div>
+					</div>
+					<div class="rowWrapper">
+						<div class="labelWrapper"><label for="eventGroup{{ idx }}">Group Filter:</label></div>
+						<div class="widgetWrapperPlacementOnly">
+							<input type="text" value="{% if eventQuery.group %}{{ eventQuery.group.id }}{% endif %}" name="eventGroup{{ idx }}">
+						</div>
+						<div class="after"></div>
+					</div>
+					<div class="rowWrapper">
+						<div class="labelWrapper"><label for="eventVenue{{ idx }}">Venue Filter:</label></div>
+						<div class="widgetWrapperPlacementOnly">
+							<input type="text" value="{% if eventQuery.venue %}{{ eventQuery.venue.id }}{% endif %}" name="eventVenue{{ idx }}">
+						</div>
+						<div class="after"></div>
+					</div>
+					<div class="rowWrapper">
+						<div class="labelWrapper">&nbsp;</div>
+						<div class="widgetWrapperPlacementOnly">
+							<label><input type="checkbox" value="yes" name="eventMinorImportance{{ idx }}" {% if eventQuery.minorImportance %}checked{% endif %}>Minor Importance</label>
+						</div>
+						<div class="after"></div>
+					</div>
+				</li>
+				{% set idx = idx+1 %}
+			{% endfor %}
+			{% if idx < MAX_EVENT_QUERIES_ON_EVENT_BOARD %}
+				<li class="eventsFilter" style="border: 2px solid #999966;">
+					<div class="rowWrapper">
+						<div class="labelWrapper"><label for="eventArea{{ idx }}">Area Filter:</label></div>
+						<div class="widgetWrapperPlacementOnly">
+							<input type="text" value="" name="eventArea{{ idx }}">
+						</div>
+						<div class="after"></div>
+					</div>
+					<div class="rowWrapper">
+						<div class="labelWrapper"><label for="eventGroup{{ idx }}">Group Filter:</label></div>
+						<div class="widgetWrapperPlacementOnly">
+							<input type="text" value="" name="eventGroup{{ idx }}">
+						</div>
+						<div class="after"></div>
+					</div>
+					<div class="rowWrapper">
+						<div class="labelWrapper"><label for="eventVenue{{ idx }}">Venue Filter:</label></div>
+						<div class="widgetWrapperPlacementOnly">
+							<input type="text" value="" name="eventVenue{{ idx }}">
+						</div>
+						<div class="after"></div>
+					</div>
+					<div class="rowWrapper">
+						<div class="labelWrapper">&nbsp;</div>
+						<div class="widgetWrapperPlacementOnly">
+							<label><input type="checkbox" value="yes" name="eventMinorImportance{{ idx }}">Minor Importance</label>
+						</div>
+						<div class="after"></div>
+					</div>
+				</li>
+			{% endif %}
+		</ul>
+
+
+
+
+
+
+
+
+		<div class="rowWrapper">
+			<div class="labelWrapper"><label for="daysAheadInNextBox">How many days to show in the next box?</label></div>
+			<div class="widgetWrapperPlacementOnly">
+				<input type="text" name="daysAheadInNextBox" value="{{ daysAheadInNextBox }}">
+			</div>
+			<div class="after"></div>
+		</div>
+
+
+		<div class="rowWrapper">
+			<div class="labelWrapper"><label for="showCharsOfDescription">How many characters of description to show?</label></div>
+			<div class="widgetWrapperPlacementOnly">
+				<input type="text" name="showCharsOfDescription" value="{{ showCharsOfDescription }}">
+			</div>
+			<div class="after"></div>
+		</div>
+
+		<div class="rowWrapper">
+			<div class="labelWrapper"><label for="refreshInMinutes">Refresh after minutes? (0 to disable)</label></div>
+			<div class="widgetWrapperPlacementOnly">
+				<input type="text" name="refreshInMinutes" value="{{ refreshInMinutes }}">
+			</div>
+			<div class="after"></div>
+		</div>
+
+		<input type="submit" value="Run">
+	</form>
+
+{% endblock %}

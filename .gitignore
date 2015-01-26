@@ -1,0 +1,5 @@
+vendor/
+cache/templates.web/*/
+config.php
+extension/AddressCodeGBOpenCodePoint/data/*.csv
+

@@ -1,0 +1,409 @@
+{#
+ # @package com.meetyournextmp
+ # @license Closed Source
+ # @copyright (c) 2013-2015, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+
+{% extends 'site/event/page.html.twig' %}
+
+
+{% block pageTitle %}{{ event.summaryDisplay }} {%  if event.isCancelled  %}[CANCELLED] {%  endif %}- {% endblock %}
+
+{% block htmlHeader %}
+	<link rel="canonical" href="{{ config.getWebSiteDomainSecure(currentSite.slug) }}/event/{{ event.slugForUrl }}/" />
+	{% if not currentSite.isWebRobotsAllowed or event.isDeleted %}<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">{% endif %}
+	{% include 'site/common/mapLibrary.css.html.twig' %}
+	<link rel="stylesheet" type="text/css" href="/theme/default/css/curatedlists.css?v={{ config.assetsVersion }}">
+{% endblock %}
+
+{% block tabDetails %}currentTab{% endblock %}
+	
+{% block actions %}
+	{%  if currentUserActions.has("org.openacalendar","eventEditDetails") or
+		currentUserActions.has("org.openacalendar","eventEditVenue") or
+		currentUserActions.has("org.openacalendar","eventEditTags") or
+		currentUserActions.has("org.openacalendar","eventEditGroups") or
+		currentUserActions.has("org.openacalendar","eventEditCuratedLists") or
+		currentUserActions.has("org.openacalendar","eventEditMedia")  %}
+		<li class="actionWithSubMenu">
+			<a href="/event/{{ event.slugForUrl }}/edit"><div class="iconPencilSmall"></div> edit</a>
+			<ul class="submenu">
+				{%  if currentUserActions.has("org.openacalendar","eventEditDetails") %}
+					<li><a href="/event/{{ event.slugForURL }}/edit/details">Edit Details</a></li>
+				{%  endif %}
+				{% if currentUserActions.has("org.openacalendar","eventEditVenue") %}
+					<li><a href="/event/{{ event.slugForUrl }}/edit/venue">Edit Venue</a></li>
+				{% endif %}
+				{% if currentUserActions.has("org.openacalendar","eventEditTags") %}
+					<li><a href="/event/{{ event.slugForUrl }}/edit/tags">Edit Tags</a></li>
+				{% endif %}
+				{% if currentUserActions.has("org.openacalendar","eventEditGroups") %}
+					<li><a href="/event/{{ event.slugForUrl }}/edit/groups">Edit Groups</a></li>
+				{% endif %}
+				{% if currentUserActions.has("org.openacalendar","eventEditCuratedLists") %}
+					<li><a href="/event/{{ event.slugForUrl }}/edit/curatedlists">Edit Curated Lists</a></li>
+				{% endif %}
+				{% if currentUserActions.has("org.openacalendar","eventEditMedia") %}
+					<li><a href="/event/{{ event.slugForUrl }}/edit/media">Edit Media</a></li>
+				{% endif %}
+				{# Can this go in AddHumansContentToEventShowPage? TODO #}
+				{%  if currentUserActions.has("org.openacalendar","eventEditHumans") %}
+					<li><a href="/event/{{ event.slugForURL }}/edit/humans">Edit Candidates Attending</a></li>
+				{%  endif %}
+			</ul>
+		</li>
+	{%  elseif currentUserActions.has("org.openacalendar","eventEditDetails") %}
+		<li class="action">
+			<a href="/event/{{ event.slugForUrl }}/edit/details"><div class="iconPencilSmall"></div> edit</a>
+		</li>
+	{% endif %}
+	{% if currentUserActions.has("org.openacalendar","eventUndelete") %}
+		<li class="action"><a href="/event/{{ event.slugForUrl }}/undelete"><div class="iconTrashOSmall"></div> undelete</a></li>
+	{% endif %}
+	{% if currentUserActions.has("org.openacalendar","eventUncancel") %}
+		<li class="action"><a href="/event/{{ event.slugForUrl }}/uncancel"><div class="iconTrashOSmall"></div> uncancel</a></li>
+	{%  endif  %}
+	{% if currentUserActions.has("org.openacalendar","eventRecur") %}
+		<li class="action"><a href="/event/{{ event.slugForUrl }}/recur"><div class="iconCircleONotchSmall"></div> recur</a></li>
+	{% endif %}
+	{% if currentUserActions.has("org.openacalendar","eventDelete") and currentUserActions.has("org.openacalendar","eventCancel") %}
+		<li class="actionWithSubMenu">
+			<a href="/event/{{ event.slugForUrl }}/delete"><div class="iconTrashOSmall"></div> delete</a>
+			<ul class="submenu">
+				<li><a href="/event/{{ event.slugForUrl }}/cancel">Cancel</a></li>
+				<li><a href="/event/{{ event.slugForUrl }}/delete">Delete</a></li>
+			</ul>
+		</li>
+	{%  elseif currentUserActions.has("org.openacalendar","eventDelete")  %}
+		<li class="action"><a href="/event/{{ event.slugForUrl }}/delete"><div class="iconTrashOSmall"></div> Delete</a></li>
+	{% endif %}
+	<li class="action">
+		<a href="/api1/event/{{ event.slug }}/info.ical" onclick="showExportPopup(); return false;">
+			<div class="iconDownloadSmall"></div> export
+		</a>
+	</li>
+	{% if currentSite.getIsWebRobotsAllowed %}
+		<li class="action">
+			<a href="#" onclick="showSharePopup(); return false;">
+				<div class="iconShareSmall"></div>  share
+			</a>
+		</li>
+	{% endif %}
+{% endblock %}
+
+
+{% block innerContent %}
+
+	<div class="mainShowEvent" itemscope itemtype="http://schema.org/Event">
+		<meta itemprop="name" content="{{ event.summaryDisplay|e('html_attr') }}" />
+
+		<div class="innerPageLeft">
+
+
+			{% if event.isdeleted %}
+				<div class="dateTimeIcon">
+					<div class="dateIcon">
+						<span class="deleted">Deleted!</span>
+					</div>
+				</div>
+			{% elseif event.isCancelled %}
+				<div class="dateTimeIcon">
+					<div class="dateIcon">
+						<span class="cancelled">Cancel<br>-led!</span>
+					</div>
+				</div>
+			{% else %}
+				<div class="dateTimeIcon">
+					<time datetime="{{ event.getStartAt|tolocaltimeformatted('c', currentTimeZone) }}">
+						<div class="dateIcon">
+							<span class="startDay">{{ event.getStartAt|tolocaltimeformatted('D', currentTimeZone) }}</span>
+							<span class="startDate">{{ event.getStartAt|tolocaltimeformatted('jS', currentTimeZone) }}</span>
+							<span class="startMonthYear">{{ event.getStartAt|tolocaltimeformatted('M \'y', currentTimeZone) }}</span>
+						</div>
+						<div class="timeIcon">
+							<span class="startTime">{{ event.getStartAt|tolocaltimeformatted12or24hourclock('g:ia', 'H:i', currentUserClock12Hour, currentTimeZone) }}</span>
+						</div>
+					</time>
+				</div>
+			{% endif %}
+
+			<p class="description" itemprop="description">{{ event.description | nl2br  | linkify }}</p>
+
+			{% if tags %}
+				<div class="inlineTags">
+					Tags:
+					<ul class="inlineTags">
+						{% for tag in tags %}
+							<li class="tag">
+								<span class="content"><a href="/tag/{{ tag.slugForURL }}">{{ tag.title }}</a></span>
+								<span class="aftercontent">&nbsp;</span>
+							</li>
+						{% endfor %}
+					</ul>
+				</div>
+			{% endif %}
+
+			{% if mediasForEvent %}
+				<ul class="mediaGrid">
+					{% for media in mediasForEvent %}
+						<li><a href="/media/{{ media.slug }}" onclick="showMediaPopup({{ media.slug }}); return false;"><img src="/media/{{ media.slug }}/thumbnail"></a></li>
+					{% endfor %}
+				</ul>
+				<div class="afterMediaGrid"></div>
+			{% endif %}
+
+			<div class="dateAndLocationWrapper">
+				{% if currentTimeZone == event.timezone %}
+					{% include 'site/common/eventFromToLine.html.twig' with {'startAt': event.startAtInUTC, 'endAt': event.endAtInUTC, 'timezone':currentTimeZone, 'showTimeZone':currentSite.cachedIsMultipleTimezones} %}
+				{% else %}
+					{% include 'site/common/eventFromToLine.html.twig' with {'startAt': event.startAtInUTC, 'endAt': event.endAtInUTC, 'timezone':event.timezone, 'showTimeZone':true} %}
+					{% include 'site/common/eventFromToLine.html.twig' with {'startAt': event.startAtInUTC, 'endAt': event.endAtInUTC, 'timezone':currentTimeZone, 'showTimeZone':true} %}
+				{% endif %}
+			</div>
+
+		</div>
+
+		<div class="innerPageRight">
+
+			{% if event.url %}
+				<div class="innerPageRightLinkWrapper">
+					<div class="innerPageRightLinkHeader">More details</div>
+					<div class="innerPageRightLinkContent"><a href="{{ event.url }}" target="_blank">{{ event.url | linkinfo }}</a></div>
+				</div>
+			{% endif %}
+
+			{% if event.ticketUrl %}
+				<div class="innerPageRightLinkWrapper">
+					<div class="innerPageRightLinkHeader">Get Tickets From</div>
+					<div class="innerPageRightLinkContent"><a href="{{ event.ticketUrl }}" target="_blank">{{ event.ticketUrl | linkinfo }}</a></div>
+				</div>
+			{% endif %}
+
+			{% if event.isImported %}
+				<div class="innerPageRightLinkWrapper">
+					<div class="innerPageRightLinkHeader">Imported From</div>
+					<div class="innerPageRightLinkContent"><a href="/importurl/{{ importurl.slug }}">{{ importurl.url | linkinfo }}</a></div>
+				</div>
+			{% endif %}
+
+			<div class="infoBoxWrapper">
+				<div class="infoBoxTitle">People</div>
+				<div class="infoBoxContent">
+					{% if currentUser is not null %}
+						{% if not event.isInPast %}
+							<form method="post" action="/event/{{ event.slug }}/myAttendance.json" class="UserAttendingOptions">
+								<input type="hidden" name="CSFRToken" value="{{ getCSFRToken() }}">
+								You
+								<select name="attending">
+									<option value="no" {% if not userAtEvent.isPlanAttending and not userAtEvent.isPlanMaybeAttending %}selected{% endif %}>are not</option>
+									<option value="maybe" {% if userAtEvent.isPlanMaybeAttending %}selected{% endif %}>might be</option>
+									<option value="yes" {% if userAtEvent.isPlanAttending %}selected{% endif %}>will be</option>
+								</select> attending.
+							<span class="UserAttendingPrivacyOptionsWrapper" {% if not userAtEvent.isPlanAttending and not userAtEvent.isPlanMaybeAttending %}style="display:none;"{% endif %}>
+								This is
+								<select name="privacy">
+									<option value="private" {% if not userAtEvent.isPlanPublic %}selected{% endif %}>private</option>
+									<option value="public" {% if userAtEvent.isPlanPublic %}selected{% endif %}>public</option>
+								</select>.
+							</span>
+							<span class="savingIndicator" style="display:none;">
+								<img src="/theme/default/img/ajaxLoading.gif?v={{ config.assetsVersion }}"> Saving ...
+							</span>
+								<span class="savedIndicator" style="display:none;"> Saved!</span>
+							</form>
+						{% endif %}
+
+						<div id="UserAttendingListAjaxWrapper">
+							{% include 'site/common/eventUsersAttending.html.twig' with {} %}
+						</div>
+					{% else %}
+						{% if event.ticketUrl %}
+							Get your tickets from <a href="{{ event.ticketUrl }}" target="_blank">{{ event.ticketUrl | linkinfo }}</a>
+						{%  else  %}
+							<p>
+								Get reminders and notifications of this event and start to build up your personal calendar!
+							</p>
+							<p>
+								<a href="{{ config.getWebIndexDomainSecure() }}/you/register?event={{ event.slug }}{%  if not config.isSingleSiteMode %}&eventSite={{ currentSite.slug }}{% endif %}">
+									Create your free account
+								</a>
+							</p>
+							<p>
+								<a href="{{ config.getWebIndexDomainSecure() }}/you/login?event={{ event.slug }}{%  if not config.isSingleSiteMode %}&eventSite={{ currentSite.slug }}{% endif %}">
+									Login
+								</a>
+							</p>
+						{% endif %}
+					{% endif %}
+				</div>
+			</div>
+
+			{%  if curatedLists|length > 0 %}
+				<div class="infoBoxWrapper">
+					<div class="infoBoxTitle">Is in Curated Lists</div>
+					<div class="infoBoxContent">
+						<ul class="infoBoxListCuratedLists">
+							{% for curatedList in curatedLists %}
+								<li class="curatedlist"><a href="/curatedlist/{{  curatedList.slugForURL }}">{{  curatedList.title }}</a></li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+			{%  endif %}
+
+		</div>
+
+		<div class="afterInnerPageContent"></div>
+
+
+		{%  for template in templatesAfterDetails %}{% include template %}{%  endfor %}
+
+
+
+		{% for displayGroup in groups %}
+			<div class="innerPageLeftRightTitle">
+				<p class="groupTitle">About <a href="/group/{{ displayGroup.slugForUrl }}">{{ displayGroup.title }}</a></p>
+			</div>
+			<div class="innerPageLeft">
+				{% if group.description  %}
+					<p class="groupDescription">{{ displayGroup.description | nl2br  | linkify }}</p>
+				{% else %}
+					<p class="groupDescription">No details known.</p>
+				{% endif %}
+				{% if mediasForGroup[displayGroup.slug] is defined and mediasForGroup[displayGroup.slug] %}
+					<ul class="mediaGrid">
+						{% for media in mediasForGroup[displayGroup.slug] %}
+							<li><a href="/media/{{ media.slug }}" onclick="showMediaPopup({{ media.slug }}); return false;"><img src="/media/{{ media.slug }}/thumbnail"></a></li>	
+						{% endfor %}
+					</ul>
+					<div class="afterMediaGrid"></div>
+				{% endif %}
+			</div>
+			<div class="innerPageRight">
+				{% if displayGroup.url and displayGroup.url != event.url %}
+					<div class="innerPageRightLinkWrapper">
+						<div class="innerPageRightLinkHeader">More details</div>
+						<div class="innerPageRightLinkContent"><a href="{{ displayGroup.url }}" target="_blank">{{ displayGroup.url | linkinfo }}</a></div>
+					</div>
+				{% endif %}
+				{% if displayGroup.twitterUsername %}
+					<div class="innerPageRightLinkWrapper">
+						<div class="innerPageRightLinkHeader">On Twitter</div>
+						<div class="innerPageRightLinkContent"><a href="https://twitter.com/{{ displayGroup.twitterUsername }}" target="_blank">@{{ displayGroup.twitterUsername }}</a></div>
+					</div>
+				{% endif %}
+				{% if displayGroup.id == group.id and isGroupRunningOutOfFutureEvents %}
+					<div class="highlightInfoBoxWrapper">
+						<div class="highlightInfoBoxTitle">Any more events?</div>
+						<div class="highlightInfoBoxContent">
+							Do you know of <a href="/group/{{ group.slugForUrl }}">any more events for {{ group.title }}</a>?
+							{% if isGroupRunningOutOfFutureEvents == 1 %}
+								We are about to run out of future events!
+							{% else %}
+								We don't know of any future events.
+							{% endif %}
+						</div>
+					</div>
+				{% endif %}
+			</div>
+			<div class="afterInnerPageContent"></div>
+		{% endfor %}
+
+				
+		{% if venue is not null or area is not null or country is not null %}
+			<div itemprop="location" itemscope itemtype="http://schema.org/Place">
+				<div class="innerPageLeftRightTitle">
+					{%  if venue is not null %}
+						<p class="venueTitle">At <a href="/venue/{{ venue.slugForUrl }}" itemprop="url"><span itemprop="name">{{ venue.title }}</span></a></p>
+					{%  elseif area is not null  %}
+						<p class="areaTitle">In <a href="/area/{{ area.slugForUrl }}" itemprop="url"><span itemprop="name">{{ area.title }}</span></a></p>
+					{%  elseif country is not null  %}
+						<p class="countryTitle"><a href="/country/{{ country.twoCharCode }}" itemprop="url"><span itemprop="name">{{ country.title }}</span></a></p>
+					{%  endif  %}
+				</div>
+				<div class="innerPageLeft">
+					{%  if venue is not null %}
+						{% if venue.description %}
+							<p class="venueDescription" itemprop="description">{{ venue.description | nl2br  | linkify }}</p>
+						{% else %}
+							<p class="venueDescription">No details known.</p>
+						{% endif %}
+						{% if mediasForVenue %}
+							<ul class="mediaGrid">
+								{% for media in mediasForVenue %}
+									<li><a href="/media/{{ media.slug }}" onclick="showMediaPopup({{ media.slug }}); return false;"><img src="/media/{{ media.slug }}/thumbnail"></a></li>
+								{% endfor %}
+							</ul>
+							<div class="afterMediaGrid"></div>
+						{% endif %}
+					{% endif %}
+
+					<div class="dateAndLocationWrapper">
+						{% include 'site/common/eventLocationLine.html.twig' %}
+					</div>
+
+					{% if currentUserActions.has("org.openacalendar","eventEditPushToChildAreas") %}
+						<div class="highlightInfoBoxWrapper">
+							<div class="highlightInfoBoxTitle">Where is this?</div>
+							<div class="highlightInfoBoxContent">
+								<p>Is {% if venue %}"{{ venue.title }}"{% else %}this{% endif %} in one of these places?</p>
+								<form action="/event/{{ event.slugForUrl }}/moveToArea" method="post" id="PushToChildAreaForm">
+									{%  include 'site/common/pushToChildArea.html.twig' %}
+								</form>
+							</div>
+						</div>
+					{% endif %}
+
+				</div>
+				<div class="innerPageRight">
+					{%  if venue is not null and venue.hasLatLng %}
+						<div id="Map" class="map"></div>
+						{% if currentSite.isFeatureMap %}
+							<ul class="actionList">
+								<li><a href="/map?venue={{ venue.slugForURL }}"><div class="iconEyeLarge"></div> View larger map</a></li>
+							</ul>
+						{% endif %}
+					{% endif %}
+				</div>
+				<div class="afterInnerPageContent"></div>
+			</div>
+		{% endif %}
+
+		{%  for template in templatesAtEnd %}{% include template %}{%  endfor %}
+
+
+		<div class="afterEventListing"></div>
+	</div>
+
+				
+{% endblock %}
+
+{% block scriptsForState %}
+	{% include '/site/common/mediasJavaScriptInformation.html.twig' with { medias:medias } %}
+	{# This is DEPRECATED. the name event is used inside several JS functions which overwrites this #}
+	<script type="text/javascript">var event = { slug: {{ event.slug }} };</script>
+	{# so we need a new name ... #}
+	<script type="text/javascript">var eventData = { slug: {{ event.slug }} };</script>
+	{{ parent() }}
+{% endblock %}		
+		
+
+{% block scripts %}
+	<script type="text/javascript" src="/theme/default/js/userAtEvent.js?v={{ config.assetsVersion }}"></script>
+	<script type="text/javascript">
+		{% if venue is not null and venue.lat is not null and venue.lng is not null %}
+			var mapData = { lat: {{ venue.lat }}, lng: {{ venue.lng }} }
+		{% else %}
+			var mapData = { lat: null, lng:null }
+		{% endif %}
+		var country = { slug: "{{  country.twoCharCode|e('js') }}" };
+	</script>
+	{% include 'site/common/mapLibrary.js.html.twig' %}
+	<script src="/theme/default/js/mediaPopup.js?v={{ config.assetsVersion }}" type="text/javascript"></script>	
+	<script type="text/javascript" src="/theme/default/js/venueshow.js?v={{ config.assetsVersion }}"></script>
+	{%  if currentUserActions.has("org.openacalendar","eventEditPushToChildAreas") %}
+		<script src="/theme/default/js/pushToChildArea.js?v={{ config.assetsVersion }}" type="text/javascript"></script>
+	{%  endif %}
+{% endblock %}
+

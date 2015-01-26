@@ -1,0 +1,186 @@
+{#
+ # @package Core
+ # @link http://ican.openacalendar.org/ OpenACalendar Open Source Software - Website
+ # @license http://ican.openacalendar.org/license.html 3-clause BSD
+ # @copyright (c) 2013-2014, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% extends 'site/group/page.html.twig' %}
+
+{% block pageTitle %}{{ group.title }} - {% endblock %} 
+
+
+{% block htmlHeader %}
+	<link rel="canonical" href="{{ config.getWebSiteDomainSecure(currentSite.slug) }}/group/{{ group.slugForUrl }}/" />
+	{% if not currentSite.isWebRobotsAllowed or group.isDeleted %}<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">{% endif %}
+	<link rel="stylesheet" type="text/css" href="/theme/default/css/curatedlists.css?v={{ config.assetsVersion }}">
+{% endblock %}
+
+{% block tabDetails %}currentTab{% endblock %}
+
+{% block actions %}
+	{% if currentUserActions.has("org.openacalendar","groupEditDetails")
+		or currentUserActions.has("org.openacalendar","groupEditCuratedLists")
+		or currentUserActions.has("org.openacalendar","groupEditMedia") %}
+		<li class="actionWithSubMenu">
+			<a href="/group/{{ group.slugForUrl }}/edit"><div class="iconPencilSmall"></div> edit</a>
+			<ul class="submenu">
+				{%  if currentUserActions.has("org.openacalendar","groupEditDetails") %}
+					<li><a href="/group/{{ group.slugForUrl }}/edit/details">Edit Details</a></li>
+				{%  endif %}
+				{%  if currentUserActions.has("org.openacalendar","groupEditCuratedLists") %}
+					<li><a href="/group/{{ group.slugForUrl }}/edit/curatedlists">Edit Curated Lists</a></li>
+				{%  endif %}
+				{%  if currentUserActions.has("org.openacalendar","groupEditMedia") %}
+					<li><a href="/group/{{ group.slugForUrl }}/edit/media">Edit Media</a></li>
+				{%  endif %}
+			</ul>
+		</li>
+	{%  endif %}
+	{%  if currentUserActions.has("org.openacalendar","groupNewEvent") %}
+		<li class="action">
+			<a href="/group/{{ group.slugForUrl }}/newevent"><div class="iconPencilSmall"></div> new event</a>
+		</li>
+	{% endif %}
+	<li class="action">
+		<a href="/api1/group/{{ group.slug }}/events.ical" onclick="showExportPopup(); return false;">
+			<div class="iconDownloadSmall"></div> export
+		</a>
+	</li>
+	{% if currentSite.getIsWebRobotsAllowed %}
+		<li class="action">
+			<a href="#" onclick="showSharePopup(); return false;">
+				<div class="iconShareSmall"></div>  share
+			</a>
+		</li>
+	{% endif %}
+	{% if currentUser is not null and not currentUserWatchesSite %}
+		<li class="action">
+			{% if currentUserWatchesGroup %}
+				<a href="/group/{{ group.slugForUrl }}/watch/">Watching!</a>
+			{% else %}
+				<a href="/group/{{ group.slugForUrl }}/watch/">Watch?</a>
+			{% endif %}
+		</li>
+	{% endif %}
+{% endblock %}
+
+
+{% block innerContent %}
+
+	<div  class="mainShowGroup" itemscope itemtype="http://schema.org/Organization">
+		<meta itemprop="name" content="{{ group.title|e('html_attr') }}" />
+
+		<div class="innerPageLeft">
+
+			<p itemprop="description" class="description">{{ group.description | nl2br  | linkify }}</p>
+
+			{% if medias %}
+				<ul class="mediaGrid">
+					{% for media in medias %}
+						<li><a href="/media/{{ media.slug }}" onclick="showMediaPopup({{ media.slug }}); return false;"><img src="/media/{{ media.slug }}/thumbnail"></a></li>	
+					{% endfor %}
+				</ul>
+				<div class="afterMediaGrid"></div>
+			{% endif %}
+
+
+
+		</div>
+
+		<div class="innerPageRight">
+
+			{% if group.url %}
+				<div class="innerPageRightLinkWrapper">
+					<div class="innerPageRightLinkHeader">More details</div>
+					<div class="innerPageRightLinkContent"><a href="{{ group.url }}" target="_blank">{{ group.url | linkinfo }}</a></div>
+				</div>
+			{% endif %}
+
+			{% if group.twitterUsername %}
+				<div class="innerPageRightLinkWrapper">
+					<div class="innerPageRightLinkHeader">On Twitter</div>
+					<div class="innerPageRightLinkContent"><a href="https://twitter.com/{{ group.twitterUsername }}" target="_blank">@{{ group.twitterUsername }}</a></div>
+				</div>
+			{% endif %}
+
+			{% if importurls %}
+				<ul class="actionList">
+					<li><p><a href="/group/{{ group.slugForUrl }}/importers"><div class="iconCloundDownloadSmall"></div> List importers</a></p></li>
+				</ul>
+			{% endif %}
+
+			{%  if curatedLists|length > 0 %}
+				<div class="infoBoxWrapper">
+					<div class="infoBoxTitle">Is in Curated Lists</div>
+					<div class="infoBoxContent">
+						<ul class="infoBoxListCuratedLists">
+							{% for curatedList in curatedLists %}
+								<li class="curatedlist"><a href="/curatedlist/{{  curatedList.slugForURL }}">{{  curatedList.title }}</a></li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+			{%  endif %}
+
+		</div>
+
+		<div class="afterInnerPageContent"></div>
+
+		{% include '/site/eventListFilterParams.html.twig' %}
+
+		<ul class="mainListEvents">
+			{%  if events|length > 0 %}
+				{% for event in events %}
+					{% include '/site/common/mainListEvent.html.twig' with {'event':event, 'showCurrentUserOptions':true, 'showVenueAndArea':true}  %}
+				{% endfor %}
+				{% if isGroupRunningOutOfFutureEvents and currentUserActions.has("org.openacalendar","groupNewEvent") %}
+					<li class="nodata">
+						<p>
+							{# the search filters could be showing old events, so it could be true there are event to show AND there are no future events #}
+							{% if isGroupRunningOutOfFutureEvents == 1 %}
+								We are about to run out of future events!
+							{% else %}
+								We don't know of any future events.
+							{% endif %}
+						</p>
+						<p>
+							You can <a href="/group/{{ group.slugForUrl }}/newevent">create a new event</a> or look for an old event and select "recur".
+						</p>
+					</li>
+				{%  endif %}
+			{% else %}
+				<li class="nodata">
+					<p>No events found.</p>
+					{% if isGroupRunningOutOfFutureEvents and currentUserActions.has("org.openacalendar","groupNewEvent") %}
+						<p>
+							{# The search filters could be hiding future events, so it could be true there are no events to show BUT NOT that we don't know of future events #}
+							{% if isGroupRunningOutOfFutureEvents == 1 %}
+								We are about to run out of future events!
+							{% else %}
+								We don't know of any future events.
+							{% endif %}
+						</p>
+						<p>
+							You can <a href="/group/{{ group.slugForUrl }}/newevent">create a new event</a> or look for an old event and select "recur".
+						</p>
+					{% endif %}
+				</li>
+			{% endif %}
+		</ul>
+
+
+	</div>
+{% endblock %}
+
+{% block scriptsForState %}
+	{% include '/site/common/mediasJavaScriptInformation.html.twig' with { medias:medias } %}
+	{{ parent() }}
+{% endblock %}		
+		
+{% block scripts %}
+	<script src="/theme/default/js/eventFilterParams.js?v={{ config.assetsVersion }}" type="text/javascript"></script>
+	<script src="/theme/default/js/mediaPopup.js?v={{ config.assetsVersion }}" type="text/javascript"></script>
+	<script type="text/javascript" src="/theme/default/js/userAtEvents.site.js?v={{ config.assetsVersion }}"></script>
+{% endblock %}
+

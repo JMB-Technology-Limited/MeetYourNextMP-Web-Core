@@ -1,0 +1,48 @@
+{#
+ # @package Core
+ # @link http://ican.openacalendar.org/ OpenACalendar Open Source Software - Website
+ # @license http://ican.openacalendar.org/license.html 3-clause BSD
+ # @copyright (c) 2013-2014, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% extends 'sysadmin/page.html.twig' %}
+
+{% block pageTitle %}Welcome - {% endblock %}
+
+{% block content %}
+
+	<p>Welcome!</p>
+	
+	<p>This software is Open Source as OpenACalendar - <a href="http://ican.openacalendar.org/">for more information see the website</a>.</p>
+	
+	<p>If you have any questions, <a href="http://ican.openacalendar.org/support.html">contact community or commercial support</a>.</p>
+
+	<p>Get the <a href="http://ican.openacalendar.org/news.html">latest news on our blog</a>.</p>
+
+
+
+	<ul class="menuOnPage">
+		{% if config.isSingleSiteMode %}
+			<li><a href="/sysadmin/site/{{ config.singleSiteID }}">SingleSite</a></li>
+		{% else %}
+			<li><a href="/sysadmin/site">Sites</a></li>
+		{% endif %}
+		<li><a href="/sysadmin/sitequota">Site Quotas</a></li>
+		<li><a href="/sysadmin/user">Users</a></li>
+		<li><a href="/sysadmin/usergroup">User Groups</a></li>
+		<li><a href="/sysadmin/history">History</a></li>
+		<li><a href="/sysadmin/config">Config</a></li>
+		<li><a href="/sysadmin/server">Server</a></li>
+		<li><a href="/sysadmin/api2app">API Apps</a></li>
+		<li><a href="/sysadmin/task">Tasks</a></li>
+		<li><a href="/sysadmin/tasklog">Task Log</a></li>
+		<li><a href="/sysadmin/report">Reports</a></li>
+		{% for extension in extensions %}
+			{%  for link in extension.sysAdminLinks %}
+				<li><a href="{{  link.url  }}">{{  link.title }}</a></li>
+			{% endfor %}
+		{%  endfor %}
+	</ul>
+
+{% endblock %}
+

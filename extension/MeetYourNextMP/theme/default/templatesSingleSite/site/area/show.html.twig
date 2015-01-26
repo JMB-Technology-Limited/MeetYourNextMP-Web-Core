@@ -1,0 +1,136 @@
+{#
+ # @package com.meetyournextmp
+ # @license Closed Source
+ # @copyright (c) 2013-2015, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% extends 'site/area/page.html.twig' %}
+
+{% block pageTitle %}{{ area.title }} - {% endblock %} 
+
+
+{% block htmlHeader %}
+	<link rel="canonical" href="{{ config.getWebSiteDomainSecure(currentSite.slug) }}/area/{{ area.slugForUrl }}/" />
+	{% if not currentSite.isWebRobotsAllowed or area.isDeleted %}<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">{% endif %}
+	{% include 'site/common/mapLibrary.css.html.twig' %}
+{% endblock %}
+
+{% block actions %}
+	{% if currentUser is not null and not currentUserWatchesSite %}
+		<li class="action">
+			{% if currentUserWatchesArea %}
+				<a href="/area/{{ area.slugForUrl }}/watch/">Watching!</a>
+			{% else %}
+				<a href="/area/{{ area.slugForUrl }}/watch/">Watch?</a>
+			{% endif %}
+		</li>
+	{% endif %}
+	{% if currentUserActions.has("org.openacalendar","eventNew") or ( currentUser is null and anyVerifiedUserActions.has("org.openacalendar","eventNew") ) %}
+		<li class="action"><a href="/event/new?area={{  area.slug }}"><div class="iconPencilSmall"></div>Add an event</a></li>
+	{% endif %}
+{% endblock %}
+
+{% block tabDetails %}currentTab{% endblock %}
+		
+{% block innerContent %}
+
+
+	<div class="mainShowArea" itemscope itemtype="http://schema.org/Place">
+		<meta itemprop="name" content="{{ area.title|e('html_attr') }}" />
+
+
+		<div  class="innerPageLeft">
+			<p>{{ area.description | nl2br  | linkify }}</p>
+
+			{%  if parentAreas|length > 1 %}
+				{%  set nextUpArea = parentAreas[parentAreas|length -1] %}
+				<p>View <a href="/area/{{  nextUpArea.slugForURL }}">information for all the seats and events in {{ nextUpArea.title }}</a> instead.</p>
+			{%  endif %}
+
+
+			{% include 'site/common/areaList.html.twig' with { 'areasToList':childAreas} %}
+
+			<div class="locationWrapper">
+				<div class="location">
+					<div class="area"><a href="/area/{{ area.slugForUrl }}">{{ area.title }}</a></div>
+					{% for parentArea in parentAreas|reverse %}
+						<div class="area"><a href="/area/{{ parentArea.slugForUrl }}">{{ parentArea.title }}</a></div>
+					{% endfor %}
+					<div class="country"><a href="/country/{{ country.twoCharCode }}">{{ country.title }} <img src="/theme/default/img/countries/{{ country.twoCharCode|lower }}.png" alt="Flag"></a></div>
+				</div>
+			</div>
+
+		</div>
+		
+		<div  class="innerPageRight">
+
+
+
+			{%  if not currentUser %}
+
+				<div class="highlightInfoBoxWrapper">
+					<div class="highlightInfoBoxTitle">Get notifications?</div>
+					<div class="highlightInfoBoxContent">
+						<p>
+							Get reminders and notifications of events in this area!
+						</p>
+						<p>
+							<a href="{{ config.getWebIndexDomainSecure() }}/you/register?area={{ area.slug }}{%  if not config.isSingleSiteMode %}&areaSite={{ currentSite.slug }}{% endif %}">
+								Create your free account
+							</a>
+						</p>
+						<p>
+							<a href="{{ config.getWebIndexDomainSecure() }}/you/login?area={{ area.slug }}{%  if not config.isSingleSiteMode %}&areaSite={{ currentSite.slug }}{% endif %}">
+								Login
+							</a>
+						</p>
+					</div>
+				</div>
+			{%  endif %}
+
+			<div id="MapWrapper">
+				<div id="Map" class="map"></div>
+				{% if currentSite.isFeatureMap %}
+					<ul class="actionList">
+						<li><a href="/map?area={{ area.slug }}"><div class="iconEyeLarge"></div> View larger map</a></li>
+					</ul>
+				{% endif %}
+			</div>
+
+		</div>
+
+		<div class="afterInnerPageContent"></div>
+
+
+		{% include '/site/eventListFilterParams.html.twig' %}
+
+		<ul class="mainListEvents">
+			{% for event in events %}
+				{% include '/site/common/mainListEvent.html.twig' with {'event':event, 'showCurrentUserOptions':true, 'showVenueAndArea':true}  %}
+			{% else %}
+				<li class="nodata">
+					<p>No events found.</p>
+
+					{% if currentUserActions.has("org.openacalendar","eventNew") or ( currentUser is null and anyVerifiedUserActions.has("org.openacalendar","eventNew") ) %}
+						<p>Do you know of any events? <a href="/event/new">Please help us by adding them!</a></p>
+					{% endif %}
+
+
+				</li>
+			{% endfor %}
+		</ul>
+
+	</div>
+
+{% endblock %}
+
+{% block scripts %}
+	<script src="/theme/default/js/eventFilterParams.js?v={{ config.assetsVersion }}" type="text/javascript"></script>
+	<script type="text/javascript" src="/theme/default/js/userAtEvents.site.js?v={{ config.assetsVersion }}"></script>
+	{% include 'site/common/mapLibrary.js.html.twig' %}
+	<script src="/theme/default/js/areaShow.js?v={{ config.assetsVersion }}" type="text/javascript"></script>	
+{% endblock %}
+
+
+
+

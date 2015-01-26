@@ -1,0 +1,70 @@
+{#
+ # @package Core
+ # @link http://ican.openacalendar.org/ OpenACalendar Open Source Software - Website
+ # @license http://ican.openacalendar.org/license.html 3-clause BSD
+ # @copyright (c) 2013-2014, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+		<title>{% block pageTitle %}{% endblock %} Sysadmin {{ config.siteTitle }}</title>
+		<link rel="stylesheet" type="text/css" href="/theme/default/csssysadmin/main.css?v={{ config.assetsVersion }}">
+		<link rel="shortcut icon" href="/theme/default/imgsysadmin/favicon.png?v={{ config.assetsVersion }}" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	</head>
+	<body>
+		<div id="header">
+			<a href="/sysadmin/" class="homelink">
+				<img src="/theme/default/imgsysadmin/logo.png?v={{ config.assetsVersion }}" alt="logo" class="logo">
+				<h1>ADMIN - {{ config.siteTitle }}</h1>
+			</a>
+			<div id="currentUser">
+				Hi {{ currentUser.username }} 
+				<a href="{{ config.getWebIndexDomainSecure() }}/me/">Your Account</a> 
+				<a href="{{ config.getWebIndexDomainSecure() }}/me/logout">Logout</a>
+				{{ currentTimeZone }}
+			</div>
+			<ul id="menu">
+				{% if config.isSingleSiteMode %}
+					<li><a href="/sysadmin/site/{{ config.singleSiteID }}">SingleSite</a></li>
+				{% else %}
+					<li><a href="/sysadmin/site">Sites</a></li>
+				{% endif %}
+				<li><a href="/sysadmin/sitequota">(Quotas)</a></li>
+				<li><a href="/sysadmin/user">Users</a></li>
+				<li><a href="/sysadmin/history">History</a></li>
+				<li><a href="/sysadmin/config">Config</a></li>
+				<li><a href="/sysadmin/server">Server</a></li>
+				<li><a href="/sysadmin/api2app">API Apps</a></li>
+				<li><a href="/sysadmin/extension">Extend</a></li>
+			</ul>
+			<div id="afterHeader"></div>
+		</div>
+		<div id="body">
+			{% if config.siteReadOnly %}
+				<div class="flash-error">
+					Sorry, the site is currently read only. {{ config.siteReadOnlyReason }}
+				</div>				
+			{% endif %}
+			{% for msg in getAndClearFlashErrors() %}
+				<div class="flash-error">{{ msg }}</div>
+			{% endfor %}
+			{% for msg in getAndClearFlashMessages() %}
+				<div class="flash-notice">{{ msg }}</div>
+			{% endfor %}	
+			<ul class="breadcrumbs">{% block breadcrumbs %}{% endblock %}</ul>				
+			{% block content %}{% endblock %}
+		</div>
+		<div id="footer">
+			Powered by <a href="http://ican.openacalendar.org">OpenACalendar</a>
+		</div>	
+		<script src="/js/jquery-1.10.2.min.js" type="text/javascript"></script>
+		{% block scripts %}{% endblock %}		
+	</body>
+</html>
+
+

@@ -1,0 +1,25 @@
+{#
+ # @license CLOSED SOURCE
+ # @copyright (c) 2013-2015, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% extends 'site/event/page.html.twig' %}
+
+
+{% block pageTitle %}Comment on {{ event.summaryDisplay }} - {% endblock %}
+
+{% block innerContent %}
+
+	<form action="#" method="post" class="styled">
+
+		{{ form_errors(form) }}
+
+		{{ form_row(form.title) }}
+		{{ form_row(form.comment) }}
+
+		{{ form_rest(form) }}
+
+		<input type="submit"  value="Post Comment" />
+	</form>
+{% endblock %}
+

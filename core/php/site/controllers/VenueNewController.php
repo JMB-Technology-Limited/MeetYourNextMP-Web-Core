@@ -1,0 +1,149 @@
+<?php
+
+namespace site\controllers;
+
+use Silex\Application;
+use site\forms\VenueNewForm;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use models\VenueModel;
+use models\AreaModel;
+use repositories\VenueRepository;
+use repositories\AreaRepository;
+use repositories\CountryRepository;
+use repositories\builders\AreaRepositoryBuilder;
+
+
+/**
+ *
+ * @package Core
+ * @link http://ican.openacalendar.org/ OpenACalendar Open Source Software
+ * @license http://ican.openacalendar.org/license.html 3-clause BSD
+ * @copyright (c) 2013-2015, JMB Technology Limited, http://jmbtechnology.co.uk/
+ * @author James Baster <james@jarofgreen.co.uk>
+ */
+class VenueNewController {
+	
+	protected $parameters = array();
+	
+	function newVenue(Request $request, Application $app) {
+		$areaRepository = new AreaRepository();
+		$countryRepository = new CountryRepository();
+					
+		$venue = new VenueModel();
+		
+		
+		$this->parameters = array('country'=>null,'parentAreas'=>array(),'area'=>null,'childAreas'=>array(),'startAreaBrowserFromScratch'=> true);
+		
+		
+		if (isset($_GET['area_id'])) {
+			$ar = new AreaRepository();
+			$this->parameters['area'] = $ar->loadBySlug($app['currentSite'], $_GET['area_id']);
+			if ($this->parameters['area']) {
+
+				$checkArea = $this->parameters['area']->getParentAreaId() ? $ar->loadById($this->parameters['area']->getParentAreaId())  : null;
+				while($checkArea) {
+					array_unshift($this->parameters['parentAreas'],$checkArea);
+					$checkArea = $checkArea->getParentAreaId() ? $ar->loadById($checkArea->getParentAreaId())  : null;
+				}
+
+				$cr = new CountryRepository();
+				$this->parameters['country'] = $cr->loadById($this->parameters['area']->getCountryID());
+				$venue->setCountryId($this->parameters['country']->getId());
+
+				$areaRepoBuilder = new AreaRepositoryBuilder();
+				$areaRepoBuilder->setSite($app['currentSite']);
+				$areaRepoBuilder->setCountry($this->parameters['country']);
+				$areaRepoBuilder->setParentArea($this->parameters['area']);
+				$areaRepoBuilder->setIncludeDeleted(false);
+				$this->parameters['childAreas'] = $areaRepoBuilder->fetchAll();
+				
+				$this->parameters['startAreaBrowserFromScratch'] = false;
+			}
+			
+		}
+		
+		
+		
+		$form = $app['form.factory']->create(new VenueNewForm($app['currentSite'], $app['currentTimeZone']), $venue);
+		
+		if ('POST' == $request->getMethod()) {
+			$form->bind($request);
+
+			if ($form->isValid()) {
+				
+				$postAreas = $request->request->get('areas');
+				if (is_array($postAreas)) {
+					
+					$area = null;
+					foreach ($postAreas as $areaCode) {
+						if (substr($areaCode, 0, 9) == 'EXISTING:') {
+							$area = $areaRepository->loadBySlug($app['currentSite'], substr($areaCode,9));
+						} else if (substr($areaCode, 0, 4) == 'NEW:') {
+							$newArea = new AreaModel();
+							$newArea->setTitle(substr($areaCode, 4));
+							$areaRepository->create($newArea, $area, $app['currentSite'], $countryRepository->loadById($venue->getCountryId()) , $app['currentUser']);
+							$areaRepository->buildCacheAreaHasParent($newArea);
+							$area = $newArea;
+						}
+					}
+					if ($area) {
+						$venue->setAreaId($area->getId());
+					}
+				}
+				
+
+
+				foreach($app['extensions']->getExtensionsIncludingCore() as $extension) {
+					$extension->addDetailsToVenue($venue);
+				}
+
+				$venueRepository = new VenueRepository();
+				$venueRepository->create($venue, $app['currentSite'], $app['currentUser']);
+				
+				return $app->redirect("/venue/".$venue->getSlug());
+				
+			}
+		}
+		
+		$this->parameters['form'] = $form->createView();
+		
+		return $app['twig']->render('site/venuenew/new.html.twig', $this->parameters);		
+	}
+	
+	
+	
+	function newVenueJSON(Request $request, Application $app) {		
+		$venue = new VenueModel();
+		
+		$data = array();
+		if ('POST' == $request->getMethod()) {
+			if ($request->request->get('CSFRToken') == $app['websession']->getCSFRToken()) {
+			
+				$venue->setTitle($request->request->get('title'));
+				$venue->setDescription($request->request->get('description'));
+				if (intval($request->request->get('country'))) {
+					$venue->setCountryId(intval($request->request->get('country')));
+				}
+				
+				$venueRepository = new VenueRepository();
+				$venueRepository->create($venue, $app['currentSite'], $app['currentUser']);
+
+				$data['venue'] = array(
+						'id'=>$venue->getId(), 
+						'slug'=>$venue->getSlug(),
+						'title'=>$venue->getTitle()
+					);
+			}
+			
+		}
+		
+		$response = new Response(json_encode($data));
+		$response->headers->set('Content-Type', 'application/json');
+		return $response;
+
+	}
+	
+}
+
+

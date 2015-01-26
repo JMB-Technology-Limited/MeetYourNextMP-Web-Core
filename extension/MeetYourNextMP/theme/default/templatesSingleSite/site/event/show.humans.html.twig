@@ -1,0 +1,51 @@
+{#
+ # @package com.meetyournextmp
+ # @license Closed Source
+ # @copyright (c) 2013-2015, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% if humans|length > 0 %}
+	{% for human in humans %}
+		<div class="innerPageLeftRightTitle">
+			<p class="humanTitle">About <a href="/human/{{ human.slugForUrl }}">{{ human.title }}</a></p>
+		</div>
+		<div class="innerPageLeft">
+			<p class="humanDescription">{{ human.description | nl2br  | linkify }}</p>
+
+		</div>
+		<div class="innerPageRight">
+
+		</div>
+		<div class="afterInnerPageContent"></div>
+	{% endfor %}
+{% elseif humansToAdd|length > 0  and currentUserActions.has("org.openacalendar","eventEditHumans") %}
+	<div class="innerPageLeft">
+
+		<div class="highlightInfoBoxWrapper">
+			<div class="highlightInfoBoxTitle">Who is attending?</div>
+			<div class="highlightInfoBoxContent">
+				<p>We don't know which candidates are attending this event.</p>
+				<form action="/event/{{ event.slugForUrl }}/edit/humans" method="post" id="PushToChildAreaForm">
+					<input type="hidden" name="CSFRToken" value="{{ getCSFRToken() }}">
+					{%  for human in humansToAdd %}
+						<div>
+							<label>
+								<input type="checkbox" name="addHuman[]" value="{{  human.slug }}">
+								{{  human.title }}
+							</label>
+						</div>
+					{% endfor %}
+					<div>
+						<input type="submit" value="These candidates are attending">
+					</div>
+					<div>
+						<a href="/event/{{  event.slugForURL }}/edit/humans">Other candidates are attending</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="innerPageRight">
+	</div>
+	<div class="afterInnerPageContent"></div>
+{%  endif %}

@@ -1,0 +1,1080 @@
+/**
+ * @package Core
+ * @link http://ican.openacalendar.org/ OpenACalendar Open Source Software - Website
+ * @license http://ican.openacalendar.org/license.html 3-clause BSD
+ * @copyright (c) 2013-2014, JMB Technology Limited, http://jmbtechnology.co.uk/
+ * @author James Baster <james@jarofgreen.co.uk>
+*/
+
+
+
+
+
+form.styled {
+	.rowWrapper {
+		padding: 10px 0;
+		.labelWrapper {
+			padding: 0px 5px 0px 0px;
+			text-align: right;
+			display: block;
+			width: 20%;
+			float: left;
+		}
+		.widgetWrapper {
+			display: block;
+			width: 70%;
+			float: left;
+		}
+		.after {
+			clear: both;
+		}
+	}
+	input[type="text"] {
+		width: 80%; 
+	}
+	div.dateInput input[type="text"] {
+		width: 100px; 
+	}
+	input[type="url"] {
+		width: 80%; 
+	}
+	textarea { 
+		width: 80%; 
+		height: 100px;
+	}
+	ul.formErrors {
+		li {
+			margin: 5px 0;
+			background: #eb6c6c;
+			border: 2px solid #6f1818;
+			padding: 5px;
+		}
+	}
+	img.logo {
+		max-width: 60px;
+		max-height: 60px;
+	}
+	.widgetWrapperPlacementOnly {
+		display: block;
+		width: 70%;
+		float: left;
+	}
+	#Map {
+		width: 50%;
+		height: 200px;
+	}
+	p.information {
+		font-style: italic;
+		font-size: 0.8em;
+	}
+	.actionWrapperBig {
+		padding: 6px;
+		margin: 0;
+		line-height: 1.8;
+		text-align: right;
+		input[type="submit"] {
+			display: inline;
+			background: @colourLighter1;
+			padding: 3px;
+			-webkit-border-radius: 3px; /* Safari 3-4, iOS 1-3.2, Android <=1.6 */
+			border-radius: 3px; /* Opera 10.5, IE9, Safari 5, Chrome, Firefox 4+, iOS 4, Android 2.1+ */            
+			margin: 1px;
+			color: #333;
+			font-size: 1.20em;
+			text-decoration: none;
+		}
+		input[type="submit"]:hover {
+			color: black;
+			text-decoration: underline;
+		}
+	}
+
+}
+
+.oneActionFormRight {
+	float: right;
+	display: inline;
+	padding: 6px;
+	margin: 0;
+	line-height: 1.8;
+	text-align: right;
+	input[type="submit"], a.button {
+		display: inline;
+		background: @colourLighter1;
+		padding: 3px;
+		-webkit-border-radius: 3px; /* Safari 3-4, iOS 1-3.2, Android <=1.6 */
+		border-radius: 3px; /* Opera 10.5, IE9, Safari 5, Chrome, Firefox 4+, iOS 4, Android 2.1+ */
+		margin: 1px;
+		color: #333;
+		font-size: 1.20em;
+		text-decoration: none;
+	}
+	input[type="submit"]:hover, a.button:hover {
+		color: black;
+		text-decoration: underline;
+	}
+}
+.afterOneActionFormRight {
+	clear: both;
+}
+
+#Map.fullWidth {
+	width: 99%;
+	height: 400px;
+}
+
+.underTitleGroupListing {
+	padding: 5px 0;
+	li {
+		display: inline;
+		font-style: italic;
+		.title {
+			font-weight: bold;
+		}
+	}
+}
+
+
+
+ul.mainListGroups {
+	li.group {
+		margin: @listDataItemsMarginTopBottom @listDataItemsMarginLeftRightNarrowScreen;
+		border-bottom: 2px solid #E9E9E9;
+	}
+	li.nodata {
+		margin: @listDataItemsMarginTopBottom @listDataItemsMarginLeftRightNarrowScreen;
+		font-style: italic;
+	}
+}
+@media screen and (min-width: @narrowScreensMakeTwoColumnsIntoOneBoundary) {
+	ul.mainListGroups {
+		li.group, li.nodata {
+			margin: @listDataItemsMarginTopBottom @listDataItemsMarginLeftRightWideScreen;
+		}
+	}
+}
+
+ul.mainListGroups li.group, div.group {
+	min-height: 50px;
+	padding: 5px 0 20px 0;
+	.title {
+		font-size: 1.1em;
+		font-weight: bold;
+		padding: 2px 0;
+		a {
+			color: #333;
+			text-decoration: none;
+		}
+		a:hover {
+			color: black;
+			text-decoration: underline;
+		}
+	}
+	.media {
+		width: 100px;
+		height: 100px;
+		text-align: center;
+		vertical-align: middle;
+		float: right;
+		margin: 2px;
+		img {
+			max-width: 100px;
+			max-height: 100px;
+		}
+	}
+	.notfound {
+		text-align: center;
+		font-style: italic;
+	}
+	div.afterGroupListing {
+		clear: both;
+	}
+}
+
+@media screen and (max-width: @narrowScreensMakeTwoColumnsIntoOneBoundary) {
+	ul.mainListGroups li.group, div.group {
+		.media {
+			display: none;
+		}
+	}
+}
+
+ul.mainListCountries {
+	li.country {
+		margin: @listDataItemsMarginTopBottom @listDataItemsMarginLeftRightNarrowScreen;
+		border-bottom: 2px solid #E9E9E9;
+		.title {
+			font-size: 1.1em;
+			font-weight: bold;
+			padding: 2px 0;
+			a {
+				color: #333;
+				text-decoration: none;
+			}
+			a:hover {
+				color: black;
+				text-decoration: underline;
+			}
+		}
+	}
+}
+@media screen and (min-width: @narrowScreensMakeTwoColumnsIntoOneBoundary) {
+	ul.mainListCountries {
+		li.country {
+			margin: @listDataItemsMarginTopBottom @listDataItemsMarginLeftRightWideScreen;
+		}
+	}
+}
+
+ul.mainListVenues {
+	li.venue {
+		margin: @listDataItemsMarginTopBottom @listDataItemsMarginLeftRightNarrowScreen;
+		border-bottom: 2px solid #E9E9E9;
+		.title {
+			font-size: 1.1em;
+			font-weight: bold;
+			padding: 2px 0;
+			a {
+				color: #333;
+				text-decoration: none;
+			}
+			a:hover {
+				color: black;
+				text-decoration: underline;
+			}
+		}
+
+		.media {
+			width: 100px;
+			height: 100px;
+			text-align: center;
+			vertical-align: middle;
+			float: right;
+			margin: 2px;
+			img {
+				max-width: 100px;
+				max-height: 100px;
+			}
+		}
+		.afterVenueListing {
+			clear: both;
+		}
+	}
+	li.information {
+		text-align: center;
+		font-style: italic;
+		font-size: 1.3em;
+		line-height: 1.5em;
+	}
+	li.nodata {
+		margin: @listDataItemsMarginTopBottom @listDataItemsMarginLeftRightNarrowScreen;
+		font-style: italic;
+	}
+}
+@media screen and (min-width: @narrowScreensMakeTwoColumnsIntoOneBoundary) {
+	ul.mainListVenues {
+		li.venue, li.nodata {
+			margin: @listDataItemsMarginTopBottom @listDataItemsMarginLeftRightWideScreen;
+		}
+	}
+}
+
+@media screen and (max-width: @narrowScreensMakeTwoColumnsIntoOneBoundary) {
+	ul.mainListVenues li.venue {
+		.media {
+			display: none;
+		}
+	}
+}
+
+ul.selectvenue {
+	li.newvenue {
+		.newvenueform {
+			border: 1px solid #ccc;
+			.rounded-corners(2px);
+			padding: 5px;
+			label {
+				display: block;
+				input[type="text"] {
+					width: 50%;
+				}
+			}
+		}
+	}
+}
+
+ul.mainListImporturls {
+	li.importurl {
+		margin: @listDataItemsMarginTopBottom @listDataItemsMarginLeftRightNarrowScreen;
+		border-bottom: 2px solid #E9E9E9;
+		.title {
+			font-size: 1.1em;
+			font-weight: bold;
+			padding: 2px 0;
+			a {
+				color: #333;
+				text-decoration: none;
+			}
+			a:hover {
+				color: black;
+				text-decoration: underline;
+			}
+		}
+	}
+	li.nodata {
+		margin: @listDataItemsMarginTopBottom @listDataItemsMarginLeftRightNarrowScreen;
+		font-style: italic;
+	}
+}
+
+@media screen and (min-width: @narrowScreensMakeTwoColumnsIntoOneBoundary) {
+	ul.mainListImporturls {
+		li.importurl, li.nodata {
+			margin: @listDataItemsMarginTopBottom @listDataItemsMarginLeftRightWideScreen;
+		}
+	}
+}
+
+
+
+ul.mainListUserGroups {
+	li.userGroup {
+		margin: @listDataItemsMarginTopBottom @listDataItemsMarginLeftRightNarrowScreen;
+		border-bottom: 2px solid #E9E9E9;
+		.title {
+			font-size: 1.1em;
+			font-weight: bold;
+			padding: 2px 0;
+			a {
+				color: #333;
+				text-decoration: none;
+			}
+			a:hover {
+				color: black;
+				text-decoration: underline;
+			}
+		}
+	}
+	li.nodata {
+		margin: @listDataItemsMarginTopBottom @listDataItemsMarginLeftRightNarrowScreen;
+		font-style: italic;
+	}
+}
+
+@media screen and (min-width: @narrowScreensMakeTwoColumnsIntoOneBoundary) {
+	ul.mainListUserGroups {
+		li.userGroup, li.nodata {
+			margin: @listDataItemsMarginTopBottom @listDataItemsMarginLeftRightWideScreen;
+		}
+	}
+}
+
+
+
+ul.mainListTags {
+	li.tag {
+		margin: @listDataItemsMarginTopBottom @listDataItemsMarginLeftRightNarrowScreen;
+		border-bottom: 2px solid #E9E9E9;
+		.title {
+			font-size: 1.1em;
+			font-weight: bold;
+			padding: 2px 0;
+			a {
+				color: #333;
+				text-decoration: none;
+			}
+			a:hover {
+				color: black;
+				text-decoration: underline;
+			}
+		}
+		span.tagTitleWrapper {
+			font-size: 13pt;
+			background: url('/theme/default/img/tagBackground.png') no-repeat left center #4F4F4F;
+			white-space: nowrap;
+			.rounded-corners-right(2px);
+			padding: 2px 5px 2px 20px;
+			color: white;
+			a {
+				color: white;
+				text-decoration: none;
+			}
+		}
+	}
+	li.nodata {
+		margin: @listDataItemsMarginTopBottom @listDataItemsMarginLeftRightNarrowScreen;
+		font-style: italic;
+	}
+}
+@media screen and (min-width: @narrowScreensMakeTwoColumnsIntoOneBoundary) {
+	ul.mainListTags {
+		li.tag, li.nodata {
+			margin: @listDataItemsMarginTopBottom @listDataItemsMarginLeftRightWideScreen;
+		}
+	}
+}
+
+div.inlineTags {
+	ul.inlineTags {
+		display: inline;
+		padding: 20px 0;
+		font-weight: 200;
+		li.tag {
+			padding: 2px;
+			display: inline;
+			line-height: 1.8em;
+			span.content {
+				font-size: 13pt;
+				background: url('/theme/default/img/tagBackground.png') no-repeat left center #4F4F4F;
+				white-space: nowrap;
+				.rounded-corners-right(2px);
+				padding: 2px 5px 2px 20px;
+				color: white;
+				a {
+					color: white;
+					text-decoration: none;
+				}
+			}
+		}
+	}
+}
+
+table.data {
+	margin: 10px 20px;
+	tr th {
+		background: #ccc;
+		border-bottom: 1px solid black;
+		padding: 3px;
+		text-align: left;
+	}
+	tr {
+		background: #fff;       
+		td {
+			padding: 3px;
+		}
+	}
+	tr.alternative {
+		background: #ccc;       
+	}
+	tr.nodata {
+		background: #ccc;       
+		td {
+			font-style: italic;
+		}
+	}
+	div.buttonContainer {
+		padding: 6px;
+		margin: 0;
+	}
+	a.button {
+		border: 1px solid black;
+		background: white;
+		padding: 3px;
+		-webkit-border-radius: 3px; /* Safari 3-4, iOS 1-3.2, Android <=1.6 */
+		border-radius: 3px; /* Opera 10.5, IE9, Safari 5, Chrome, Firefox 4+, iOS 4, Android 2.1+ */            
+		margin: 1px;
+		color: black;
+		display: block;
+		text-decoration: none;
+	}
+	a.button:hover {
+		color: red;
+		text-decoration: underline;
+	}
+}
+
+ul.history {
+	li.event, li.group, li.venue, li.area, li.tag, li.importurl {
+		padding: 5px;
+		margin: 5px 0 5px 0;
+		.rounded-corners (5px);
+		div.dateTimeIcon {
+			float: left;
+			width: 60px;
+			height: 80px;
+			position: relative;
+			z-index: 100;
+			margin-right: 5px;
+			border: 2px solid #231f20;
+			.rounded-corners(4px);
+			div.dateIcon {
+				width: 60px;
+				height: 60px;
+				text-align: center;
+				background: #231f20;
+				.rounded-corners-bottom(2px);
+			}
+			div.timeIcon {
+				padding: 1px;
+				text-align: center;
+			}
+			span.deleted, span.cancelled {
+				padding-top: 5px;
+				display: block;
+				color: white;
+			}
+			span.startDay {
+				font-weight: 200;
+				padding-top: 5px;
+				display: block;
+				color: white;
+			}
+			span.startDate {
+				font-size: 16pt;
+				font-weight: 400;
+				display: block;
+				color: white;
+			}
+			span.startMonthYear {
+				font-weight: 200;
+				display: block;
+				font-size: 0.75em;
+				color: white;
+			}
+			span.startTime {
+				font-size: 11pt;
+				color: black;
+			}
+			a {
+				text-decoration: none;
+				span.startDay {
+					color: white;
+				}
+				span.startDate {
+					color: white;
+				}
+				span.startMonthYear {
+					color: white;
+				}
+				span.startTime {
+					color: black;
+				}
+			}
+		}
+
+		div.icon {
+			float: left;
+			width: 60px;
+			height: 60px;
+			text-align: center;
+			background: #231f20;
+			.rounded-corners(4px);
+			position: relative;
+			z-index: 100;
+			img {
+				padding: 10px;
+			}
+			margin-right: 5px;
+		}
+		.title {
+			font-weight: bold;
+			a {
+				color: black;
+				text-decoration: none;
+			}
+		}
+		.created {
+			padding: 5px 0 0 0;
+			clear:both;
+			font-style: italic;
+			font-size: 0.8em;
+		}
+		.fieldChanged {
+			.field {
+				display: inline;
+				font-style: italic;
+			}
+			.value {
+				display: inline;
+			}
+		}
+	}
+	li.event {
+		background: @colourHistoryEventBackground;
+	}
+	li.group {
+		background: @colourHistoryGroupBackground;
+	}
+	li.venue {
+		background: @colourHistoryVenueBackground;
+	}
+	li.area {
+		background: @colourHistoryAreaBackground;
+	}
+	li.tag {
+		background: @colourHistoryTagBackground;
+	}
+	li.importurl {
+		background: @colourHistoryImportURLBackground;
+	}
+	li.deleted {
+		text-color: @colourHistoryDeletedBackground;
+	}
+}
+
+#NewVenueForm {
+	form {
+		label {
+			display: block;
+		}
+	}
+}
+
+#MediaPopup {
+	.imageWrapper {
+		img {
+			max-width: 100%;
+		}
+	}
+	.title {
+		font-size: 1.1em;
+		font-weight: bold;
+		
+	}
+	.link {
+		text-align: right;
+	}
+	#MediaPopupContents {
+		a {
+			color: #333;
+			text-decoration: none;
+		}
+		a:hover {
+			color: black;
+			text-decoration: underline;
+		}
+	}
+}
+
+ul.newRecuringEvents li.newRecuringEvent {
+	margin-bottom: 10px;
+	padding: 5px;
+	background: #ddd;
+	.rounded-corners(5px);
+	.summary {
+		display: inline;
+		font-size: 1.0em;
+		font-weight: bold;
+		line-height: 1.25em;
+	}
+	.date {
+		clear: both;
+		margin-top: 10px;
+		display: block;
+		color: #ec2327;
+		font-weight: 400;
+		background: url('/theme/default/img/eventFooterCalendarIcon.png') no-repeat;
+		padding: 5px 10px 5px 20px;
+
+	}
+}
+
+
+.SendEmailPreview {
+	border: #555 2px solid;
+	background: #ddd;
+	margin: 10px 0;
+	.SendEmailPreviewHeader {
+		background: #ddd;
+		padding: 10px;
+		.SendEmailPreviewFieldKey {
+			font-weight: bold;
+		}
+	}
+	.SendEmailPreviewBody {
+		background: white;
+		padding: 10px;
+	}
+
+}
+
+.requestAccessWrapper {
+	.rounded-corners (5px);
+	padding: 10px;
+	background: #ddd;
+	.emailWarning{
+		font-style: italic;
+	}
+}
+
+#Map.fullScreen {
+		width: 90%;
+		height: 400px;
+	}
+
+#MapTimeControls {
+	input {
+		width: 75px;
+	}
+}
+#MapTimeDisplay .value {
+	display: inline;
+	padding: 2px 5px;
+	div {
+		display: inline;
+	}
+}
+ul.mapTimeEvents {
+	li {
+		width: 30%;
+		background: #dcc;
+		.rounded-corners(4px);
+		border: 2px solid black;
+		margin: 5px;
+		padding: 5px;
+		p.eventTitle {
+			margin: 2px 0;
+			padding: 0;
+			a {
+				color: #333;
+				text-decoration: none;
+			}
+			a:hover {
+				color: black;
+				text-decoration: underline;
+			}
+		}
+		p.venueTitle {
+			margin: 2px 0;
+			padding: 0;
+			font-style: italic;
+			text-align: right;
+		}
+	}
+}
+.afterMapTimeEvents { clear: both; }
+
+
+/** event is in common **/
+div.filterListGroupWrapper, div.filterListVenueWrapper {
+	padding: 5px 0;
+	margin: @listDataItemsFilterMarginTopBottom @listDataItemsFilterMarginLeftRightNarrowScreen;
+	form.filterListGroup , form.filterListVenue {
+		background: @colourLighter2;
+		padding: 10px;
+		div.inputField {
+			display: inline;
+			padding: 10px;
+		}
+		div.submitField {
+			display: inline;
+			padding: 10px;
+			input {
+				background: @colourLighter1;
+				color: black;
+				border: 2px solid @colourLighter1;
+				.rounded-corners(2px);
+				cursor:pointer;
+			}
+		}
+	}
+}
+@media screen and (min-width: @narrowScreensMakeTwoColumnsIntoOneBoundary) {
+	div.filterListGroupWrapper, div.filterListVenueWrapper  {
+		margin: @listDataItemsFilterMarginTopBottom @listDataItemsFilterMarginLeftRightWideScreen;
+	}
+}
+
+
+.bigButtonContainer {
+	padding: 6px;
+	margin: 0;
+	line-height: 1.8;
+	text-align: right;
+	a.button, input.button {
+		background: @colourLighter1;
+		padding: 3px;
+		-webkit-border-radius: 3px; /* Safari 3-4, iOS 1-3.2, Android <=1.6 */
+		border-radius: 3px; /* Opera 10.5, IE9, Safari 5, Chrome, Firefox 4+, iOS 4, Android 2.1+ */            
+		margin: 1px;
+		color: #333;
+		font-size: 1.20em;
+		text-decoration: none;
+	}
+	a.button:hover, input.button:hover {
+		color: black;
+		text-decoration: underline;
+	}
+}
+
+ul.mediaGrid {
+	li {
+		width: 100px;
+		height: 100px;
+		text-align: center;
+		vertical-align: middle;
+		float: left;
+		margin: 2px;
+		img {
+			max-width: 100px;
+			max-height: 100px;
+		}
+	}
+}
+.afterMediaGrid {
+	clear: left;
+}
+
+ul.mainListMedias {
+	li.media {
+		padding: 5px 0;
+		.thumbnail {
+			width: 70px;
+			height: 70px;
+			float: left;
+			margin: 2px;
+			img {
+				max-width: 70px;
+				max-height: 70px;
+			}
+		}
+		.title {
+			font-weight: bold;
+		}
+		div.afterMediaListing {
+			clear: both;
+		}
+	}
+}
+
+ul.areasList {
+	li.area {
+		border-bottom: 2px solid #E9E9E9;
+		.title {
+			font-size: 1.1em;
+			font-weight: bold;
+			padding: 2px 0;
+			a {
+				color: #333;
+				text-decoration: none;
+			}
+			a:hover {
+				color: black;
+				text-decoration: underline;
+			}
+		}
+	}
+}
+
+ul.areas {
+	padding: 20px 0;
+	font-weight: 200;
+	li.area {
+		padding: 2px;
+		display: inline;
+		line-height: 1.8em;
+		span.content {
+			font-size: 13pt;
+			background: url('/theme/default/img/areaBackground.png') no-repeat @colourDarker2;
+		}
+		span.contentWithEvents {
+			font-size: 13pt;
+			background: url('/theme/default/img/areaBackground.png') no-repeat @colourDarker2;
+		}
+		span.contentWithNoEvents {
+			font-size: 10pt;
+			background: url('/theme/default/img/areaBackground.png') no-repeat #676767;
+		}
+		span.content, span.contentWithEvents, span.contentWithNoEvents {
+			white-space: nowrap;
+			.rounded-corners(2px);
+			padding: 2px 5px 2px 20px;
+			color: white;
+			a {
+				color: white;
+				text-decoration: none;
+			}
+		}
+	}
+	li.information {
+		text-align: center;
+		font-style: italic;
+		font-size: 1.3em;
+		line-height: 1.5em;
+	}
+}
+
+ul.areasAdmin {
+	padding: 10px 5px 10px 20px;
+	font-weight: 200;
+	li.area {
+		padding: 2px;
+		span.content {
+			font-size: 13pt;
+			background: url('/theme/default/img/areaBackground.png') no-repeat @colourDarker2;
+		}
+		span.contentWithEvents {
+			font-size: 13pt;
+			background: url('/theme/default/img/areaBackground.png') no-repeat @colourDarker2;
+		}
+		span.contentWithNoEvents {
+			font-size: 10pt;
+			background: url('/theme/default/img/areaBackground.png') no-repeat @colourDarker2;
+		}
+		span.contentNew {
+			font-size: 10pt;
+			background: url('/theme/default/img/areaBackground.png') no-repeat #676767;
+		}
+		span.content, span.contentWithEvents, span.contentWithNoEvents, span.contentNew {
+			white-space: nowrap;
+			.rounded-corners(2px);
+			padding: 2px 2px 2px 20px;
+			color: white;
+			a {
+				color: white;
+				text-decoration: none;
+			}
+		}
+	}
+}
+
+#ChangeVenueAreaList, #ChangeEventAreaList, #ChangeAreaAreaList {
+	li.selectedarea {
+		padding: 10px 0;
+		.content {
+			background: url('/theme/default/img/areaBackground.png') no-repeat @colourDarker1;
+			.rounded-corners(2px);
+			padding: 2px 5px 2px 20px;
+			color: white;
+			a.remove {
+				padding-left: 10px; 
+				color: white;
+				text-decoration: none;
+			}
+		}
+	}
+}
+
+ul.mainListImportedEvents li.importedevent, div.importedevent {
+	border: 2px solid #E9E9E9;
+	background: #eeeeee;
+	.rounded-corners(5px);
+	margin: 10px 0;
+	padding: 5px;
+	div.dateTimeIcon {
+		float: left;
+		width: 60px;
+		height: 80px;
+		position: relative;
+		z-index: 100;
+		margin: 0 10px 10px 0;
+		border: 2px solid #555555;
+		.rounded-corners(1px);
+		div.dateIcon {
+			width: 60px;
+			height: 60px;
+			text-align: center;
+			background: #555555;
+		}
+		div.timeIcon {
+			padding: 1px;
+			text-align: center;
+		}
+		span.deleted, span.cancelled {
+			padding-top: 5px;
+			display: block;
+			color: white;
+		}
+		span.startDay {
+			font-weight: 200;
+			padding-top: 5px;
+			display: block;
+			color: white;
+		}
+		span.startDate {
+			font-size: 16pt;
+			font-weight: 400;
+			display: block;
+			color: white;
+		}
+		span.startMonthYear {
+			font-weight: 200;
+			display: block;
+			font-size: 0.75em;
+			color: white;
+		}
+		span.startTime {
+			font-size: 11pt;
+			color: black;
+		}
+		a {
+			text-decoration: none;
+			span.startDay {
+				color: white;
+			}
+			span.startDate {
+				color: white;
+			}
+			span.startMonthYear {
+				color: white;
+			}
+			span.startTime {
+				color: black;
+			}
+		}
+	}
+	div.title {
+		font-size: 16pt;
+		font-weight: bold;
+		line-height: 1.25em;
+		padding: 2px 0 10px 70px;
+		position: relative;
+		top: -5px;
+		color: #555555;
+		a {
+			color: #555;
+			text-decoration: none;
+		}
+		a:hover {
+			color: black;
+			text-decoration: underline;
+		}
+	}
+	p.description {
+		color: #555555;
+	}
+	.dateAndLocationWrapper {
+		clear: both;
+		padding: 10px 0 0 0;
+		margin-top: 10px;
+		div.date {
+			display: block;
+			color: #555;
+			font-weight: 400;
+			background: url('/theme/default/img/eventFooterCalendarIcon.png') no-repeat;
+			padding: 5px 10px 5px 20px;
+		}
+	}
+	div.afterEventListing {
+		clear: both;
+	}
+}
+
+
+div.filterListImportedEventWrapper {
+	padding: 5px 0;
+	form.filterListImportedEvent {
+		background: @colourLighter2;
+		padding: 10px;
+		div.inputField {
+			display: inline;
+			padding: 10px;
+		}
+		#importedEventListFilterFromWrapper {
+			input {
+				background: url('/theme/default/img/dateFilterBackground.png') no-repeat right white;
+			}
+		}
+		div.submitField {
+			display: inline;
+			padding: 10px;
+			input {
+				background: @colourDarker2;
+				color: white;
+				border: 2px solid @colourDarker2;
+				.rounded-corners(2px);
+				cursor:pointer;
+			}
+		}
+	}
+}

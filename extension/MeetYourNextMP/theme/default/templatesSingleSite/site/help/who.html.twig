@@ -1,0 +1,68 @@
+{#
+ # @package com.meetyournextmp
+ # @license Closed Source
+ # @copyright (c) 2013-2015, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% extends 'site/page.html.twig' %}
+
+
+{% block pageTitle %}Help us - who is attending? - {% endblock %}
+
+{% block breadcrumbs %}
+	{% if not config.isSingleSiteMode %}<li><a href="/">{{ currentSite.title }}</a></li>{% endif %}
+	<li><a href="/help">help us</a></li>
+	<li><a href="/help/who">who is attending?</a></li>
+
+{% endblock %}
+
+
+{% block content %}
+
+
+	<div id="innerPageWrapper">
+		<div id="innerPage">
+			<div class="innerPageLeft">
+				<h2>Help Us - Who is attending?</h2>
+
+				<p>For some events we have, we don't know who is attending. Can you help us by looking up who is attending?</p>
+
+				{%  if not currentUser %}
+
+					<p>First, quickly create a user account:</p>
+
+					<div class="bigButtonContainer">
+						<a  class="button" href="{{ config.getWebIndexDomainSecure() }}/you/login">Login</a>
+						<a  class="button" href="{{ config.getWebIndexDomainSecure() }}/you/register">Register</a>
+					</div>
+
+				{%  endif %}
+
+
+			</div>
+
+			<div class="innerPageRight">
+
+
+
+			</div>
+
+			<div class="afterInnerPageContent"></div>
+
+
+			<ul class="mainListEvents">
+				{% for event in events %}
+					{% include '/site/common/mainListEvent.html.twig' with {'event':event, 'showCurrentUserOptions':false, 'showVenueAndArea':false}  %}
+				{% else %}
+					<li class="nodata">
+						We know of candidates for all future events! Thanks :-D
+					</li>
+				{% endfor %}
+			</ul>
+
+			<div class="afterInnerPageContent"></div>
+
+		</div>
+	</div>
+
+{% endblock %}
