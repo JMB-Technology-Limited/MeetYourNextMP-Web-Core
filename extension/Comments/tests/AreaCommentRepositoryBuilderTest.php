@@ -82,50 +82,50 @@ class AreaCommentRepositoryBuilderTest extends \PHPUnit_Framework_TestCase {
 
 		$areaCommentRepoBuilder = new \org\openacalendar\comments\repositories\builders\AreaCommentRepositoryBuilder();
 		$areaCommentRepoBuilder->setArea($areaCentre, false, false);
-		$areas = $areaCommentRepoBuilder->fetchAll();
+		$areaComments = $areaCommentRepoBuilder->fetchAll();
 
-		$this->assertEquals(1, count($areas));
-		$this->assertEquals($commentCentre->getId(), $areas[0]->getId());
+		$this->assertEquals(1, count($areaComments));
+		$this->assertEquals($commentCentre->getId(), $areaComments[0]->getId());
 
 		##################################### Test Centre + Parents
 
 		$areaCommentRepoBuilder = new \org\openacalendar\comments\repositories\builders\AreaCommentRepositoryBuilder();
 		$areaCommentRepoBuilder->setArea($areaCentre, true, false);
-		$areas = $areaCommentRepoBuilder->fetchAll();
+		$areaComments = $areaCommentRepoBuilder->fetchAll();
 
-		$this->assertEquals(2, count($areas));
-		$this->assertEquals($commentParent->getId(), $areas[0]->getId());
-		$this->assertEquals($commentCentre->getId(), $areas[1]->getId());
+		$this->assertEquals(2, count($areaComments));
+		$this->assertEquals($commentParent->getId(), $areaComments[0]->getId());
+		$this->assertEquals($commentCentre->getId(), $areaComments[1]->getId());
 
 		##################################### Test Centre + Children
 
 		$areaCommentRepoBuilder = new \org\openacalendar\comments\repositories\builders\AreaCommentRepositoryBuilder();
 		$areaCommentRepoBuilder->setArea($areaCentre, false, true);
-		$areas = $areaCommentRepoBuilder->fetchAll();
+		$areaComments = $areaCommentRepoBuilder->fetchAll();
 
-		$this->assertEquals(2, count($areas));
-		$this->assertEquals($commentCentre->getId(), $areas[0]->getId());
-		$this->assertEquals($commentChild->getId(), $areas[1]->getId());
+		$this->assertEquals(2, count($areaComments));
+		$this->assertEquals($commentCentre->getId(), $areaComments[0]->getId());
+		$this->assertEquals($commentChild->getId(), $areaComments[1]->getId());
 
 		##################################### Test Centre + Parents + Children
 
 		$areaCommentRepoBuilder = new \org\openacalendar\comments\repositories\builders\AreaCommentRepositoryBuilder();
 		$areaCommentRepoBuilder->setArea($areaCentre, true, true);
-		$areas = $areaCommentRepoBuilder->fetchAll();
+		$areaComments = $areaCommentRepoBuilder->fetchAll();
 
-		$this->assertEquals(3, count($areas));
-		$this->assertEquals($commentParent->getId(), $areas[0]->getId());
-		$this->assertEquals($commentCentre->getId(), $areas[1]->getId());
-		$this->assertEquals($commentChild->getId(), $areas[2]->getId());
+		$this->assertEquals(3, count($areaComments));
+		$this->assertEquals($commentParent->getId(), $areaComments[0]->getId());
+		$this->assertEquals($commentCentre->getId(), $areaComments[1]->getId());
+		$this->assertEquals($commentChild->getId(), $areaComments[2]->getId());
 
 		##################################### Test Child + Children
 
 		$areaCommentRepoBuilder = new \org\openacalendar\comments\repositories\builders\AreaCommentRepositoryBuilder();
 		$areaCommentRepoBuilder->setArea($areaChild, false, true);
-		$areas = $areaCommentRepoBuilder->fetchAll();
+		$areaComments = $areaCommentRepoBuilder->fetchAll();
 
-		$this->assertEquals(1, count($areas));
-		$this->assertEquals($commentChild->getId(), $areas[0]->getId());
+		$this->assertEquals(1, count($areaComments));
+		$this->assertEquals($commentChild->getId(), $areaComments[0]->getId());
 
 	}
 
