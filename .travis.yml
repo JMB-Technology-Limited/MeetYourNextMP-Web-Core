@@ -1,0 +1,26 @@
+language: php
+php:
+  - "5.4"
+
+
+services: PostgreSQL
+
+before_script:
+  - composer install --dev --no-interaction
+  - psql -c 'create database mynmptest;' -U postgres
+  - echo "<?php" >> config.test.php
+  - echo "\$CONFIG->isDebug = false;" >> config.test.php
+  - echo "\$CONFIG->databaseName = 'mynmptest';" >> config.test.php
+  - echo "\$CONFIG->databaseHost = 'localhost';" >> config.test.php
+  - echo "\$CONFIG->databaseUser = 'postgres';" >> config.test.php
+  - echo "\$CONFIG->databasePassword = '';" >> config.test.php
+  - echo "\$CONFIG->extensions = array('CuratedLists','Contact','MeetYourNextMP');" >> config.test.php
+
+script: phpunit --coverage-clover build/logs/clover.xml  --configuration core/tests/phpunit.xml
+
+
+after_script:
+  - php vendor/satooshi/php-coveralls/composer/bin/coveralls -v
+
+
+
