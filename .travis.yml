@@ -16,4 +16,4 @@ before_script:
   - echo "\$CONFIG->databasePassword = '';" >> config.test.php
   - echo "\$CONFIG->extensions = array('AddressCodeGBOpenCodePoint','CuratedLists','Contact','Comments','MeetYourNextMP');" >> config.test.php
 
-script: phpunit   --configuration core/tests/phpunit.xml
+script: phpunit   --configuration core/tests/phpunit.mynmp.xml
