@@ -100,7 +100,7 @@ class AreaCommentRepositoryBuilder extends BaseRepositoryBuilder {
 		$sql = "SELECT ".implode(",", $this->select)." FROM area_comment_information ".
 			implode(" ",$this->joins).
 				($this->where?" WHERE ".implode(" AND ", $this->where):"").
-				" ORDER BY area_comment_information.created_at ASC LIMIT ".$this->limit;
+				" ORDER BY area_comment_information.created_at ASC ".($this->limit > 0 ? " LIMIT ".$this->limit : "");
 
 		//print $sql;
 		//var_dump($this->params);
