@@ -14,7 +14,7 @@ use repositories\UserAccountRepository;
  * @author James Baster <james@jarofgreen.co.uk>
  */
 
-class EventRepositoryBuilderTest extends \PHPUnit_Framework_TestCase {
+class MYNMPEventRepositoryBuilderTest extends \PHPUnit_Framework_TestCase {
 
 
 	public function mktime($year=2012, $month=1, $day=1, $hour=0, $minute=0, $second=0, $timeZone='Europe/London') {
