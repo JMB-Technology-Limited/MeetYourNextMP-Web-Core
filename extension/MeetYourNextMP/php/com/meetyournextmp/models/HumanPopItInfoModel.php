@@ -25,6 +25,9 @@ class HumanPopItInfoModel  {
 	protected $facebook;
 	protected $twitter;
 
+	protected $image_url;
+	protected $image_proxy_url;
+
 	public function setFromDataBaseRow($data) {
 		$this->id = $data['id'];
 		$this->human_id = $data['human_id'];
@@ -38,6 +41,8 @@ class HumanPopItInfoModel  {
 		$this->birth_date = $data['birth_date'];
 		$this->facebook = $data['facebook'];
 		$this->twitter = $data['twitter'];
+		$this->image_proxy_url = $data['image_proxy_url'];
+		$this->image_url = $data['image_url'];
 	}
 
 	/**
@@ -248,6 +253,38 @@ class HumanPopItInfoModel  {
 	public function getTwitter()
 	{
 		return $this->twitter;
+	}
+
+	/**
+	 * @param mixed $image_proxy_url
+	 */
+	public function setImageProxyUrl($image_proxy_url)
+	{
+		$this->image_proxy_url = $image_proxy_url;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getImageProxyUrl()
+	{
+		return $this->image_proxy_url;
+	}
+
+	/**
+	 * @param mixed $image_url
+	 */
+	public function setImageUrl($image_url)
+	{
+		$this->image_url = $image_url;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getImageUrl()
+	{
+		return $this->image_url;
 	}
 
 

@@ -106,6 +106,8 @@ class ImportPopItHumansTask extends \BaseTask {
 
 					$facebook = null;
 					$twitter = null;
+					$imageURL = null;
+					$imageProxyURL = null;
 
 					if (isset($humanObj->links)) {
 						foreach($humanObj->links as $linkData) {
@@ -121,6 +123,13 @@ class ImportPopItHumansTask extends \BaseTask {
 							if ($linkDataArray['type'] == 'twitter') {
 								$twitter = $linkDataArray['value'];
 							}
+						}
+					}
+					if (isset($humanObj->images)) {
+						foreach($humanObj->images as $imageData) {
+							$imageDataArray = get_object_vars($imageData);
+							$imageProxyURL = $imageDataArray['proxy_url'];
+							$imageURL = $imageDataArray['url'];
 						}
 					}
 
@@ -161,6 +170,8 @@ class ImportPopItHumansTask extends \BaseTask {
 						}
 						$humanPopItInfo->setFacebook($facebook);
 						$humanPopItInfo->setTwitter($twitter);
+						$humanPopItInfo->setImageUrl($imageURL);
+						$humanPopItInfo->setImageProxyUrl($imageProxyURL);
 
 						$humanPopItInfoRepo->edit($humanPopItInfo);
 
@@ -190,6 +201,9 @@ class ImportPopItHumansTask extends \BaseTask {
 						}
 						$humanPopItInfo->setFacebook($facebook);
 						$humanPopItInfo->setTwitter($twitter);
+						$humanPopItInfo->setImageUrl($imageURL);
+						$humanPopItInfo->setImageProxyUrl($imageProxyURL);
+						
 						$humanPopItInfoRepo->create($humanPopItInfo);
 
 

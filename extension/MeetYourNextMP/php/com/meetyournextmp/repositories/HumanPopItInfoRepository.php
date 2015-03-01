@@ -34,8 +34,8 @@ class HumanPopItInfoRepository {
 			$DB->beginTransaction();
 
 
-			$stat = $DB->prepare("INSERT INTO human_popit_information (human_id,popit_id,name,mapit_id,gender_female,gender_male,email,party,birth_date,facebook,twitter) ".
-				"VALUES (:human_id,:popit_id,:name,:mapit_id,:gender_female,:gender_male,:email,:party,:birth_date,:facebook,:twitter) RETURNING id");
+			$stat = $DB->prepare("INSERT INTO human_popit_information (human_id,popit_id,name,mapit_id,gender_female,gender_male,email,party,birth_date,facebook,twitter,image_url,image_proxy_url) ".
+				"VALUES (:human_id,:popit_id,:name,:mapit_id,:gender_female,:gender_male,:email,:party,:birth_date,:facebook,:twitter,:image_url,:image_proxy_url) RETURNING id");
 			$stat->execute(array(
 				'human_id'=>$humanPopItInfoModel->getHumanId(),
 				'popit_id'=>$humanPopItInfoModel->getPopitId(),
@@ -48,6 +48,8 @@ class HumanPopItInfoRepository {
 				'birth_date'=>$humanPopItInfoModel->getBirthDate(),
 				'facebook'=>$humanPopItInfoModel->getFacebook(),
 				'twitter'=>$humanPopItInfoModel->getTwitter(),
+				'image_url'=>$humanPopItInfoModel->getImageUrl(),
+				'image_proxy_url'=>$humanPopItInfoModel->getImageProxyUrl(),
 			));
 
 			$DB->commit();
@@ -65,7 +67,7 @@ class HumanPopItInfoRepository {
 
 			$stat = $DB->prepare("UPDATE human_popit_information SET ".
 				" name=:name,  mapit_id=:mapit_id , gender_female=:gender_female, gender_male=:gender_male, email=:email,  ".
-				"  party=:party, birth_date=:birth_date,facebook=:facebook, twitter=:twitter ".
+				"  party=:party, birth_date=:birth_date,facebook=:facebook, twitter=:twitter, image_url=:image_url, image_proxy_url=:image_proxy_url  ".
 				"WHERE id=:id");
 			$stat->execute(array(
 				'id'=>$humanPopItInfoModel->getId(),
@@ -78,6 +80,8 @@ class HumanPopItInfoRepository {
 				'birth_date'=>$humanPopItInfoModel->getBirthDate(),
 				'facebook'=>$humanPopItInfoModel->getFacebook(),
 				'twitter'=>$humanPopItInfoModel->getTwitter(),
+				'image_url'=>$humanPopItInfoModel->getImageUrl(),
+				'image_proxy_url'=>$humanPopItInfoModel->getImageProxyUrl(),
 			));
 
 			$DB->commit();
