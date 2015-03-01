@@ -78,6 +78,7 @@ $CONFIG->googleAnalyticsTracking = "UA-59188723-1";
 //$CONFIG->tmpFileCacheCreationPermissions = 0733;
 
 $CONFIG->logFile = '/var/log/meetyournextmp/meetyournextmp.log';
+$CONFIG->logFileMYNMPPostCodeSearch = '/var/log/meetyournextmp/meetyournextmpPostcodeSearch.log';
 $CONFIG->logFileParseDateTimeRange = '/var/log/meetyournextmp/meetyournextmpParseDateTimeRange.log';
 
 $CONFIG->sysAdminTimeZone = "Europe/London";

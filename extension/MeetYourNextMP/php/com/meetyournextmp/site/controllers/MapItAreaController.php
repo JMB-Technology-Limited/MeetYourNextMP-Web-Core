@@ -28,6 +28,7 @@ class MapItAreaController  {
 
 		$postcodeParser = new PostcodeParser($postcode);
 		if (!$postcodeParser->isValid()) {
+			$this->logPostcodeSearch($app, $postcode, false, array("Parser says not valid"));
 			$app['flashmessages']->addMessage('That does not look like a valid postcode!');
 			return $app->redirect('/');
 		}
@@ -40,6 +41,7 @@ class MapItAreaController  {
 			$memcachedConnection->addServer($app['config']->memcachedServer, $app['config']->memcachedPort);
 			$url = $memcachedConnection->get($postcodeParser->getCanonical());
 			if ($url) {
+				$this->logPostcodeSearch($app, $postcode, true, array("From Cache"));
 				return $app->redirect($url.$urlExtra);
 			}
 		}
@@ -55,6 +57,7 @@ class MapItAreaController  {
 		curl_close($ch);
 
 		if ($response['http_code'] != 200) {
+			$this->logPostcodeSearch($app, $postcode, false, array("not 200 response from API"));
 			$app['flashmessages']->addMessage('Sorry, we had a problem with the postcode API!');
 			return $app->redirect('/');
 		}
@@ -65,6 +68,7 @@ class MapItAreaController  {
 
 
 		if (!$mapItId) {
+			$this->logPostcodeSearch($app, $postcode, false, array("No mapidid"));
 			$app['flashmessages']->addMessage('Sorry, we did not find your seat in the data!');
 			return $app->redirect('/');
 		}
@@ -73,6 +77,7 @@ class MapItAreaController  {
 		$areaMapIdInfo = $repo->getByMapItID($mapItId);
 
 		if (!$areaMapIdInfo) {
+			$this->logPostcodeSearch($app, $postcode, false, array("no areaid"));
 			$app['flashmessages']->addMessage('Sorry, we did not find your seat in the database!');
 			return $app->redirect('/');
 		}
@@ -81,6 +86,7 @@ class MapItAreaController  {
 		$area = $repo->loadById($areaMapIdInfo->getAreaId());
 
 		if (!$area) {
+			$this->logPostcodeSearch($app, $postcode, false, array("no area"));
 			$app['flashmessages']->addMessage('Sorry, we did not find your area in the database!');
 			return $app->redirect('/');
 		}
@@ -89,8 +95,19 @@ class MapItAreaController  {
 			$memcachedConnection->set($postcodeParser->getCanonical(), '/area/'.$area->getSlugForUrl(), 60*60*24*30);
 		}
 
+		$this->logPostcodeSearch($app, $postcode, true, array("Cached"));
 		return $app->redirect('/area/'.$area->getSlugForUrl().$urlExtra);
 
+	}
+
+	protected function logPostcodeSearch(Application $app, $search, $result, $rest) {
+		if (isset($app['config']->logFileMYNMPPostCodeSearch) && $app['config']->logFileMYNMPPostCodeSearch) {
+			$handle = fopen($app['config']->logFileMYNMPPostCodeSearch, "a");
+			$now = \TimeSource::getDateTime();
+			$data = array_merge(array($now->format("c"), $search, $result ? "YES":"NO"), $rest);
+			fputcsv($handle, $data);
+			fclose($handle);
+		}
 	}
 
 	protected function findAreaForLinkToSeat(Request $request, Application $app) {
