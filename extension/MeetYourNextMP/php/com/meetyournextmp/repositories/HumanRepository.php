@@ -39,12 +39,15 @@ class HumanRepository {
 			$data = $stat->fetch();
 			$human->setSlug($data['c'] + 1);
 			
-			$stat = $DB->prepare("INSERT INTO human_information (site_id, slug, title,description,created_at,approved_at, is_deleted) ".
-					"VALUES (:site_id, :slug, :title, :description, :created_at,:approved_at, '0') RETURNING id");
+			$stat = $DB->prepare("INSERT INTO human_information (site_id, slug, title,description,created_at,approved_at, is_deleted, email, twitter, image_url) ".
+					"VALUES (:site_id, :slug, :title, :description, :created_at,:approved_at, '0', :email, :twitter, :image_url) RETURNING id");
 			$stat->execute(array(
 					'site_id'=>$site->getId(), 
 					'slug'=>$human->getSlug(),
 					'title'=>substr($human->getTitle(),0,VARCHAR_COLUMN_LENGTH_USED),
+					'twitter'=>substr($human->getTwitter(),0,VARCHAR_COLUMN_LENGTH_USED),
+					'email'=>substr($human->getEmail(),0,VARCHAR_COLUMN_LENGTH_USED),
+					'image_url'=>$human->getImageUrl(),
 					'description'=>$human->getDescription(),
 					'created_at'=>\TimeSource::getFormattedForDataBase(),
 					'approved_at'=>\TimeSource::getFormattedForDataBase(),
@@ -52,11 +55,14 @@ class HumanRepository {
 			$data = $stat->fetch();
 			$human->setId($data['id']);
 			
-			$stat = $DB->prepare("INSERT INTO human_history (human_id, title, description, user_account_id  , created_at, approved_at, is_new, is_deleted) VALUES ".
-					"(:human_id, :title, :description, :user_account_id  , :created_at, :approved_at, '1', '0')");
+			$stat = $DB->prepare("INSERT INTO human_history (human_id, title, description, user_account_id  , created_at, approved_at, is_new, is_deleted, email, twitter, image_url) VALUES ".
+					"(:human_id, :title, :description, :user_account_id  , :created_at, :approved_at, '1', '0', :email, :twitter, :image_url)");
 			$stat->execute(array(
 					'human_id'=>$human->getId(),
 					'title'=>substr($human->getTitle(),0,VARCHAR_COLUMN_LENGTH_USED),
+					'twitter'=>substr($human->getTwitter(),0,VARCHAR_COLUMN_LENGTH_USED),
+					'email'=>substr($human->getEmail(),0,VARCHAR_COLUMN_LENGTH_USED),
+					'image_url'=>$human->getImageUrl(),
 					'description'=>$human->getDescription(),
 					'user_account_id'=>($creator?$creator->getId():null),
 					'created_at'=>\TimeSource::getFormattedForDataBase(),
@@ -104,7 +110,7 @@ class HumanRepository {
 		try {
 			$DB->beginTransaction();
 
-			$fields = array('title','description','is_deleted');
+			$fields = array('title','description','is_deleted','email','twitter','image_url');
 			$human->setIsDeleted(false);
 			$this->humanDBAccess->update($human, $fields, $user);
 			

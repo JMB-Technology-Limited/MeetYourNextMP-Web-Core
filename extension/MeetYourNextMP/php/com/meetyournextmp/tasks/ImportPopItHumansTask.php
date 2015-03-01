@@ -149,10 +149,18 @@ class ImportPopItHumansTask extends \BaseTask {
 							$this->logVerbose(" - Undeleting existing Human record");
 							$humanRepo->undelete($human);
 						}
-						if ($human->getTitle() != $humanObj->name || $description != $human->getDescription()) {
+						if ($human->getTitle() != $humanObj->name ||
+							$description != $human->getDescription() ||
+							$human->getEmail() != $humanObj->email ||
+							$human->getTwitter() != $twitter ||
+							$human->getImageUrl() != $imageURL) {
+
 							$this->logVerbose(" - Updating existing Human record");
 							$human->setTitle($humanObj->name);
 							$human->setDescription($description);
+							$human->setEmail($humanObj->email);
+							$human->setTwitter($twitter);
+							$human->setImageUrl($imageURL);
 							$humanRepo->edit($human);
 						}
 
@@ -182,6 +190,10 @@ class ImportPopItHumansTask extends \BaseTask {
 						$human = new \com\meetyournextmp\models\HumanModel();
 						$human->setTitle($humanObj->name);
 						$human->setDescription($description);
+						$human->setEmail($humanObj->email);
+						$human->setTwitter($twitter);
+						$human->setImageUrl($imageURL);
+
 						$humanRepo->create($human, $site);
 
 						$humanPopItInfo = new \com\meetyournextmp\models\HumanPopItInfoModel();
@@ -203,7 +215,7 @@ class ImportPopItHumansTask extends \BaseTask {
 						$humanPopItInfo->setTwitter($twitter);
 						$humanPopItInfo->setImageUrl($imageURL);
 						$humanPopItInfo->setImageProxyUrl($imageProxyURL);
-						
+
 						$humanPopItInfoRepo->create($humanPopItInfo);
 
 

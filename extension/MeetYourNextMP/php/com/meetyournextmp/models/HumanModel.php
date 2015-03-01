@@ -18,6 +18,9 @@ class HumanModel  {
 	protected $title;
 	protected $description;
 	protected $is_deleted;
+	protected $twitter;
+	protected $email;
+	protected $image_url;
 
 	public function setFromDataBaseRow($data) {
 		$this->id = $data['id'];
@@ -26,6 +29,9 @@ class HumanModel  {
 		$this->title = $data['title'];
 		$this->description = $data['description'];
 		$this->is_deleted = $data['is_deleted'];
+		$this->twitter = $data['twitter'];
+		$this->email = $data['email'];
+		$this->image_url = $data['image_url'];
 	}
 
 	public function getId() {
@@ -93,6 +99,54 @@ class HumanModel  {
 
 	public function setIsDeleted($is_deleted) {
 		$this->is_deleted = $is_deleted;
+	}
+
+	/**
+	 * @param mixed $email
+	 */
+	public function setEmail($email)
+	{
+		$this->email = $email;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getEmail()
+	{
+		return $this->email;
+	}
+
+	/**
+	 * @param mixed $image_url
+	 */
+	public function setImageUrl($image_url)
+	{
+		$this->image_url = $image_url;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getImageUrl()
+	{
+		return $this->image_url;
+	}
+
+	/**
+	 * @param mixed $twitter
+	 */
+	public function setTwitter($twitter)
+	{
+		$this->twitter = $twitter;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getTwitter()
+	{
+		return $this->twitter;
 	}
 
 

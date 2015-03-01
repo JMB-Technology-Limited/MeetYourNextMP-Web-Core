@@ -29,7 +29,7 @@ class HumanDBAccess {
 		$this->timesource = $timesource;
 	}
 
-	protected $possibleFields = array('title','description','is_deleted');
+	protected $possibleFields = array('title','description','is_deleted','email','twitter','image_url');
 
 
 	public function update(HumanModel $human, $fields, UserAccountModel $user = null ) {
@@ -44,6 +44,12 @@ class HumanDBAccess {
 				$fieldsParams1['title'] = substr($human->getTitle(),0,VARCHAR_COLUMN_LENGTH_USED);
 			} else if ($field == 'description') {
 				$fieldsParams1['description'] = $human->getDescription();
+			} else if ($field == 'email') {
+				$fieldsParams1['email'] = $human->getEmail();
+			} else if ($field == 'twitter') {
+				$fieldsParams1['twitter'] = $human->getTwitter();
+			} else if ($field == 'image_url') {
+				$fieldsParams1['image_url'] = $human->getImageUrl();
 			} else if ($field == 'is_deleted') {
 				$fieldsParams1['is_deleted'] = ($human->getIsDeleted()?1:0);
 			}
@@ -66,6 +72,12 @@ class HumanDBAccess {
 					$fieldsParams2['title'] = substr($human->getTitle(),0,VARCHAR_COLUMN_LENGTH_USED);
 				} else if ($field == 'description') {
 					$fieldsParams2['description'] = $human->getDescription();
+				} else if ($field == 'image_url') {
+					$fieldsParams2['image_url'] = $human->getImageUrl();
+				} else if ($field == 'email') {
+					$fieldsParams2['email'] = $human->getEmail();
+				} else if ($field == 'twitter') {
+					$fieldsParams2['twitter'] = $human->getTwitter();
 				} else if ($field == 'is_deleted') {
 					$fieldsParams2['is_deleted'] = ($human->getIsDeleted()?1:0);
 				}
