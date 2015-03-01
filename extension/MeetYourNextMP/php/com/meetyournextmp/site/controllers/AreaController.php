@@ -33,5 +33,44 @@ class AreaController extends \site\controllers\AreaController {
 		return $app['twig']->render('site/area/humans.html.twig', $this->parameters);
 	}
 
+	function tweetHumans($slug, Request $request, Application $app) {
+
+		if (!$this->build($slug, $request, $app)) {
+			$app->abort(404, "Area does not exist.");
+		}
+
+		$trb = new HumanRepositoryBuilder();
+		$trb->setSite($app['currentSite']);
+		$trb->setIncludeDeleted(false);
+		$trb->setArea($this->parameters['area']);
+		$trb->setLimit(200);
+		$this->parameters['humans'] = $trb->fetchAll();
+
+		$tweet = "";
+		foreach($this->parameters['humans'] as $human) {
+			if ($human->getTwitter()) {
+				$tweet .= '@'. $human->getTwitter().' ';
+			}
+		}
+
+		$tweet .= 'Could you add your #ge2015 events to '.
+			'https://'.$app['config']->webIndexDomain.'/area/'.$this->parameters['area']->getSlugForURL();
+
+		if ($tweet) {
+
+			$url = 'https://twitter.com/intent/tweet?text='.urlencode($tweet);
+			return $app->redirect($url);
+
+		} else {
+
+			// TODO better?
+			return $app['twig']->render('site/area/humans.html.twig', $this->parameters);
+
+		}
+
+
+
+	}
+
 
 }

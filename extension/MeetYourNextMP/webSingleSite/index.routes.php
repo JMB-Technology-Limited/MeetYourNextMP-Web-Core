@@ -44,3 +44,6 @@ $app->match('/help/',"com\meetyournextmp\site\controllers\HelpController::index"
 $app->match('/help/who',"com\meetyournextmp\site\controllers\HelpController::indexWho");
 
 $app->match('/help/noeventsseat',"com\meetyournextmp\site\controllers\HelpController::indexNoEventsSeat");
+
+$app->match('/area/{slug}/tweetToCandidates', "com\meetyournextmp\site\controllers\AreaController::tweetHumans")
+		->assert('slug', FRIENDLY_SLUG_REGEX);;
