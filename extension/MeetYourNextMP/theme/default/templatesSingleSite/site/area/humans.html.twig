@@ -22,6 +22,9 @@
 	<ul class="mainListHumans">
 		{% for human in humans %}
 			<li class="human">
+				{% if human.imageUrl %}
+					<img src="{{ human.imageUrl }}" class="image" alt="{{ human.title }} image">
+				{% endif %}
 				<div class="title"><a href="/human/{{ human.slugForURL }}">{{ human.title }}</a></div>
 				{{ human.description | nl2br | linkify }}
 				<div class="afterHumanListing"></div>

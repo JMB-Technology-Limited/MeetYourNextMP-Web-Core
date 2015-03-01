@@ -33,7 +33,7 @@ ul.mainListHumans {
 	}
 }
 
-ul.mainListHumans li.human {
+.mainShowHuman, ul.mainListHumans li.human {
 	min-height: 50px;
 	padding: 5px 0 20px 0;
 	.title {
@@ -49,6 +49,12 @@ ul.mainListHumans li.human {
 			text-decoration: underline;
 		}
 	}
+	img.image {
+		max-width: 100px;
+		max-height: 100px;
+		float: left;
+		padding: 5px;
+	}
 	.notfound {
 		text-align: center;
 		font-style: italic;
@@ -59,18 +65,25 @@ ul.mainListHumans li.human {
 }
 
 
-.mainShowEvent .humanTitle {
-	font-weight: bold;
-	font-size: 0.8em;
-	a {
-		color: black;
-		text-decoration: none;
+.mainShowEvent {
+	.humanImage {
+		max-width: 100px;
+		max-height: 100px;
+		float: left;
+		padding: 5px;
 	}
-	a:hover {
-		text-decoration: underline;
+	.humanTitle {
+		font-weight: bold;
+		font-size: 0.8em;
+		a {
+			color: black;
+			text-decoration: none;
+		}
+		a:hover {
+			text-decoration: underline;
+		}
 	}
 }
-
 
 
 

@@ -21,7 +21,12 @@
 {% block innerContent %}
 
 	<div class="mainShowHuman">
+
 		<div class="innerPageLeft">
+			{% if human.imageUrl %}
+				<img src="{{ human.imageUrl }}" class="image" alt="{{ human.title }} image">
+			{% endif %}
+
 			<p>{{ human.description | nl2br  | linkify }}</p>
 		</div>
 

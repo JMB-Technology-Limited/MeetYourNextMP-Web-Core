@@ -2936,29 +2936,48 @@ ul.mainListHumans li.nodata {
     margin: 5px 50px;
   }
 }
+.mainShowHuman,
 ul.mainListHumans li.human {
   min-height: 50px;
   padding: 5px 0 20px 0;
 }
+.mainShowHuman .title,
 ul.mainListHumans li.human .title {
   font-size: 1.1em;
   font-weight: bold;
   padding: 2px 0;
 }
+.mainShowHuman .title a,
 ul.mainListHumans li.human .title a {
   color: #333;
   text-decoration: none;
 }
+.mainShowHuman .title a:hover,
 ul.mainListHumans li.human .title a:hover {
   color: black;
   text-decoration: underline;
 }
+.mainShowHuman img.image,
+ul.mainListHumans li.human img.image {
+  max-width: 100px;
+  max-height: 100px;
+  float: left;
+  padding: 5px;
+}
+.mainShowHuman .notfound,
 ul.mainListHumans li.human .notfound {
   text-align: center;
   font-style: italic;
 }
+.mainShowHuman div.afterHumanListing,
 ul.mainListHumans li.human div.afterHumanListing {
   clear: both;
+}
+.mainShowEvent .humanImage {
+  max-width: 100px;
+  max-height: 100px;
+  float: left;
+  padding: 5px;
 }
 .mainShowEvent .humanTitle {
   font-weight: bold;
