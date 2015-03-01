@@ -114,7 +114,9 @@
 					{% if currentUserActions.has("org.openacalendar","eventNew") or ( currentUser is null and anyVerifiedUserActions.has("org.openacalendar","eventNew") ) %}
 						<p>Do you know of any events? <a href="/event/new">Please help us by adding them!</a></p>
 
-						<p>Or could you <a href="/area/{{ area.slugForUrl }}/tweetToCandidates">Tweet your candidates asking them what events they are attending?</a></p>
+						{%  if childAreas|length == 0 %}
+							<p>Or could you <a href="/area/{{ area.slugForUrl }}/tweetToCandidates">Tweet your candidates asking them what events they are attending?</a></p>
+						{% endif %}
 					{% endif %}
 
 
