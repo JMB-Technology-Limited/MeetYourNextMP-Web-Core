@@ -81,9 +81,19 @@
 					<p>{{ human.description | nl2br | linkify }}</p>
 				</li>
 			{% else %}
-				<li>
-					No humans found to add.
+				<li class="nodata">
+					No candidates found to add.
 				</li>
+
+				{%  if filterLimitToArea and filterFreeTextSearch %}
+					<li class="nodata">
+						You are searching in {{ area.title }} only.
+						<a href="/event/{{  event.slugForURL }}/edit/humans?limitToArea=no&freeTextSearch={{ filterFreeTextSearch | e('url') }}">
+							Do you want to search for "{{ filterFreeTextSearch }}" anywhere instead?
+						</a>
+					</li>
+				{%  endif %}
+
 			{% endfor %}
 		</ul>
 
