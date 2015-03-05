@@ -115,7 +115,15 @@
 						<p>Do you know of any events? <a href="/event/new">Please help us by adding them!</a></p>
 
 						{%  if childAreas|length == 0 %}
-							<p>Or could you <a href="/area/{{ area.slugForUrl }}/tweetToCandidates">Tweet your candidates asking them what events they are attending?</a></p>
+
+							<div class="highlightInfoBoxWrapper">
+								<div class="highlightInfoBoxTitle">Ask the candidates?</div>
+								<div class="highlightInfoBoxContent">
+
+									Could you <a href="/area/{{ area.slugForUrl }}/tweetToCandidates">Tweet your candidates asking them what events they are attending?</a>
+								</div>
+							</div>
+
 						{% endif %}
 					{% endif %}
 
