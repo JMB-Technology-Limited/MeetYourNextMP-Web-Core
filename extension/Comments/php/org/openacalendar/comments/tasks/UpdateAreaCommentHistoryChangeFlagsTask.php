@@ -27,8 +27,7 @@ class UpdateAreaCommentHistoryChangeFlagsTask extends \BaseTask {
 	}
 
 	public function getShouldRunAutomaticallyNow() {
-		return $this->app['config']->taskUpdateAreaHistoryChangeFlagsAutomaticUpdateInterval > 0 &&
-		$this->getLastRunEndedAgoInSeconds() > $this->app['config']->taskUpdateAreaHistoryChangeFlagsAutomaticUpdateInterval;
+		return $this->getLastRunEndedAgoInSeconds() > 1800; // 30 mins
 	}
 
 	protected function run() {
