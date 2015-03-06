@@ -51,4 +51,20 @@
 	<div class="innerPageRight">
 	</div>
 	<div class="afterInnerPageContent"></div>
+{% elseif currentUser is null and anyVerifiedUserActions.has("org.openacalendar","eventNew") and not event.isInPast %}
+	<div class="innerPageLeft">
+		<div class="highlightInfoBoxWrapper">
+			<div class="highlightInfoBoxTitle">Who is attending?</div>
+			<div class="highlightInfoBoxContent">
+				<p>We don't know which candidates are attending this event. Can you create an account and let everyone know?</p>
+				<div class="bigButtonContainer">
+					<a  class="button" href="{{ config.getWebIndexDomainSecure() }}/you/login">Login</a>
+					<a  class="button" href="{{ config.getWebIndexDomainSecure() }}/you/register">Register</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="innerPageRight">
+	</div>
+	<div class="afterInnerPageContent"></div>
 {%  endif %}
