@@ -48,7 +48,8 @@ class AddHumansContentToEventShowPage extends \BaseAddContentToEventShowPage {
 
 		if (count($out['humans']) == 0
 			&& $this->app['currentUserActions']->has("org.openacalendar","eventEditDetails") &&
-			$this->parameters['area']) {
+			$this->parameters['area'] &&
+			!$this->parameters['event']->isInPast()) {
 
 				$trb = new HumanRepositoryBuilder();
 				$trb->setSite($this->app['currentSite']);
