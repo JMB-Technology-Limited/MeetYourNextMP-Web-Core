@@ -6,6 +6,7 @@ use org\openacalendar\comments\models\AreaCommentHistoryModel;
 use org\openacalendar\comments\newsfeedmodels\AreaCommentHistoryNewsFeedModel;
 use org\openacalendar\comments\repositories\AreaCommentHistoryRepository;
 use org\openacalendar\comments\repositories\builders\HistoryRepositoryBuilder;
+use org\openacalendar\comments\repositories\EventCommentHistoryRepository;
 use org\openacalendar\comments\userpermissions\CommentsChangeUserPermission;
 use Silex\Application;
 
@@ -40,6 +41,7 @@ class ExtensionComments extends \BaseExtension {
 	public function getTasks() {
 		return array(
 			new \org\openacalendar\comments\tasks\UpdateAreaCommentHistoryChangeFlagsTask($this->app),
+			new \org\openacalendar\comments\tasks\UpdateEventCommentHistoryChangeFlagsTask($this->app),
 		);
 	}
 
@@ -75,6 +77,9 @@ class ExtensionComments extends \BaseExtension {
 	public function makeSureHistoriesAreCorrect( $interfaceHistoryModel) {  // @TODO InterfaceHistoryModel type!!!!!!
 		if ($interfaceHistoryModel instanceof \org\openacalendar\comments\models\AreaCommentHistoryModel) {
 			$repo = new AreaCommentHistoryRepository();
+			$repo->ensureChangedFlagsAreSet($interfaceHistoryModel);
+		} else if ($interfaceHistoryModel instanceof \org\openacalendar\comments\models\EventCommentHistoryModel) {
+			$repo = new EventCommentHistoryRepository();
 			$repo->ensureChangedFlagsAreSet($interfaceHistoryModel);
 		}
 	}
