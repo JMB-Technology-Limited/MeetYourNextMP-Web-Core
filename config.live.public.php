@@ -122,4 +122,7 @@ $CONFIG->userNameReserved = array('james','jamesbaster','admin','doubtlesshouse'
 $CONFIG->memcachedServer = '127.0.0.1';
 $CONFIG->memcachedPort = '11211';
 
+$CONFIG->formWidgetTimeMinutesMultiples = 5;
+
+
 
