@@ -25,9 +25,10 @@
 		<div id="innerPage">
 
 			<div class="innerPageLeft">
-				<p>We want to help everyone meet their candidates and make an informed choice at the UK general election. We list events and hustings that:</p>
+				<p>We want to help everyone meet their candidates and make an informed choice at the UK general election.</p>
 
-				{%  include 'eventRules.html.twig' %}
+				<p>We list independent events and hustings only, as we believe such events are more likely to promote frank
+					and full debate and are more informative for voters.</p>
 
 				<p>
 					{% if currentUserActions.has("org.openacalendar","eventNew") or ( currentUser is null and anyVerifiedUserActions.has("org.openacalendar","eventNew") ) %}

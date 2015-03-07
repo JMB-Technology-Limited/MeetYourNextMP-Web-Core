@@ -2922,6 +2922,9 @@ ul.usernotifications li.usernotificationunread a.title {
 .popupBox .afterMediaGrid {
   clear: left;
 }
+strong {
+  font-weight: bold;
+}
 ul.mainListHumans li.human {
   margin: 5px 5px;
   border-bottom: 2px solid #E9E9E9;
