@@ -112,19 +112,22 @@
 					<p>No events found.</p>
 
 					{% if currentUserActions.has("org.openacalendar","eventNew") or ( currentUser is null and anyVerifiedUserActions.has("org.openacalendar","eventNew") ) %}
-						<p>Do you know of any events? <a href="/event/new">Please help us by adding them!</a></p>
 
-						{%  if childAreas|length == 0 %}
+						<div class="highlightInfoBoxWrapper">
+							<div class="highlightInfoBoxTitle">Can you help?</div>
+							<div class="highlightInfoBoxContent">
 
-							<div class="highlightInfoBoxWrapper">
-								<div class="highlightInfoBoxTitle">Ask the candidates?</div>
-								<div class="highlightInfoBoxContent">
+								<p>Do you know of any events? <a href="/event/new">Please help us by adding them!</a></p>
 
-									Could you <a href="/area/{{ area.slugForUrl }}/tweetToCandidates">Tweet your candidates asking them what events they are attending?</a>
-								</div>
+								{%  if childAreas|length == 0 %}
+
+										<p>Or could you <a href="/area/{{ area.slugForUrl }}/tweetToCandidates">Tweet your candidates asking them what events they are attending?</a></p>
+
+								{% endif %}
+
 							</div>
+						</div>
 
-						{% endif %}
 					{% endif %}
 
 
