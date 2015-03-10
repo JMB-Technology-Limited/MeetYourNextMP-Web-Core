@@ -79,7 +79,7 @@ class HumanEmailModel  {
 			$message = \Swift_Message::newInstance();
 			$message->setSubject($this->subject);
 			$message->setFrom(array($app['config']->emailFrom => $app['config']->emailFromName));
-			$message->setTo("james@jarofgreen.co.uk"); // TODO TESTING $this->email);
+			$message->setTo($this->email);
 			$message->setBody($this->body_text);
 			$message->addPart($this->body_html,'text/html');
 
