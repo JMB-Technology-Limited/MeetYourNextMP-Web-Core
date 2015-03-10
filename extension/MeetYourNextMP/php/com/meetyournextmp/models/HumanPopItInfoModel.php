@@ -208,16 +208,17 @@ class HumanPopItInfoModel  {
 	/**
 	 * @return mixed
 	 */
-	public function setGenderMaleFromString($in)
+	public function setGenderFromString($in)
 	{
 		$in = strtolower(trim($in));
-		if ($in == 'male') {
+		if ($in == 'male' || substr($in, 0, 3) == "man") {
 			$this->gender_male = true;
 			$this->gender_female = false;
-		} else if ($in == "female") {
+		} else if ($in == "female" || substr($in, 0, 3) == "woman") {
 			$this->gender_male = false;
 			$this->gender_female = true;
 		} else {
+			// not sure yet if any non-CIS candidates are standing but just in case
 			$this->gender_male = false;
 			$this->gender_female = false;
 		}
