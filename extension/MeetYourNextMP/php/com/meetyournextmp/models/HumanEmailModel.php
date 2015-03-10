@@ -41,19 +41,20 @@ class HumanEmailModel  {
 
 		$this->human_id = $humanModel->getId();
 		$this->email = $humanModel->getEmail();
-		$this->subject = "SUBJECT";
+		$this->subject = "Can you tell voters which husting events you are attending?";
 
 		$eventRepoBuilder = new EventRepositoryBuilder();
 		$eventRepoBuilder->setIncludeDeleted(false);
 		$eventRepoBuilder->setIncludeCancelled(false);
 		$eventRepoBuilder->setAfterNow();
 		$eventRepoBuilder->setArea($areaModel);
-		$events = $eventRepoBuilder;
+		$events = $eventRepoBuilder->fetchAll();
 
 		$this->body_html = $app['twig']->render('email/humanEmail.html.twig', array(
 			'human'=>$humanModel,
 			'area'=>$areaModel,
 			'events'=>$events,
+			'email'=>$this->email,
 		));
 		if ($app['config']->isDebug) file_put_contents('/tmp/humanEmail.html', $this->body_html);
 
@@ -61,6 +62,7 @@ class HumanEmailModel  {
 			'human'=>$humanModel,
 			'area'=>$areaModel,
 			'events'=>$events,
+			'email'=>$this->email,
 		));
 		if ($app['config']->isDebug) file_put_contents('/tmp/humanEmail.txt', $this->body_text);
 
@@ -77,7 +79,7 @@ class HumanEmailModel  {
 			$message = \Swift_Message::newInstance();
 			$message->setSubject($this->subject);
 			$message->setFrom(array($app['config']->emailFrom => $app['config']->emailFromName));
-			$message->setTo($this->email);
+			$message->setTo("james@jarofgreen.co.uk"); // TODO TESTING $this->email);
 			$message->setBody($this->body_text);
 			$message->addPart($this->body_html,'text/html');
 

@@ -8,9 +8,40 @@
 
 {% block content %}
 
-	<p>Hello {{ human.title }}</p>
+	<p>Dear {{ human.title }} {{ email }}</p>
 
+	<p><a href="https://meetyournextmp.com">MeetYourNextMP</a> is a non-partisan website that lists husting events.
+		We then make these listings available to the public and anyone else who wants to use them for free. </p>
 
+	<p>In this way, we help people be better informed about their candidates and encourage them to get involved
+		in local and national politics.</p>
 
+	{%  if events|length > 0 %}
+
+		<p>For {{ area.title }}, we know of these hustings:</p>
+
+		{% for event in events %}
+			<p>{{ event.getStartAt|tolocaltimeformatted('D jS M', 'Europe/London') }} - <a href="https://meetyournextmp.com/event/{{  event.slugForURL }}">{{  event.summaryDisplay }}</a></p>
+		{%  endfor %}
+
+		<p><b>Are you attending any other hustings? Or can you give us any more information on those hustings?</b></p>
+
+	{%  else %}
+
+		<p><b>For {{  area.title }},
+			we don’t know of any hustings. Are you attending any hustings?</b></p>
+
+	{%  endif %}
+
+	<p>Anyone <a href="https://meetyournextmp.com/event/new">can make a user account and add hustings to our site using our simple web process</a>.</p>
+
+	<p>(Please note we are looking for independent husting events only.)</p>
+
+	<p>Please <a href="https://meetyournextmp.com/contact">do get in touch</a> if you have any questions or any feedback - you can simply hit reply.</p>
+
+	<p>Thank you,<br>
+		James Baster of MeetYourNextMP.</p>
+
+	<p>(This site is supported by the non-partisan <a href="https://democracyclub.org.uk/">Democracy Club</a>.)</p>
 
 {% endblock %}

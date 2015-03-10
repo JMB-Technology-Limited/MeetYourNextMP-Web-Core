@@ -28,7 +28,7 @@ configureAppForSite($site);
 // Get Human
 $stat = $DB->prepare("SELECT human_information.* FROM human_information ".
 		" LEFT JOIN human_email ON human_email.human_id = human_information.id ".
-		" WHERE human_information.email IS NOT NULL AND human_email.id IS NULL".
+		" WHERE human_information.email IS NOT NULL AND human_information.email != '' AND human_email.id IS NULL".
 		" LIMIT 1");
 $stat->execute();
 if ($stat->rowCount() == 0) {
@@ -62,7 +62,7 @@ $repo->create($email);
 
 // send email
 
-//$email->send($app);
+$email->send($app);
 
 // record sent
 $repo->markSent($email);
