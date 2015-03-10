@@ -126,3 +126,4 @@ $CONFIG->formWidgetTimeMinutesMultiples = 5;
 
 
 
+$CONFIG->findDuplicateEventsNoMatchSummary = array('husting','hustings');

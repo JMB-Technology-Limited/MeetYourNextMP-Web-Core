@@ -124,7 +124,7 @@ class EventNewController {
 
 					$handle = fopen($app['config']->logFileParseDateTimeRange, "a");
 					$now = \TimeSource::getDateTime();
-					var_dump(fputcsv($handle, array(
+					fputcsv($handle, array(
 						'Site',
 						$app['currentSite']->getId(),
 						$app['currentSite']->getSlug(),
@@ -145,7 +145,7 @@ class EventNewController {
 						'Got End UTC',
 						$parseEnd->format("c"),
 						($success ? 'SUCCESS' : 'FAIL'),
-					)));
+					));
 					fclose($handle);
 				}
 
@@ -192,8 +192,13 @@ class EventNewController {
 				$event->setAreaId($params['area']->getId());
 			}
 
-			$searchForDuplicateEvents = new SearchForDuplicateEvents($event, $app['currentSite'], 
-					$app['config']->findDuplicateEventsShow, $app['config']->findDuplicateEventsThreshhold);
+			$searchForDuplicateEvents = new SearchForDuplicateEvents(
+				$event,
+				$app['currentSite'],
+				$app['config']->findDuplicateEventsShow,
+				$app['config']->findDuplicateEventsThreshhold,
+				is_array($app['config']->findDuplicateEventsNoMatchSummary) ? $app['config']->findDuplicateEventsNoMatchSummary : array()
+			);
 			$searchForDuplicateEvents->setNotDuplicateSlugs($notDuplicateSlugs);
 
 			$timeZone = new \DateTimeZone($event->getTimezone());
