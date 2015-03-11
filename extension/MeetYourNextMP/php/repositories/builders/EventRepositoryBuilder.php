@@ -418,7 +418,8 @@ class EventRepositoryBuilder extends BaseRepositoryBuilder {
 						// area
 
 						" LEFT JOIN meetyournextmp_event_in_area  ON meetyournextmp_event_in_area.event_id = event_information.id ".
-						" LEFT JOIN user_watches_area_information ON user_watches_area_information.area_id = meetyournextmp_event_in_area.area_id".
+						" LEFT JOIN user_watches_area_information ON user_watches_area_information.area_id = meetyournextmp_event_in_area.area_id ".
+							"AND user_watches_area_information.user_account_id = :user_account_id AND user_watches_area_information.is_watching='1' ".
 
 						// humans in area
 
