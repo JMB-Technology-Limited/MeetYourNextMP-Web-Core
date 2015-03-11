@@ -31,7 +31,7 @@ $CONFIG->bcryptRounds = 5;
 
 $CONFIG->siteTitle = "Meet Your Next MP";
 
-$CONFIG->emailFrom = "hello@meetyournextmp.com";
+$CONFIG->emailFrom = "meetyournextmp@democracyclub.org.uk";
 $CONFIG->emailFromName = "Meet Your Next MP";
 
 $CONFIG->copyrightNoticeText = "Copyright JMB Technology ltd 2013-2015";
@@ -45,8 +45,8 @@ $CONFIG->siteReadOnly = false;
 $CONFIG->siteReadOnlyReason = null;
 
 $CONFIG->contactTwitter = "MeetYourNextMP";
-$CONFIG->contactEmail = "hello@meetyournextmp.com";
-$CONFIG->contactEmailHTML = "hello at meetyournextmp dot com";
+$CONFIG->contactEmail = "meetyournextmp@democracyclub.org.uk";
+$CONFIG->contactEmailHTML = "meetyournextmp at democracyclub dot org dot uk";
 //$CONFIG->facebookPage="https://www.facebook.com/OpenTechCalendar";
 //$CONFIG->googlePlusPage="https://plus.google.com/103293012309251213262";
 //$CONFIG->ourBlog= "http://blog.opentechcalendar.co.uk/";
@@ -127,3 +127,8 @@ $CONFIG->formWidgetTimeMinutesMultiples = 5;
 
 
 $CONFIG->findDuplicateEventsNoMatchSummary = array('husting','hustings');
+
+
+$CONFIG->SMTPHost="email-smtp.eu-west-1.amazonaws.com";
+$CONFIG->SMTPEncyption="tls";
+
