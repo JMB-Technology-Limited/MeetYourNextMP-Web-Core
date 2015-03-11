@@ -45,8 +45,12 @@ class EventController extends \site\controllers\EventController {
 				}
 				
 			}
-		
-		
+
+
+			if ($request->request->get("returnTo") == 'event') {
+				return $app->redirect("/event/". $this->parameters['event']->getSlugforURL());
+			}
+
 		}
 		
 		$trb = new HumanRepositoryBuilder();

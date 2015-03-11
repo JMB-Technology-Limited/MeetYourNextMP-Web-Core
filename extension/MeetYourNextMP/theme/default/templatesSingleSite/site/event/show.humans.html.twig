@@ -30,6 +30,7 @@
 				<p>We don't know which candidates are attending this event.</p>
 				<form action="/event/{{ event.slugForUrl }}/edit/humans" method="post" id="PushToChildAreaForm">
 					<input type="hidden" name="CSFRToken" value="{{ getCSFRToken() }}">
+					<input type="hidden" name="returnTo" value="event">
 					{%  for human in humansToAdd %}
 						<div>
 							<label>
