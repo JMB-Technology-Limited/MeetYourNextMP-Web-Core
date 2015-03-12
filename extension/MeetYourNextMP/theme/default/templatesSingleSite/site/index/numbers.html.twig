@@ -26,11 +26,31 @@
 
 			<p>Total Events: {{  data.countEventsTotal }}</p>
 
-			<p>In the past: {{  data.countEventsBeforeNow  }}</p>
+			<p>Events in the past: {{  data.countEventsBeforeNow  }}</p>
 
-			<p>In the Future: {{  data.countEventsAfterNow  }}</p>
+			<p>Events in the Future: {{  data.countEventsAfterNow  }}</p>
 
+			<h3>Events about ...</h3>
 
+			<p>Events about Greater London: {{  data.countEventsInGreaterLondon }}</p>
+
+			<p>Events about England (inc Greater London): {{  data.countEventsInEngland }}</p>
+
+			<p>Events about Scotland: {{  data.countEventsInScotland }}</p>
+
+			<p>Events about Wales: {{  data.countEventsInWales }}</p>
+
+			<p>Events about Northern Ireland: {{  data.countEventsInNIreland }}</p>
+
+			<h3>We sit in all the seats during musical chairs ...</h3>
+
+			<p>Seats about which we don't know of a single event: {{ data.countSeatsWithNoEvents }}
+				{% if currentUserActions.has("org.openacalendar","eventNew") or ( currentUser is null and anyVerifiedUserActions.has("org.openacalendar","eventNew") ) %}
+					{%  if data.countSeatsWithNoEvents > 100 %}(<a href="/help/noeventsseat">Can you help us with this?</a>){%  endif %}
+				{% endif %}
+			</p>
+
+			<p>(We know of events for {{ 650 -  data.countSeatsWithNoEvents }} seats)</p>
 
 		</div>
 	</div>
