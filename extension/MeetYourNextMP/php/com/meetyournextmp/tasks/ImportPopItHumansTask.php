@@ -202,7 +202,7 @@ class ImportPopItHumansTask extends \BaseTask {
 						$humanPopItInfo->setMapitId($mapItID);
 						$humanPopItInfo->setName($humanObj->name);
 						if (isset($humanObj->gender)) {
-							$humanPopItInfo->setGenderMaleFromString($humanObj->gender);
+							$humanPopItInfo->setGenderFromString($humanObj->gender);
 						}
 						if (isset($humanObj->email)) {
 							$humanPopItInfo->setEmail($humanObj->email);
