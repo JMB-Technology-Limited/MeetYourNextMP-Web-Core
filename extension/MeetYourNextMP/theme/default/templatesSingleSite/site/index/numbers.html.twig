@@ -1,0 +1,39 @@
+{#
+ # @package com.meetyournextmp
+ # @license Closed Source
+ # @copyright (c) 2013-2015, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% extends 'site/page.html.twig' %}
+
+
+{% block pageTitle %}Numbers - {% endblock %}
+
+{% block htmlHeader %}
+	<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+{% endblock %}
+
+{% block breadcrumbs %}
+	<li class="current"><a href="/numbers">numbers</a></li>
+{% endblock %}
+
+{% block content %}
+
+	<div id="innerPageWrapper">
+		<div id="innerPage">
+
+			<h3>Numbers</h3>
+
+			<p>Total Events: {{  data.countEventsTotal }}</p>
+
+			<p>In the past: {{  data.countEventsBeforeNow  }}</p>
+
+			<p>In the Future: {{  data.countEventsAfterNow  }}</p>
+
+
+
+		</div>
+	</div>
+
+{% endblock %}
+

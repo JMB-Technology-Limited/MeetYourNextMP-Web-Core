@@ -31,6 +31,17 @@ class IndexController {
 
 
 
+	function numbers(Application $app) {
+
+		$data = json_decode(file_get_contents(APP_ROOT_DIR.DIRECTORY_SEPARATOR.'cache'.DIRECTORY_SEPARATOR.'numbers.json'));
+
+		return $app['twig']->render('site/index/numbers.html.twig', array(
+			'data'=>$data,
+		));
+	}
+
+
+
 }
 
 

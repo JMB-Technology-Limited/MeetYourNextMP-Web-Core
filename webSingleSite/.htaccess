@@ -46,5 +46,7 @@ RewriteRule  ^seat(.*)$ /index.php/seat  [L]
 RewriteRule  ^help(.*)$ /index.php/help  [L]
 RewriteRule  ^formedia$ /index.php/formedia  [L]
 RewriteRule  ^formedia/$ /index.php/formedia  [L]
+RewriteRule  ^numbers /index.php/numbers  [L]
+RewriteRule  ^numbers/$ /index.php/numbers  [L]
 
 ErrorDocument 404 /404.php
