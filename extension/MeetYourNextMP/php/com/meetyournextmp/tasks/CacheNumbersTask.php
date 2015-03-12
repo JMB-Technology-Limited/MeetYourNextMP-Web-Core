@@ -4,6 +4,7 @@ namespace com\meetyournextmp\tasks;
 use com\meetyournextmp\models\HumanPopItInfoModel;
 use com\meetyournextmp\repositories\builders\EventRepositoryBuilder;
 use com\meetyournextmp\repositories\HumanRepository;
+use repositories\AreaRepository;
 
 /**
  *
@@ -56,6 +57,24 @@ class CacheNumbersTask extends \BaseTask {
 		$erb->setSite($site);
 		$erb->setAfterNow();
 		$out['countEventsAfterNow'] = count($erb->fetchAll());
+
+		$arb = new \com\meetyournextmp\repositories\builders\AreaRepositoryBuilder();
+		$arb->setIsMapItAreaOnly(true);
+		$arb->setIncludeDeleted(false);
+		$arb->setIncludeAreasWithNoEventsOnly(true);
+		$arb->setLimit(800);
+		$out['countSeatsWithNoEvents'] = count($arb->fetchAll());
+
+		$areaRepo = new AreaRepository();
+
+		foreach(array(3=>'countEventsInScotland',1=>'countEventsInEngland',2=>'countEventsInWales',4=>'countEventsInNIreland',712=>'countEventsInGreaterLondon') as $areaSlug=>$key) {
+			$erb = new EventRepositoryBuilder();
+			$erb->setIncludeDeleted(false);
+			$erb->setIncludeCancelled(false);
+			$erb->setSite($site);
+			$erb->setArea($areaRepo->loadBySlug($site, $areaSlug));
+			$out[$key] = count($erb->fetchAll());
+		}
 
 		file_put_contents(APP_ROOT_DIR.DIRECTORY_SEPARATOR.'cache'.DIRECTORY_SEPARATOR.'numbers.json', json_encode($out));
 
