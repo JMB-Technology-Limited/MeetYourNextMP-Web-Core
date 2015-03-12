@@ -2,6 +2,7 @@
 
 namespace com\meetyournextmp;
 use com\meetyournextmp\import\ImportCBTIElectionsHandler;
+use com\meetyournextmp\reports\valuereports\NonDeletedNonCancelledEventsStartAtReport;
 use com\meetyournextmp\repositories\AreaMapItInfoRepository;
 use models\VenueModel;
 use repositories\AreaRepository;
@@ -126,10 +127,16 @@ class ExtensionMeetYourNextMP extends \BaseExtension {
 	public function getTasks() {
 		return array(
 			new \com\meetyournextmp\tasks\ImportPopItHumansTask($this->app),
+			new \com\meetyournextmp\tasks\CacheNumbersTask($this->app),
 		);
 	}
 
 
+	public function getValueReports() {
+		return array(
+			new NonDeletedNonCancelledEventsStartAtReport(),
+		);
+	}
 
 	public function getImportURLHandlers() {
 		return array(
