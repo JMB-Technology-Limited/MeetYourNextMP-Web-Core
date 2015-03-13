@@ -101,6 +101,19 @@
 		<div class="innerPageLeft">
 
 
+			{% if currentUserActions.has("org.openacalendar","eventEditPushToChildAreas") %}
+				<div class="highlightInfoBoxWrapper">
+					<div class="highlightInfoBoxTitle">Where is this?</div>
+					<div class="highlightInfoBoxContent">
+						<p>Is {% if venue %}"{{ venue.title }}"{% else %}this{% endif %} in one of these places? It is important we know so we can help people find events local to them.</p>
+						<form action="/event/{{ event.slugForUrl }}/moveToArea" method="post" id="PushToChildAreaForm">
+							{%  include 'site/common/pushToChildArea.html.twig' %}
+						</form>
+					</div>
+				</div>
+			{% endif %}
+
+
 			{% if event.isdeleted %}
 				<div class="dateTimeIcon">
 					<div class="dateIcon">
@@ -331,17 +344,6 @@
 						{% include 'site/common/eventLocationLine.html.twig' %}
 					</div>
 
-					{% if currentUserActions.has("org.openacalendar","eventEditPushToChildAreas") %}
-						<div class="highlightInfoBoxWrapper">
-							<div class="highlightInfoBoxTitle">Where is this?</div>
-							<div class="highlightInfoBoxContent">
-								<p>Is {% if venue %}"{{ venue.title }}"{% else %}this{% endif %} in one of these places?</p>
-								<form action="/event/{{ event.slugForUrl }}/moveToArea" method="post" id="PushToChildAreaForm">
-									{%  include 'site/common/pushToChildArea.html.twig' %}
-								</form>
-							</div>
-						</div>
-					{% endif %}
 
 				</div>
 				<div class="innerPageRight">
