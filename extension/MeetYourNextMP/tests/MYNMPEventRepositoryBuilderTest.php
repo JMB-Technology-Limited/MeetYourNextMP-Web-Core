@@ -14,8 +14,13 @@ use repositories\UserAccountRepository;
  * @author James Baster <james@jarofgreen.co.uk>
  */
 
-class MYNMPEventRepositoryBuilderTest extends \PHPUnit_Framework_TestCase {
+class MYNMPEventRepositoryBuilderTest extends BaseAppWithDBTest {
 
+
+	function __construct()
+	{
+		$this->extensions = array('MeetYourNextMP');
+	}
 
 	public function mktime($year=2012, $month=1, $day=1, $hour=0, $minute=0, $second=0, $timeZone='Europe/London') {
 		$dt = new \DateTime('', new \DateTimeZone($timeZone));
@@ -27,8 +32,7 @@ class MYNMPEventRepositoryBuilderTest extends \PHPUnit_Framework_TestCase {
 
 	function testEventInNoAreaHumanInCentre() {
 
-		$DB = getNewTestDB();
-		addCountriesToTestDB();
+		$this->addCountriesToTestDB();
 
 		TimeSource::mock(2014,5,1,7,0,0);
 
@@ -53,7 +57,7 @@ class MYNMPEventRepositoryBuilderTest extends \PHPUnit_Framework_TestCase {
 		$site->setSlug("test");
 
 		$siteRepo = new SiteRepository();
-		$siteRepo->create($site, $user, array(), getSiteQuotaUsedForTesting());
+		$siteRepo->create($site, $user, array(), $this->getSiteQuotaUsedForTesting());
 
 		$countryRepo = new \repositories\CountryRepository();
 		$gb = $countryRepo->loadByTwoCharCode("GB");

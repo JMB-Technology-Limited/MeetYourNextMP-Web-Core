@@ -12,13 +12,18 @@ use repositories\UserAccountRepository;
  * @author James Baster <james@jarofgreen.co.uk>
  */
 
-class AreaCommentRepositoryBuilderTest extends \PHPUnit_Framework_TestCase {
+class AreaCommentRepositoryBuilderTest extends BaseAppWithDBTest{
 
+
+	function __construct()
+	{
+		$this->extensions = array('Comments');
+	}
 
 	function testParentChildSearches() {
 
-		$DB = getNewTestDB();
-		addCountriesToTestDB();
+
+		$this->addCountriesToTestDB();
 
 		TimeSource::mock(2014,5,1,7,0,0);
 
@@ -35,7 +40,7 @@ class AreaCommentRepositoryBuilderTest extends \PHPUnit_Framework_TestCase {
 		$site->setSlug("test");
 
 		$siteRepo = new SiteRepository();
-		$siteRepo->create($site, $user, array(), getSiteQuotaUsedForTesting());
+		$siteRepo->create($site, $user, array(), $this->getSiteQuotaUsedForTesting());
 
 		$countryRepo = new \repositories\CountryRepository();
 		$gb = $countryRepo->loadByTwoCharCode("GB");
