@@ -156,7 +156,7 @@ function loadSearchResults() {
 			$('#AreaList').html(html);
 			$('#VenueNewWrapper form input[name="fieldTitle"]').val($('#TitleField').val());
 			$('#VenueNewWrapper form input[name="fieldAddress"]').val($('#AddressField').val());
-			$('#VenueNewWrapper form input[name="fieldArea"]').val($('#AreaField').val());
+			$('#VenueNewWrapper form input[name="fieldAreaSearchText"]').val($('#AreaField').val());
 			$('#VenueNewWrapper form input[name="fieldAddressCode"]').val($('#AddressCodeField').val());
 			$('#VenueNewWrapper form input[name="fieldAreaSlug"]').val(data.searchAreaSlug);
 		}
