@@ -823,7 +823,6 @@ class EventController {
 				}
 			}
 
-
 			// Free text search string passed that only has 1 result?
 			if (!$this->parameters['fieldAreaObject'] && $this->parameters['fieldAreaSearchText']) {
 				$arb = new AreaRepositoryBuilder();
@@ -831,11 +830,11 @@ class EventController {
 				$arb->setCountry($this->parameters['country']);
 				$arb->setFreeTextSearch($this->parameters['fieldAreaSearchText']);
 				$arb->setIncludeParentLevels(1);
-				$this->parameters['areasToSearch'] = $arb->fetchAll();
-				if (count($this->parameters['areasToSearch']) == 1) {
-					$this->parameters['fieldAreaObject'] = $this->parameters['areasToSearch'][0];
+				$this->parameters['areasToSelectSearch'] = $arb->fetchAll();
+				if (count($this->parameters['areasToSelectSearch']) == 1) {
+					$this->parameters['fieldAreaObject'] = $this->parameters['areasToSelectSearch'][0];
 				}
-				}
+			}
 
 		}
 

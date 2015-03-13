@@ -65,7 +65,7 @@
 					<a href="#" onclick="clearArea(); return false;">Clear</a>
 					<input type="hidden" name="fieldAreaSlug" value="{{ fieldAreaObject.slug  }}">
 				{%  else %}
-					<input type="text" name="fieldArea"  id="AreaField" value="{{ fieldAreaSearchText | e('html_attr') }}">
+					<input type="text" name="fieldAreaSearchText"  id="AreaField" value="{{ fieldAreaSearchText | e('html_attr') }}">
 				{%  endif %}
 				{% if areasToSelectSearch %}
 					<ul class="formErrors">
