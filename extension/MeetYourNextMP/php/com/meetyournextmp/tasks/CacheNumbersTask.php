@@ -4,7 +4,9 @@ namespace com\meetyournextmp\tasks;
 use com\meetyournextmp\models\HumanPopItInfoModel;
 use com\meetyournextmp\repositories\builders\EventRepositoryBuilder;
 use com\meetyournextmp\repositories\HumanRepository;
+use reports\SeriesOfValueByTimeReport;
 use repositories\AreaRepository;
+use Silex\Application;
 
 /**
  *
@@ -76,6 +78,51 @@ class CacheNumbersTask extends \BaseTask {
 			$out[$key] = count($erb->fetchAll());
 		}
 
+		// =================================== Events by day
+		$report = $this->getValueReport('com.meetyournextmp','NonDeletedNonCancelledEventsStartAtReport', $this->app);
+		$startAt = \TimeSource::getDateTime();
+		$startAt->setTime(0,0,0);
+		$endAt = new \DateTime('2015-05-07 10:00:00');
+		$period = "P1D";
+		$report->setFilterSiteId($this->app['config']->singleSiteID);
+
+		$reportByTime = new SeriesOfValueByTimeReport($report, $startAt, $endAt, $period);
+		$reportByTime->run();
+
+		$out['countEventsByDay'] = array();
+		foreach($reportByTime->getData() as $data) {
+			$out['countEventsByDay'][] = array(
+				'count'=>$data->getData(),
+				'date'=>$data->getLabelStart()->format('D d F Y'),
+			);
+		}
+
+		// =================================== Users with edits
+		$report = $this->getSeriesReport("org.openacalendar","UsersWithEventsEdited",$this->app);
+		$report->run();
+
+		$out['userEventsEdited'] = array();
+		foreach($report->getData() as $data) {
+			$out['userEventsEdited'][] = array(
+				'count'=>$data->getData(),
+				'userID'=>$data->getLabelID(),
+				'userUserName'=>$data->getLabelText(),
+			);
+		}
+
+
+
+
+
+
+
+
+
+
+		//var_dump($out);
+
+
+
 		file_put_contents(APP_ROOT_DIR.DIRECTORY_SEPARATOR.'cache'.DIRECTORY_SEPARATOR.'numbers.json', json_encode($out));
 
 
@@ -83,5 +130,27 @@ class CacheNumbersTask extends \BaseTask {
 		return array('result'=>'ok');
 	}
 
+	function getValueReport($extid, $reportId, Application $app) {
+		$extension = $app['extensions']->getExtensionById($extid);
+		if (!$extension) return;
+		foreach($extension->getValueReports() as $report) {
+			if ($report->getReportID() == $reportId && $report->getHasFilterTime()) {
+				return $report;
+			}
+		}
+	}
+
+	function getSeriesReport($extid, $reportId, Application $app) {
+		$extension = $app['extensions']->getExtensionById($extid);
+		if (!$extension) return;
+		foreach($extension->getSeriesReports() as $report) {
+			if ($report->getReportID() == $reportId && $report->getHasFilterTime()) {
+				return $report;
+			}
+		}
+	}
+
+
 }
+
 
