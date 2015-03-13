@@ -52,6 +52,32 @@
 
 			<p>(We know of events for {{ 650 -  data.countSeatsWithNoEvents }} seats)</p>
 
+			<h3>From now to eternity ...</h3>
+
+			{% for byDay in data.countEventsByDay %}
+				<p>
+					{{  byDay.date }}:
+					{%  if byDay.count > 1 %}
+						{{  byDay.count }} Events
+					{%  elseif  byDay.count == 1 %}
+						1 Event
+					{%  else %}
+						no events
+					{%  endif %}
+				</p>
+			{% endfor %}
+
+			<h3>Thanks to ...</h3>
+
+			{%  for userData in data.userEventsEdited %}
+				{%  if userData.userID != 1 %}
+					<p>
+						{{  userData.userUserName }} has edited {{  userData.count }}
+						{% if userData.count  > 1 %}events{% else %}event{% endif %}
+					</p>
+				{%  endif %}
+			{%  endfor %}
+
 		</div>
 	</div>
 
