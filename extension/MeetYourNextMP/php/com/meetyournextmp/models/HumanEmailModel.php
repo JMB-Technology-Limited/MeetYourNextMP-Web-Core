@@ -41,7 +41,7 @@ class HumanEmailModel  {
 
 		$this->human_id = $humanModel->getId();
 		$this->email = $humanModel->getEmail();
-		$this->subject = "Can you tell voters which husting events you are attending?";
+		$this->subject = "Can you tell voters which hustings events you are attending?";
 
 		$eventRepoBuilder = new EventRepositoryBuilder();
 		$eventRepoBuilder->setIncludeDeleted(false);
