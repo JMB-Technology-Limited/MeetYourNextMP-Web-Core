@@ -24,23 +24,47 @@
 
 			<h3>Numbers</h3>
 
-			<p>Total Events: {{  data.countEventsTotal }}</p>
-
-			<p>Events in the past: {{  data.countEventsBeforeNow  }}</p>
-
-			<p>Events in the Future: {{  data.countEventsAfterNow  }}</p>
+			<table class="numbers">
+				<tr>
+					<td class="label">Total Events:</td>
+					<td class="data">{{  data.countEventsTotal }}</td>
+				</tr>
+				<tr>
+					<td class="label">Events in the past:</td>
+					<td class="data">{{  data.countEventsBeforeNow  }}</td>
+				</tr>
+				<tr>
+					<td class="label">Events in the Future:</td>
+					<td class="data">{{  data.countEventsAfterNow  }}</td>
+				</tr>
+			</table>
 
 			<h3>Events about ...</h3>
 
-			<p>Events about Greater London: {{  data.countEventsInGreaterLondon }}</p>
 
-			<p>Events about England (inc Greater London): {{  data.countEventsInEngland }}</p>
 
-			<p>Events about Scotland: {{  data.countEventsInScotland }}</p>
-
-			<p>Events about Wales: {{  data.countEventsInWales }}</p>
-
-			<p>Events about Northern Ireland: {{  data.countEventsInNIreland }}</p>
+			<table class="numbers">
+				<tr>
+					<td class="label">Events about Greater London</td>
+					<td class="data">{{  data.countEventsInGreaterLondon }}</td>
+				</tr>
+				<tr>
+					<td class="label">Events about England (inc Greater London)</td>
+					<td class="data">{{  data.countEventsInEngland }}</td>
+				</tr>
+				<tr>
+					<td class="label">Events about Scotland:</td>
+					<td class="data">{{  data.countEventsInScotland }}</td>
+				</tr>
+				<tr>
+					<td class="label">Events about Wales:</td>
+					<td class="data">{{  data.countEventsInWales }}</td>
+				</tr>
+				<tr>
+					<td class="label">Events about Northern Ireland:</td>
+					<td class="data">{{  data.countEventsInNIreland }}</td>
+				</tr>
+			</table>
 
 			<h3>We sit in all the seats during musical chairs ...</h3>
 
@@ -54,29 +78,65 @@
 
 			<h3>From now to eternity ...</h3>
 
+
+			{% set max=0 %}
 			{% for byDay in data.countEventsByDay %}
-				<p>
-					{{  byDay.date }}:
-					{%  if byDay.count > 1 %}
-						{{  byDay.count }} Events
-					{%  elseif  byDay.count == 1 %}
-						1 Event
-					{%  else %}
-						no events
-					{%  endif %}
-				</p>
+				{%  if   byDay.count > max %}
+					{%  set max =  byDay.count %}
+				{%  endif %}
 			{% endfor %}
+
+			<table class="numbers">
+				{% for byDay in data.countEventsByDay %}
+					<tr>
+						<td class="label">{{  byDay.date }}</td>
+						<td class="data">
+							{%  if byDay.count > 1 %}
+								{{  byDay.count }} Events
+							{%  elseif  byDay.count == 1 %}
+								1 Event
+							{%  else %}
+								no events
+							{%  endif %}
+						</td>
+						<td class="bar">
+							{%  if byDay.count > 0 %}
+								<div class="barWrapper"><div class="barContents" style="width: {{  byDay.count / max * 300 | round  }}px">&nbsp;</div></div>
+							{%  else %}
+								<div class="barWrapper"><div class="barContents" style="width:0px">&nbsp;</div></div>
+							{%  endif %}
+						</td>
+					</tr>
+				{% endfor %}
+			</table>
 
 			<h3>Thanks to ...</h3>
 
+
+			{% set max=0 %}
+			{% for userData in data.userEventsEdited %}
+				{%  if   userData.count > max %}
+					{%  set max =  userData.count %}
+				{%  endif %}
+			{% endfor %}
+
+			<table class="numbers">
 			{%  for userData in data.userEventsEdited %}
 				{%  if userData.userID != 1 %}
-					<p>
-						{{  userData.userUserName }} has edited {{  userData.count }}
-						{% if userData.count  > 1 %}events{% else %}event{% endif %}
-					</p>
+					<tr>
+						<td class="label">{{  userData.userUserName }}</td>
+						<td class="data">edited {{  userData.count }} {% if userData.count  > 1 %}events{% else %}event{% endif %}</td>
+						<td class="bar">
+							{%  if userData.count > 0 %}
+								<div class="barWrapper"><div class="barContents" style="width: {{  userData.count / max * 300 | round  }}px">&nbsp;</div></div>
+							{%  else %}
+								<div class="barWrapper"><div class="barContents" style="width:0px">&nbsp;</div></div>
+							{%  endif %}
+						</td>
+					</tr>
 				{%  endif %}
 			{%  endfor %}
+			</table>
 
 		</div>
 	</div>

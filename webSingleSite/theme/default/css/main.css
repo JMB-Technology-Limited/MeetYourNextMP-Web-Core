@@ -3076,3 +3076,16 @@ ul.mainListAreas li.area .title a:hover {
 ul.mainListAreas li.area div.afterAreaListing {
   clear: both;
 }
+table.numbers td.label {
+  padding: 4px 20px;
+}
+table.numbers td.data {
+  padding: 4px 20px;
+}
+table.numbers td.bar .barWrapper {
+  min-height: 30px;
+  width: 300px;
+}
+table.numbers td.bar .barWrapper .barContents {
+  background: #732C2C;
+}
