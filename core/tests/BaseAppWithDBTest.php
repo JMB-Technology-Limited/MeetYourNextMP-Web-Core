@@ -21,8 +21,6 @@ use repositories\builders\EventRepositoryBuilder;
 class BaseAppWithDBTest extends \PHPUnit_Framework_TestCase {
 
 
-	protected $extensions = array();
-
 	/*
 	 * @var Silex\App
 	 */
@@ -39,7 +37,6 @@ class BaseAppWithDBTest extends \PHPUnit_Framework_TestCase {
 
 		$CONFIG = new \Config();
 		require APP_ROOT_DIR."config.test.php";
-		$CONFIG->extensions = $this->extensions;
 		$CONFIG->isDebug = true;
 		$this->setConfig($CONFIG);
 

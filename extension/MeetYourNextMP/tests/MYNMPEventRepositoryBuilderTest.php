@@ -17,10 +17,6 @@ use repositories\UserAccountRepository;
 class MYNMPEventRepositoryBuilderTest extends BaseAppWithDBTest {
 
 
-	function __construct()
-	{
-		$this->extensions = array('MeetYourNextMP');
-	}
 
 	public function mktime($year=2012, $month=1, $day=1, $hour=0, $minute=0, $second=0, $timeZone='Europe/London') {
 		$dt = new \DateTime('', new \DateTimeZone($timeZone));

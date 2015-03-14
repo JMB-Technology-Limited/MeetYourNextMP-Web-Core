@@ -15,11 +15,6 @@ use repositories\UserAccountRepository;
 class AreaCommentRepositoryBuilderTest extends BaseAppWithDBTest{
 
 
-	function __construct()
-	{
-		$this->extensions = array('Comments');
-	}
-
 	function testParentChildSearches() {
 
 
