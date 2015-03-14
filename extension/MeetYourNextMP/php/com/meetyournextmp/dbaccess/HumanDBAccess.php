@@ -29,7 +29,7 @@ class HumanDBAccess {
 		$this->timesource = $timesource;
 	}
 
-	protected $possibleFields = array('title','description','is_deleted','email','twitter','image_url');
+	protected $possibleFields = array('title','description','is_deleted','email','twitter','image_url','is_duplicate_of_id');
 
 
 	public function update(HumanModel $human, $fields, UserAccountModel $user = null ) {
@@ -52,6 +52,8 @@ class HumanDBAccess {
 				$fieldsParams1['image_url'] = $human->getImageUrl();
 			} else if ($field == 'is_deleted') {
 				$fieldsParams1['is_deleted'] = ($human->getIsDeleted()?1:0);
+			} else if ($field == 'is_duplicate_of_id') {
+				$fieldsParams1['is_duplicate_of_id'] = $human->getIsDuplicateOfId();
 			}
 		}
 
@@ -80,6 +82,8 @@ class HumanDBAccess {
 					$fieldsParams2['twitter'] = $human->getTwitter();
 				} else if ($field == 'is_deleted') {
 					$fieldsParams2['is_deleted'] = ($human->getIsDeleted()?1:0);
+				} else if ($field == 'is_duplicate_of_id') {
+					$fieldsParams2['is_duplicate_of_id'] = $human->getIsDuplicateOfId();
 				}
 				$fieldsSQL2[] = " ".$field."_changed ";
 				$fieldsSQLParams2[] = " 0 ";

@@ -5,6 +5,7 @@ namespace com\meetyournextmp\repositories;
 
 use com\meetyournextmp\dbaccess\HumanDBAccess;
 use com\meetyournextmp\models\HumanModel;
+use com\meetyournextmp\repositories\builders\EventRepositoryBuilder;
 use models\AreaModel;
 use models\SiteModel;
 use models\EventModel;
@@ -244,6 +245,48 @@ class HumanRepository {
 		));
 	}
 
-				
+
+	public function markDuplicate(HumanModel $duplicatehuman, HumanModel $originalhuman, UserAccountModel $user=null) {
+		global $DB;
+
+		if ($duplicatehuman->getId() == $originalhuman->getId()) return;
+
+		try {
+			$DB->beginTransaction();
+
+			$duplicatehuman->setIsDeleted(true);
+			$duplicatehuman->setIsDuplicateOfId($originalhuman->getId());
+			$this->humanDBAccess->update($duplicatehuman, array('is_deleted','is_duplicate_of_id'), $user);
+
+			// Human At Event
+			$statCheck = $DB->prepare("SELECT * FROM event_has_human WHERE human_id=:human_id AND ".
+				" event_id=:event_id AND removed_at IS NULL ");
+			$statAdd = $DB->prepare("INSERT INTO event_has_human (human_id,event_id,added_by_user_account_id,added_at,addition_approved_at) ".
+				"VALUES (:human_id,:event_id,:added_by_user_account_id,:added_at,:addition_approved_at)");
+			$erb = new EventRepositoryBuilder();
+			$erb->sethuman($duplicatehuman);
+			foreach($erb->fetchAll() as $event) {
+				// check event not already in list
+				$statCheck->execute(array(
+					'human_id'=>$originalhuman->getId(),
+					'event_id'=>$event->getId(),
+				));
+				if ($statCheck->rowCount() == 0) {
+					$statAdd->execute(array(
+						'human_id'=>$originalhuman->getId(),
+						'event_id'=>$event->getId(),
+						'added_by_user_account_id'=>($user?$user->getId():null),
+						'added_at'=>  \TimeSource::getFormattedForDataBase(),
+						'addition_approved_at'=>  \TimeSource::getFormattedForDataBase(),
+					));
+				}
+			}
+
+			$DB->commit();
+		} catch (Exception $e) {
+			$DB->rollBack();
+		}
+	}
+
 }
 

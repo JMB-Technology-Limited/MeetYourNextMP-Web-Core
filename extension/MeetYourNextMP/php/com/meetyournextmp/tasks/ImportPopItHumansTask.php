@@ -78,7 +78,7 @@ class ImportPopItHumansTask extends \BaseTask {
 
 			foreach($dataObj->result as $humanObj) {
 
-				$this->logVerbose( "Human ".$humanObj->name);
+				$this->logVerbose( "Human ".$humanObj->name. "  POPITID ".$humanObj->id);
 
 				/** @var $humanPopItInfo HumanPopItInfoModel */
 				$humanPopItInfo = $humanPopItInfoRepo->getByPopItID($humanObj->id);
@@ -237,6 +237,33 @@ class ImportPopItHumansTask extends \BaseTask {
 						if ($human && !$human->getIsDeleted()) {
 							$this->logVerbose( " - Deleteing ");
 							$humanRepo->delete($human);
+						}
+					}
+				}
+
+				// Next Task - have any humans been merged into this one?
+				foreach($humanObj->versions as $humanVersion) {
+					$idOfOldRecord = $humanVersion->data->id;
+					if ($idOfOldRecord != $humanObj->id) {
+						$this->logVerbose( " - found a record that was merged into this one: ".$idOfOldRecord);
+						$humanPopItInfoOfOldRecord = $humanPopItInfoRepo->getByPopItID($idOfOldRecord);
+						if ($humanPopItInfoOfOldRecord) {
+							$this->logVerbose(" - found HumanPopIt for old record ");
+							$humanOfOldRecord = $humanRepo->loadById($humanPopItInfoOfOldRecord->getHumanId());
+							if ($humanOfOldRecord) {
+								$this->logVerbose(" - found Human for old record");
+								if (!$humanOfOldRecord->getIsDeleted()) {
+									if ($human) {
+										$this->logVerbose( " - marking duplicate human of old record ");
+										$humanRepo->markDuplicate($humanOfOldRecord, $human);
+									} else {
+										$this->logVerbose( " - deleting human of old record");
+										$humanRepo->delete($humanOfOldRecord);
+									}
+								} else {
+									$this->logVerbose( " - human for old record already deleted");
+								}
+							}
 						}
 					}
 				}

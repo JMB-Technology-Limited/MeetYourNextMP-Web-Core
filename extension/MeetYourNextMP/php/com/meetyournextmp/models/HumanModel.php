@@ -21,6 +21,7 @@ class HumanModel  {
 	protected $twitter;
 	protected $email;
 	protected $image_url;
+	protected $is_duplicate_of_id;
 
 	public function setFromDataBaseRow($data) {
 		$this->id = $data['id'];
@@ -32,6 +33,7 @@ class HumanModel  {
 		$this->twitter = $data['twitter'];
 		$this->email = $data['email'];
 		$this->image_url = $data['image_url'];
+		$this->is_duplicate_of_id = $data['is_duplicate_of_id'];
 	}
 
 	public function getId() {
@@ -148,6 +150,23 @@ class HumanModel  {
 	{
 		return $this->twitter;
 	}
+
+	/**
+	 * @param mixed $is_duplicate_of_id
+	 */
+	public function setIsDuplicateOfId($is_duplicate_of_id)
+	{
+		$this->is_duplicate_of_id = $is_duplicate_of_id;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getIsDuplicateOfId()
+	{
+		return $this->is_duplicate_of_id;
+	}
+
 
 
 
