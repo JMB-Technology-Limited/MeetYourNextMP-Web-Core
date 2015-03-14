@@ -226,6 +226,7 @@ class ImportPopItHumansTask extends \BaseTask {
 						$area = $areaRepo->loadById($areaMapItInfo->getAreaId());
 						if ($area) {
 							$humanRepo->addHumanToArea($human, $area);
+							$humanRepo->removeHumanFromAllButOneArea($human, $area);
 						}
 					}
 

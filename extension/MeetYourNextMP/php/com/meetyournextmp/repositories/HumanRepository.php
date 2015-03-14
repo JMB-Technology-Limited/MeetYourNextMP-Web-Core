@@ -246,6 +246,23 @@ class HumanRepository {
 	}
 
 
+	public function removeHumanFromAllButOneArea(HumanModel $human, AreaModel $area, UserAccountModel $user=null) {
+		global $DB;
+
+
+		$stat = $DB->prepare("UPDATE human_in_area SET removed_by_user_account_id=:removed_by_user_account_id,".
+				" removed_at=:removed_at, removal_approved_at=:removal_approved_at WHERE ".
+				" area_id != :area_id AND human_id=:human_id AND removed_at IS NULL ");
+		$stat->execute(array(
+				'area_id'=>$area->getId(),
+				'human_id'=>$human->getId(),
+				'removed_at'=>  \TimeSource::getFormattedForDataBase(),
+				'removal_approved_at'=>  \TimeSource::getFormattedForDataBase(),
+				'removed_by_user_account_id'=>($user?$user->getId():null),
+		));
+	}
+
+
 	public function markDuplicate(HumanModel $duplicatehuman, HumanModel $originalhuman, UserAccountModel $user=null) {
 		global $DB;
 
