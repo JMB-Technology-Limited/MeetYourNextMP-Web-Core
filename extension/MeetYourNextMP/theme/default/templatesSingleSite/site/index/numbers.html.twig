@@ -115,7 +115,7 @@
 
 			{% set max=0 %}
 			{% for userData in data.userEventsEdited %}
-				{%  if   userData.count > max %}
+				{%  if   userData.count > max and  userData.userID != 1  %}
 					{%  set max =  userData.count %}
 				{%  endif %}
 			{% endfor %}
