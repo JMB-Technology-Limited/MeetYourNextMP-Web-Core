@@ -34,10 +34,8 @@ class BaseAppWithDBTest extends \PHPUnit_Framework_TestCase {
 	}
 
     protected function setUp() {
-		global $CONFIG, $DB, $EXTENSIONHOOKRUNNER, $app, $EXTENSIONSTOLOAD;
+		global $CONFIG, $DB, $EXTENSIONHOOKRUNNER, $app;
 
-
-		$EXTENSIONSTOLOAD = $this->extensions;
 
 		$CONFIG = new \Config();
 		require APP_ROOT_DIR."config.test.php";
