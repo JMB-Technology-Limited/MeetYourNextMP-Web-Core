@@ -26,15 +26,15 @@
 
 			<table class="numbers">
 				<tr>
-					<td class="label">Total Events:</td>
+					<td class="label">Total Events</td>
 					<td class="data">{{  data.countEventsTotal }}</td>
 				</tr>
 				<tr>
-					<td class="label">Events in the past:</td>
+					<td class="label">Events in the past</td>
 					<td class="data">{{  data.countEventsBeforeNow  }}</td>
 				</tr>
 				<tr>
-					<td class="label">Events in the Future:</td>
+					<td class="label">Events in the Future</td>
 					<td class="data">{{  data.countEventsAfterNow  }}</td>
 				</tr>
 			</table>
@@ -45,23 +45,23 @@
 
 			<table class="numbers">
 				<tr>
-					<td class="label">Events about Greater London</td>
+					<td class="label">Events about <a href="/area/712-greater-london">Greater London</a></td>
 					<td class="data">{{  data.countEventsInGreaterLondon }}</td>
 				</tr>
 				<tr>
-					<td class="label">Events about England (inc Greater London)</td>
+					<td class="label">Events about <a href="/area/1-england">England (inc Greater London)</a></td>
 					<td class="data">{{  data.countEventsInEngland }}</td>
 				</tr>
 				<tr>
-					<td class="label">Events about Scotland:</td>
+					<td class="label">Events about <a href="/area/3-scotland">Scotland</a></td>
 					<td class="data">{{  data.countEventsInScotland }}</td>
 				</tr>
 				<tr>
-					<td class="label">Events about Wales:</td>
+					<td class="label">Events about <a href="/area/2-wales">Wales</a></td>
 					<td class="data">{{  data.countEventsInWales }}</td>
 				</tr>
 				<tr>
-					<td class="label">Events about Northern Ireland:</td>
+					<td class="label">Events about <a href="/area/4-northern-ireland">Northern Ireland</a></td>
 					<td class="data">{{  data.countEventsInNIreland }}</td>
 				</tr>
 			</table>
@@ -92,9 +92,9 @@
 						<td class="label">{{  byDay.date }}</td>
 						<td class="data">
 							{%  if byDay.count > 1 %}
-								{{  byDay.count }} Events
+								<a href="/event?eventListFilterDataSubmitted=1&from={{ byDay.date | e('url') }}&freeTextSearch=">{{  byDay.count }} Events</a>
 							{%  elseif  byDay.count == 1 %}
-								1 Event
+								<a href="/event?eventListFilterDataSubmitted=1&from={{ byDay.date | e('url') }}&freeTextSearch=">1 Event</a>
 							{%  else %}
 								no events
 							{%  endif %}
