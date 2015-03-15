@@ -13,6 +13,9 @@ require_once APP_ROOT_DIR.'/core/php/autoloadCLI.php';
  * @author James Baster <james@jarofgreen.co.uk>
  */
 
+
+print date("c");
+
 // really??????????
 $actuallySEND = isset($argv[1]) && strtolower($argv[1]) == 'yes';
 print "Actually SEND: ". ($actuallySEND ? "YES":"nah")."\n";
@@ -27,9 +30,12 @@ configureAppForSite($site);
 
 // Get Human
 $stat = $DB->prepare("SELECT human_information.* FROM human_information ".
-		" LEFT JOIN human_email ON human_email.human_id = human_information.id ".
-		" WHERE human_information.email IS NOT NULL AND human_information.email != '' AND human_email.id IS NULL".
-		" LIMIT 1");
+                " LEFT JOIN human_email ON human_email.human_id = human_information.id ".
+                " JOIN human_in_area ON human_in_area.human_id = human_information.id ".
+                " JOIN area_information ON area_information.id = human_in_area.area_id ".
+                " WHERE  human_information.is_deleted = '0' AND ".
+                " human_information.email IS NOT NULL AND human_information.email != '' AND human_email.id IS NULL".
+                " LIMIT 1");
 $stat->execute();
 if ($stat->rowCount() == 0) {
 	die("No Human Data");
