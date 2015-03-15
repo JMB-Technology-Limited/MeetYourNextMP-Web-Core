@@ -126,7 +126,7 @@ $CONFIG->formWidgetTimeMinutesMultiples = 5;
 
 
 
-$CONFIG->findDuplicateEventsNoMatchSummary = array('husting','hustings','the','of','a');
+$CONFIG->findDuplicateEventsNoMatchSummary = array('husting','hustings','the','of','a','church','st','st.','saint');
 
 
 $CONFIG->SMTPHost="email-smtp.eu-west-1.amazonaws.com";
