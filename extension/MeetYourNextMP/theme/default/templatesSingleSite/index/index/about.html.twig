@@ -46,7 +46,11 @@
 			<p>There are no limitations, unless your use starts to cause problems for our servers.
 				(If you are concerned it might, get in touch first.)</p>
 
-			<p>Click export on pages for options, or get in touch to ask.</p>
+			<p>Click <a href="/api1/events.ical" onclick="showExportPopup(); return false;">export for options</a>.</p>
+
+			<p>You can also export filtered data from various pages. For instance, <a href="/area/504-manchester-central">go to a page for a seat like Manchester Central</a> and click export, and you can choose to export events for that seat only.</p>
+
+			<p>Get in touch with any further questions.</p>
 
 			<h3>Please link to us!</h3>
 
@@ -87,4 +91,10 @@
 	</div>
 
 {% endblock %}
+
+
+{% block scriptsForState %}
+	<script type="text/javascript">var exportData = {}</script>
+{% endblock %}
+
 
