@@ -3089,3 +3089,8 @@ table.numbers td.bar .barWrapper {
 table.numbers td.bar .barWrapper .barContents {
   background: #732C2C;
 }
+@media screen and (max-width: 750px) {
+  table.numbers td.bar .barWrapper {
+    display: none;
+  }
+}

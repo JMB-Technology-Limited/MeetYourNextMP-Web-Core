@@ -10,7 +10,7 @@ $CONFIG->databaseUser = 'meetyournextmp';
 
 
 
-$CONFIG->assetsVersion = 13;
+$CONFIG->assetsVersion = 14;
 
 $CONFIG->isSingleSiteMode = true;
 $CONFIG->singleSiteID = 1;
