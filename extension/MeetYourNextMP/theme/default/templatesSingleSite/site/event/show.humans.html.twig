@@ -35,7 +35,7 @@
 						<div>
 							<label>
 								<input type="checkbox" name="addHuman[]" value="{{  human.slug }}">
-								{{  human.title }}
+								{{  human.title }} {%  if human.party %}({{  human.party }}){%  endif %}
 							</label>
 						</div>
 					{% endfor %}

@@ -153,6 +153,7 @@ class ImportPopItHumansTask extends \BaseTask {
 							$description != $human->getDescription() ||
 							$human->getEmail() != $humanObj->email ||
 							$human->getTwitter() != $twitter ||
+							$human->getParty() != $partyMemberships2015['name'] ||
 							$human->getImageUrl() != $imageURL) {
 
 							$this->logVerbose(" - Updating existing Human record");
@@ -160,6 +161,7 @@ class ImportPopItHumansTask extends \BaseTask {
 							$human->setDescription($description);
 							$human->setEmail($humanObj->email);
 							$human->setTwitter($twitter);
+							$human->setParty($partyMemberships2015['name']);
 							$human->setImageUrl($imageURL);
 							$humanRepo->edit($human);
 						}
@@ -193,6 +195,7 @@ class ImportPopItHumansTask extends \BaseTask {
 						$human->setEmail($humanObj->email);
 						$human->setTwitter($twitter);
 						$human->setImageUrl($imageURL);
+						$human->setParty($partyMemberships2015['name']);
 
 						$humanRepo->create($human, $site);
 

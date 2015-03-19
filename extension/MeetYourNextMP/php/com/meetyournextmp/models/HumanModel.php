@@ -19,6 +19,7 @@ class HumanModel  {
 	protected $description;
 	protected $is_deleted;
 	protected $twitter;
+	protected $party;
 	protected $email;
 	protected $image_url;
 	protected $is_duplicate_of_id;
@@ -31,6 +32,7 @@ class HumanModel  {
 		$this->description = $data['description'];
 		$this->is_deleted = $data['is_deleted'];
 		$this->twitter = $data['twitter'];
+		$this->party = $data['party'];
 		$this->email = $data['email'];
 		$this->image_url = $data['image_url'];
 		$this->is_duplicate_of_id = $data['is_duplicate_of_id'];
@@ -166,6 +168,23 @@ class HumanModel  {
 	{
 		return $this->is_duplicate_of_id;
 	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getParty()
+	{
+		return $this->party;
+	}
+
+	/**
+	 * @param mixed $party
+	 */
+	public function setParty($party)
+	{
+		$this->party = $party;
+	}
+
 
 
 
