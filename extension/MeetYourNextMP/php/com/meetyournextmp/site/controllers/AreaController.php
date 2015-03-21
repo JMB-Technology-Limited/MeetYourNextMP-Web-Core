@@ -46,7 +46,7 @@ class AreaController extends \site\controllers\AreaController {
 		$trb->setLimit(200);
 		$this->parameters['humans'] = $trb->fetchAll();
 
-		$tweet = "";
+		$tweet = ".";
 		foreach($this->parameters['humans'] as $human) {
 			if ($human->getTwitter()) {
 				$tweet .= '@'. $human->getTwitter().' ';
