@@ -2,6 +2,7 @@
 
 namespace site\controllers;
 
+use models\EventEditMetaDataModel;
 use repositories\builders\VenueRepositoryBuilder;
 use Silex\Application;
 use site\forms\EventNewForm;
@@ -9,6 +10,7 @@ use site\forms\EventEditForm;
 use site\forms\EventImportedEditForm;
 use site\forms\EventDeleteForm;
 use site\forms\EventCancelForm;
+use site\forms\EventRemoveVenueForm;
 use site\forms\UploadNewMediaForm;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -435,26 +437,31 @@ class EventController {
 		} else {
 			$form = $app['form.factory']->create(new EventEditForm($app['currentSite'], $timeZone, $app), $this->parameters['event']);
 		}
-		
+
 		if ('POST' == $request->getMethod()) {
 			$form->bind($request);
 
 			if ($form->isValid()) {
-				
+
+				$eventEditMetaData = new EventEditMetaDataModel();
+				$eventEditMetaData->setUserAccount($app['currentUser']);
+				if ($form->has('edit_comment')) {
+					$eventEditMetaData->setEditComment($form->get('edit_comment')->getData());
+				}
+
 				$eventRepository = new EventRepository();
-				$eventRepository->edit($this->parameters['event'], $app['currentUser']);
-				
-				
+				$eventRepository->editWithMetaData($this->parameters['event'], $eventEditMetaData);
+
 				$repo = new EventRecurSetRepository();
 				if ($repo->isEventInSetWithNotDeletedFutureEvents($this->parameters['event'])) {
 					return $app->redirect("/event/".$this->parameters['event']->getSlugforURL().'/edit/future');
 				} else {
 					return $app->redirect("/event/".$this->parameters['event']->getSlugforURL());
 				}
-				
+
 			}
 		}
-		
+
 		$this->parameters['form'] = $form->createView();
 		
 		if ($this->parameters['event']->getIsImported()) {
@@ -484,6 +491,25 @@ class EventController {
 	function editVenue($slug, Request $request, Application $app) {		
 		//var_dump($_POST); die();
 		
+		if (!$this->build($slug, $request, $app)) {
+			$app->abort(404, "Event does not exist.");
+		}
+
+		if ($this->parameters['event']->getIsDeleted()) {
+			die("No"); // TODO
+		}
+
+		if ($this->parameters['venue']) {
+			return $app['twig']->render('site/event/edit.venue.currentvenue.html.twig', $this->parameters);
+		} else {
+			return $app->redirect("/event/".$this->parameters['event']->getSlugForURL().'/edit/venue/search');
+		}
+
+	}
+
+	function editVenueSearch($slug, Request $request, Application $app) {
+		//var_dump($_POST); die();
+
 		if (!$this->build($slug, $request, $app)) {
 			$app->abort(404, "Event does not exist.");
 		}
@@ -534,11 +560,11 @@ class EventController {
 
 		$this->editVenueGetDataIntoParameters($app);
 
-		return $app['twig']->render('site/event/edit.venue.html.twig', $this->parameters);
-		
+		return $app['twig']->render('site/event/edit.venue.search.html.twig', $this->parameters);
+
 	}
 
-	function editVenueJson($slug, Request $request, Application $app) {
+	function editVenueSearchJson($slug, Request $request, Application $app) {
 		if (!$this->build($slug, $request, $app)) {
 			$app->abort(404, "Event does not exist.");
 		}
@@ -667,13 +693,59 @@ class EventController {
 			die("No"); // TODO
 		}
 
-		// Firstly, are there any areas in this country? If not, this whole page is useless.
+		// ======================== Firstly, are there any areas in this country?
 		$areaRepository = new AreaRepository();
 		if (!$areaRepository->doesCountryHaveAnyNotDeletedAreas($app['currentSite'], $this->parameters['country'])) {
-			return $app->redirect("/event/".$this->parameters['event']->getSlugforURL());
+
+			// But we may have come here with a venue. The user is saying there is no known venue. Remove venue?
+			if ($this->parameters['venue']) {
+
+
+				$form = $app['form.factory']->create(new EventRemoveVenueForm($app));
+
+				if ('POST' == $request->getMethod()) {
+					$form->bind($request);
+
+					if ($form->isValid()) {
+
+						$this->parameters['event']->setVenueId(null);
+						$this->parameters['event']->setAreaId(null);
+
+						$eventEditMetaData = new EventEditMetaDataModel();
+						$eventEditMetaData->setUserAccount($app['currentUser']);
+						if ($form->has('edit_comment')) {
+							$eventEditMetaData->setEditComment($form->get('edit_comment')->getData());
+						}
+
+						$eventRepository = new EventRepository();
+						$eventRepository->editWithMetaData($this->parameters['event'], $eventEditMetaData);
+
+						$repo = new EventRecurSetRepository();
+						if ($repo->isEventInSetWithNotDeletedFutureEvents($this->parameters['event'])) {
+							return $app->redirect("/event/".$this->parameters['event']->getSlugforURL().'/edit/future');
+						} else {
+							return $app->redirect("/event/".$this->parameters['event']->getSlugforURL());
+						}
+
+					}
+				}
+
+				$this->parameters['form'] = $form->createView();
+
+
+
+				return $app['twig']->render('site/event/edit.area.removevenue.html.twig', $this->parameters);
+
+
+			} else {
+
+				// There is no venue on event, user says they don't know one.
+				return $app->redirect("/event/" . $this->parameters['event']->getSlugforURL());
+
+			}
 		}
 
-		// There are areas. Continue with the workflow
+		// ======================== There are areas. Continue with the workflow!
 		$this->parameters['search'] = $this->removeSearchPrefixWords($request->query->get('search'));
 
 		if ('POST' == $request->getMethod() && $request->request->get('CSFRToken') == $app['websession']->getCSFRToken()) {
@@ -1275,15 +1347,21 @@ class EventController {
 			die("No"); // TODO
 		}
 		
-		$form = $app['form.factory']->create(new EventDeleteForm());
+		$form = $app['form.factory']->create(new EventDeleteForm($app));
 		
 		if ('POST' == $request->getMethod()) {
 			$form->bind($request);
 
 			if ($form->isValid()) {
-				
+
+				$eventEditMetaData = new EventEditMetaDataModel();
+				$eventEditMetaData->setUserAccount($app['currentUser']);
+				if ($form->has('edit_comment')) {
+					$eventEditMetaData->setEditComment($form->get('edit_comment')->getData());
+				}
+
 				$eventRepository = new EventRepository();
-				$eventRepository->delete($this->parameters['event'], $app['currentUser']);
+				$eventRepository->deleteWithMetaData($this->parameters['event'], $eventEditMetaData);
 
 				return $app->redirect("/event/".$this->parameters['event']->getSlugForURL());
 				
@@ -1334,15 +1412,21 @@ class EventController {
 			die("No"); // TODO
 		}
 
-		$form = $app['form.factory']->create(new EventCancelForm());
+		$form = $app['form.factory']->create(new EventCancelForm($app));
 
 		if ('POST' == $request->getMethod()) {
 			$form->bind($request);
 
 			if ($form->isValid()) {
 
+				$eventEditMetaData = new EventEditMetaDataModel();
+				$eventEditMetaData->setUserAccount($app['currentUser']);
+				if ($form->has('edit_comment')) {
+					$eventEditMetaData->setEditComment($form->get('edit_comment')->getData());
+				}
+
 				$eventRepository = new EventRepository();
-				$eventRepository->cancel($this->parameters['event'], $app['currentUser']);
+				$eventRepository->cancelWithMetaData($this->parameters['event'], $eventEditMetaData);
 
 				$repo = new EventRecurSetRepository();
 				if ($repo->isEventInSetWithNotDeletedFutureEvents($this->parameters['event'])) {
@@ -1412,8 +1496,15 @@ class EventController {
 				$newEventState->setIsCancelled(false);
 				$newEventState->setIsDeleted(false);
 
+				$eventEditMetaData = new EventEditMetaDataModel();
+				$eventEditMetaData->setUserAccount($app['currentUser']);
+				if ($form->has('edit_comment')) {
+					$eventEditMetaData->setEditComment($form->get('edit_comment')->getData());
+				}
+				$eventEditMetaData->setRevertedFromHistoryCreatedAt($this->parameters['eventHistory']->getCreatedAt());
+
 				$eventRepository = new EventRepository();
-				$eventRepository->edit($newEventState, $app['currentUser'], $this->parameters['eventHistory']);
+				$eventRepository->editWithMetaData($newEventState,  $eventEditMetaData);
 				
 				return $app->redirect("/event/".$this->parameters['event']->getSlugForURL());
 				

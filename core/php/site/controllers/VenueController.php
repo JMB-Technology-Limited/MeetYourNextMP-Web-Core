@@ -2,6 +2,7 @@
 
 namespace site\controllers;
 
+use models\VenueEditMetaDataModel;
 use Silex\Application;
 use site\forms\VenueEditForm;
 use Symfony\Component\HttpFoundation\Request;
@@ -155,7 +156,7 @@ class VenueController {
 			die("No"); // TODO
 		}
 		
-		$form = $app['form.factory']->create(new VenueEditForm($app['currentSite']), $this->parameters['venue']);
+		$form = $app['form.factory']->create(new VenueEditForm($app), $this->parameters['venue']);
 		
 		if ('POST' == $request->getMethod()) {
 			$form->bind($request);
@@ -185,9 +186,19 @@ class VenueController {
 				} else {
 					$this->parameters['venue']->setAreaId(null);
 				}
-				
+
+				foreach($app['extensions']->getExtensionsIncludingCore() as $extension) {
+					$extension->addDetailsToVenue($this->parameters['venue']);
+				}
+
+				$venueEditMetaData = new VenueEditMetaDataModel();
+				$venueEditMetaData->setUserAccount($app['currentUser']);
+				if ($form->has('edit_comment')) {
+					$venueEditMetaData->setEditComment($form->get('edit_comment')->getData());
+				}
+
 				$venueRepository = new VenueRepository();
-				$venueRepository->edit($this->parameters['venue'], $app['currentUser']);
+				$venueRepository->editWithMetaData($this->parameters['venue'],$venueEditMetaData);
 				
 				return $app->redirect("/venue/".$this->parameters['venue']->getSlugForURL());
 				

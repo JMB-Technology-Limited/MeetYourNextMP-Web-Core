@@ -1,0 +1,19 @@
+{#
+ # @package com.meetyournextmp
+ # @license Closed Source
+ # @copyright (c) 2013-2015, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{%  if currentSiteFeatures.has('org.openacalendar','EditComments') %}
+	<div class="rowWrapper" id="formRowEditCommentToggler" onclick="onClickFormRowEditCommentToggler(); return false;">
+		<div class="labelWrapper">&nbsp;</div>
+		<div class="widgetWrapperPlacementOnly">
+			<span class="arrow">&#x25B2;</span>
+			<span class="title">Add a comment about this change - can you tell us the source of this information?</span>
+		</div>
+		<div class="after"></div>
+	</div>
+	<div id="formRowEditCommentWrapper" style="display: none;">
+		{{ form_row(form.edit_comment) }}
+	</div>
+{% endif %}
