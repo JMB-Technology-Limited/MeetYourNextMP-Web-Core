@@ -29,7 +29,7 @@ class MapItAreaController  {
 		$postcodeParser = new PostcodeParser($postcode);
 		if (!$postcodeParser->isValid()) {
 			$this->logPostcodeSearch($app, $postcode, false, array("Parser says not valid"));
-			$app['flashmessages']->addMessage('That does not look like a valid postcode!');
+			$app['flashmessages']->addMessage('That does not look like a valid postcode! Did you enter a full postcode?');
 			return $app->redirect('/');
 		}
 
@@ -58,7 +58,7 @@ class MapItAreaController  {
 
 		if ($response['http_code'] != 200) {
 			$this->logPostcodeSearch($app, $postcode, false, array("not 200 response from API"));
-			$app['flashmessages']->addMessage('Sorry, we had a problem with the postcode API!');
+			$app['flashmessages']->addMessage('Sorry, we had a problem with the postcode API! Did you enter a full postcode?');
 			return $app->redirect('/');
 		}
 
