@@ -141,16 +141,16 @@
         },
         {
             "name": "jmbtechnologylimited/parsedatetimerangestring",
-            "version": "v1.0.2",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JMB-Technology-Limited/ParseDateTimeRangeString.git",
-                "reference": "47db2c1ce4c6b44c3c039bb3b4b3ef828bac706c"
+                "reference": "928312eb0cc093233eb51c0e3362c9006654f413"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JMB-Technology-Limited/ParseDateTimeRangeString/zipball/47db2c1ce4c6b44c3c039bb3b4b3ef828bac706c",
-                "reference": "47db2c1ce4c6b44c3c039bb3b4b3ef828bac706c",
+                "url": "https://api.github.com/repos/JMB-Technology-Limited/ParseDateTimeRangeString/zipball/928312eb0cc093233eb51c0e3362c9006654f413",
+                "reference": "928312eb0cc093233eb51c0e3362c9006654f413",
                 "shasum": ""
             },
             "require": {
@@ -183,7 +183,7 @@
                 "date",
                 "time"
             ],
-            "time": "2015-01-11 18:51:09"
+            "time": "2015-03-22 19:30:41"
         },
         {
             "name": "jmbtechnologylimited/rruleunravel",
