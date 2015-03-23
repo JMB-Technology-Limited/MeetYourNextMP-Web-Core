@@ -10,18 +10,45 @@ var notDuplicateOfEventSlugs = "";
 
 $(document).ready(function() {
 	$('#NewEventForm').change(function() {
-		loadDupes();
-	});	
-	loadDupes();
+		loadData();
+	});
+	loadData();
 
 	$('#EventEditForm_country_id, #EventNewForm_country_id').change(function() {
 		$('#AreaRow').remove();
 	});
 });
 
-function loadDupes() {
+var loadDataAJAX;
+
+var startDate, startHours, startMins, endDate, endHours, endMins, timezone;
+
+function loadData() {
+	// cancel old loads
+	if (loadDataAJAX) {
+		loadDataAJAX.abort();
+	}
+	// set loading indicators
+	var currentStartDate = $('#EventNewForm_start_at_date').val();
+	var currentStartHours = $('#EventNewForm_start_at_time_hour').val();
+	var currentStartMins = $('#EventNewForm_start_at_time_minute').val();
+	var currentEndDate = $('#EventNewForm_end_at_date').val();
+	var currentEndHours = $('#EventNewForm_end_at_time_hour').val();
+	var currentEndMins = $('#EventNewForm_end_at_time_minute').val();
+	var currentTimezone = $('#EventNewForm_timezone').val();
+	if (currentStartDate != startDate || currentStartHours != startHours || currentStartMins != startMins || currentEndDate != endDate || currentEndHours != endHours || currentEndMins != endMins || currentTimezone != timezone) {
+		$('#ReadableDateTimeRange').html('&nbsp;');
+		startDate = currentStartDate;
+		startHours = currentStartHours;
+		startMins = currentStartMins;
+		endDate = currentEndDate;
+		endHours = currentEndHours;
+		endMins = currentEndMins;
+		timezone = currentTimezone;
+	}
+	// load
 	var dataIn = $('#NewEventForm').serialize();
-	$.post('/event/creatingThisNewEvent.json?notDuplicateSlugs='+notDuplicateOfEventSlugs, dataIn,function(data) {
+	loadDataAJAX = $.post('/event/creatingThisNewEvent.json?notDuplicateSlugs='+notDuplicateOfEventSlugs, dataIn,function(data) {
 		if (data.duplicates.length == 0) {
 			$('#DuplicateEventsContainer').hide();
 		} else {
@@ -47,6 +74,7 @@ function loadDupes() {
 			$('#DuplicateEventsList').empty().append(html);
 			$('#DuplicateEventsContainer').show();
 		}
+		$('#ReadableDateTimeRange').html(data.readableStartEndRange);
 	});
 }
 
@@ -116,7 +144,7 @@ function showEventPopup(eventSlug) {
 function notDuplicateOfEvent(eventSlug) {
 	notDuplicateOfEventSlugs += eventSlug+",";
 	closePopup();
-	loadDupes();
+	loadData();
 }
 
 
