@@ -109,26 +109,29 @@
 				{% include '/site/common/mainListEvent.html.twig' with {'event':event, 'showCurrentUserOptions':true, 'showVenueAndArea':true}  %}
 			{% else %}
 				<li class="nodata">
-					<p>No events found.</p>
 
 					{% if currentUserActions.has("org.openacalendar","eventNew") or ( currentUser is null and anyVerifiedUserActions.has("org.openacalendar","eventNew") ) %}
 
-						<div class="highlightInfoBoxWrapper">
-							<div class="highlightInfoBoxTitle">Can you help?</div>
-							<div class="highlightInfoBoxContent">
 
-								<p>Do you know of any events? We list indepedent events at the general election so voters can be better informed.</p>
+						<p>We list independent events at the general election so voters can be better informed, but we don't know of any here :-(</p>
 
-								<p><a href="/event/new?area={{  area.slug }}">Please help us by adding any events you know of!</a></p>
+						<p>Please help us by adding any events you know of for everyones benefit!</p>
 
-								{%  if childAreas|length == 0 %}
-
-										<p>Or could you <a href="/area/{{ area.slugForUrl }}/tweetToCandidates">Tweet your candidates asking them what events they are attending?</a></p>
-
-								{% endif %}
-
-							</div>
+						<div class="bigButtonContainer">
+							<a  class="button" href="/event/new?area={{  area.slug }}">Add an event</a>
 						</div>
+
+						{%  if childAreas|length == 0 %}
+
+							<p>Or could you send a Tweet to your candidates asking them what events they are attending?</p>
+
+							<div class="bigButtonContainer">
+								<a  class="button" href="/area/{{ area.slugForUrl }}/tweetToCandidates"><div class="iconTwitterLarge" title="Twitter"></div> Tweet your candidates</a>
+							</div>
+						{% endif %}
+					{%  else %}
+
+						<p>No events found.</p>
 
 					{% endif %}
 
