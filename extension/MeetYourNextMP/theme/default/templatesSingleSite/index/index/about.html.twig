@@ -50,6 +50,19 @@
 
 			<p>You can also export filtered data from various pages. For instance, <a href="/area/504-manchester-central">go to a page for a seat like Manchester Central</a> and click export, and you can choose to export events for that seat only.</p>
 
+			<p>Information on seats is sourced from <a href="http://mapit.mysociety.org/">mapit.mysociety.org</a>. If you use this, there are special API end points.</p>
+
+			<ul class="normal">
+				<li>/api1/mapitid/{id}/events.ical</li>
+				<li>/api1/mapitid/{id}/events.json</li>
+				<li>/api1/mapitid/{id}/events.jsonp?callback=myfunc</li>
+				<li>/api1/mapitid/{id}/events.csv</li>
+				<li>/api1/mapitid/{id}/events.create.atom</li>
+				<li>/api1/mapitid/{id}/events.before.atom?days=3</li>
+			</ul>
+
+			<p>These produce the same output and can take the same inputs as the other /api/area/* end points that you can discover while browsing the site.</p>
+
 			<p>Get in touch with any further questions.</p>
 
 			<h3>Please link to us!</h3>
@@ -58,20 +71,20 @@
 
 			<p>Information on seats is sourced from <a href="http://mapit.mysociety.org/">mapit.mysociety.org</a>. If you use this, there are special links to link to us.</p>
 
-			<ul>
+			<ul class="normal">
 				<li><a href="/linktoseat.html?mapitid=65550">/linktoseat.html?mapitid=65550</a></li>
 				<li><a href="/linktoseat.html?gssid=E14000923">/linktoseat.html?gssid=E14000923</a></li>
 			</ul>
 
 			<p>You can also link to us by seat name. The name must exactly match (case insensitive).</p>
 
-			<ul>
+			<ul class="normal">
 				<li><a href="/linktoseat.html?title=Edinburgh+East">/linktoseat.html?title=Edinburgh+East</a></li>
 			</ul>
 
 			<p>Information on candidates is sourced from <a href="https://yournextmp.com/">Your Next MP</a>. If you use this, there are special links to link to us.</p>
 
-			<ul>
+			<ul class="normal">
 				<li><a href="/linktocandidate.html?ynmpid=4993">/linktocandidate.html?ynmpid=4993</a></li>
 			</ul>
 
