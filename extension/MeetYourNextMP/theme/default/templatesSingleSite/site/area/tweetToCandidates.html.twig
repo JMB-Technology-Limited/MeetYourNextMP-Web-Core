@@ -1,0 +1,45 @@
+{#
+ # @package com.meetyournextmp
+ # @license Closed Source
+ # @copyright (c) 2013-2015, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% extends 'site/area/page.html.twig' %}
+
+
+{% block pageTitle %}{{ area.title }} - {% endblock %}
+
+
+{% block htmlHeader %}
+	<META NAME="ROBOTS" CONTENT="NOINDEX">
+{% endblock %}
+
+{% block actions %}
+{% endblock %}
+
+
+{% block innerContent %}
+
+	<form method="post">
+		<input type="hidden" name="action" value="tweet">
+		<ul>
+			{% for human in humans %}
+				{%  if human.getTwitter() %}
+				<li class="human">
+					<label>
+						<input type="checkbox" name="human[]" value="{{  human.slug }}" checked>Include {{  human.title }} ({{  human.party }})?
+					</label>
+				</li>
+				{%  endif %}
+			{% endfor %}
+		</ul>
+		<div class="bigSubmitActionWrapper"><input type="submit"  value="Tweet" class="bigSubmitAction"/></div>
+		<div class="afterBigSubmitActionWrapper"></div>
+	</form>
+
+{% endblock %}
+
+
+{% block scripts %}
+{% endblock %}
+
