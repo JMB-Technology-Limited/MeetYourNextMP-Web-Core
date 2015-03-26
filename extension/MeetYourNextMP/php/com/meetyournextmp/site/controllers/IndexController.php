@@ -42,6 +42,14 @@ class IndexController {
 
 
 
+	function numbersJSON(Application $app) {
+
+		return file_get_contents(APP_ROOT_DIR.DIRECTORY_SEPARATOR.'cache'.DIRECTORY_SEPARATOR.'numbers.json');
+
+	}
+
+
+
 }
 
 

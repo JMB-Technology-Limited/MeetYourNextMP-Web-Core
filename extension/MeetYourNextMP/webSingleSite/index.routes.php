@@ -39,6 +39,7 @@ $app->match('/area/{slug}/humans', "com\meetyournextmp\site\controllers\AreaCont
 $app->match('/formedia/',"com\meetyournextmp\site\controllers\IndexController::formedia");
 
 $app->match('/numbers/',"com\meetyournextmp\site\controllers\IndexController::numbers");
+$app->match('/numbers.json',"com\meetyournextmp\site\controllers\IndexController::numbersJSON");
 
 $app->match('/help',"com\meetyournextmp\site\controllers\HelpController::index");
 $app->match('/help/',"com\meetyournextmp\site\controllers\HelpController::index");
