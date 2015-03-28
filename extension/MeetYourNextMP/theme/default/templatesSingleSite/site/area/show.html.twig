@@ -49,8 +49,16 @@
 				<p>View <a href="/area/{{  nextUpArea.slugForURL }}">information for all the seats and events in {{ nextUpArea.title }}</a> instead.</p>
 			{%  endif %}
 
+			{%  if childAreas|length > 0 %}
+				<p style="display: inline;">
+					Enter your postcode <form action="/postcode/" method="get" style="display: inline;">
+						<input type="text" name="postcode" placeholder="eg EH1 1EG" style="display: inline;">
+						<input type="submit" value="to find your seat" style="display: inline;">
+					</form>
+					or choose from:</p>
+				{% include 'site/common/areaList.html.twig' with { 'areasToList':childAreas} %}
 
-			{% include 'site/common/areaList.html.twig' with { 'areasToList':childAreas} %}
+			{%  endif %}
 
 			<div class="locationWrapper">
 				<div class="location">
