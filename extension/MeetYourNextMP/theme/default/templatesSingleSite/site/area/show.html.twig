@@ -40,6 +40,8 @@
 
 
 		<div  class="innerPageLeft">
+
+
 			<p>{{ area.description | nl2br  | linkify }}</p>
 
 			{%  if parentAreas|length > 1 %}
@@ -65,37 +67,51 @@
 		<div  class="innerPageRight">
 
 
-
 			{%  if not currentUser %}
+				{% if anyVerifiedUserActions.has("org.openacalendar","eventNew") %}
 
-				<div class="highlightInfoBoxWrapper">
-					<div class="highlightInfoBoxTitle">Get notifications?</div>
-					<div class="highlightInfoBoxContent">
-						<p>
-							Get reminders and notifications of events in this area!
-						</p>
-						<p>
-							<a href="{{ config.getWebIndexDomainSecure() }}/you/register?area={{ area.slug }}{%  if not config.isSingleSiteMode %}&areaSite={{ currentSite.slug }}{% endif %}">
-								Create your free account
-							</a>
-						</p>
-						<p>
-							<a href="{{ config.getWebIndexDomainSecure() }}/you/login?area={{ area.slug }}{%  if not config.isSingleSiteMode %}&areaSite={{ currentSite.slug }}{% endif %}">
-								Login
-							</a>
-						</p>
+					<div class="infoBoxWrapper">
+						<div class="infoBoxTitle">Hello!</div>
+						<div class="infoBoxContent">
+							<p>We list independent hustings events at the general election so voters can be better informed.</p>
+
+
+							<p>Please help us by adding any events you know of for everyone's benefit!</p>
+
+							<div class="bigButtonContainer">
+								<a  class="button" href="/event/new?area={{  area.slug }}">Add an event</a>
+							</div>
+
+							{%  if childAreas|length == 0 %}
+
+								<p>Or could you send a Tweet to your candidates asking them what events they are attending?</p>
+
+								<div class="bigButtonContainer">
+									<a  class="button" href="/area/{{ area.slugForUrl }}/tweetToCandidates"><div class="iconTwitterLarge" title="Twitter"></div> Tweet your candidates</a>
+								</div>
+							{% endif %}
+
+							<p>Sign up to receive any updates for {{  area.title }}</p>
+
+							<div class="bigButtonContainer">
+								<a  class="button" href="{{ config.getWebIndexDomainSecure() }}/you/register?area={{ area.slug }}">Sign up for updates</a>
+							</div>
+
+						</div>
 					</div>
-				</div>
-			{%  endif %}
+				{%  endif %}
+			{%  else %}
 
-			<div id="MapWrapper">
-				<div id="Map" class="map"></div>
-				{% if currentSite.isFeatureMap %}
-					<ul class="actionList">
-						<li><a href="/map?area={{ area.slug }}"><div class="iconEyeLarge"></div> View larger map</a></li>
-					</ul>
-				{% endif %}
-			</div>
+				<div id="MapWrapper">
+					<div id="Map" class="map"></div>
+					{% if currentSite.isFeatureMap %}
+						<ul class="actionList">
+							<li><a href="/map?area={{ area.slug }}"><div class="iconEyeLarge"></div> View larger map</a></li>
+						</ul>
+					{% endif %}
+				</div>
+
+			{%  endif %}
 
 		</div>
 
@@ -134,6 +150,15 @@
 									<a  class="button" href="/area/{{ area.slugForUrl }}/tweetToCandidates"><div class="iconTwitterLarge" title="Twitter"></div> Tweet your candidates</a>
 								</div>
 							{% endif %}
+
+							{% if not currentUser %}
+
+								<p>Sign up to receive any updates for {{  area.title }}</p>
+
+								<div class="bigButtonContainer">
+									<a  class="button" href="{{ config.getWebIndexDomainSecure() }}/you/register?area={{ area.slug }}">Sign up for updates</a>
+								</div>
+							{% endif %}
 						{%  else %}
 
 							<p>No events found.</p>
@@ -153,8 +178,10 @@
 {% block scripts %}
 	<script src="/theme/default/js/eventFilterParams.js?v={{ config.assetsVersion }}" type="text/javascript"></script>
 	<script type="text/javascript" src="/theme/default/js/userAtEvents.site.js?v={{ config.assetsVersion }}"></script>
-	{% include 'site/common/mapLibrary.js.html.twig' %}
-	<script src="/theme/default/js/areaShow.js?v={{ config.assetsVersion }}" type="text/javascript"></script>	
+	{%  if currentUser %}
+		{% include 'site/common/mapLibrary.js.html.twig' %}
+		<script src="/theme/default/js/areaShow.js?v={{ config.assetsVersion }}" type="text/javascript"></script>
+	{%  endif %}
 {% endblock %}
 
 
