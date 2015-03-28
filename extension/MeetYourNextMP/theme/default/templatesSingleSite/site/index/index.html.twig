@@ -25,7 +25,7 @@
 		<div id="innerPage">
 
 			<div class="innerPageLeft">
-				<p>We want to help everyone meet their candidates and make an informed choice at the UK general election.</p>
+				<p class="lead">We want to help everyone meet their candidates and make an informed choice at the UK general election.</p>
 
 				<p>We list independent events and hustings only, as we believe such events are more likely to promote frank
 					and full debate and are more informative for voters.</p>
@@ -47,12 +47,12 @@
 				<div class="infoBoxWrapper">
 					<div class="infoBoxTitle">Your seat</div>
 					<div class="infoBoxContent">
-						<p>What is your postcode?</p>
-						<form action="/postcode/" method="get">
+						<p class="infoBoxContentPostCodeText">What is your postcode?</p>
+						<form action="/postcode/" method="get" class="infoBoxContentPostCodeForm">
 							<input type="text" name="postcode" placeholder="eg EH1 1EG">
 							<input type="submit" value="Find my events!">
 						</form>
-						<p>Or <a href="/seat">browse a list of seats</a>.</p>
+						<p class="infoBoxContentPostCodeText">Or <a href="/seat">browse a list of seats</a>.</p>
 					</div>
 				</div>
 
@@ -61,21 +61,25 @@
 
 			<div class="afterInnerPageContent"></div>
 
-			<ul class="mainListEvents">
-				<li class="export">
-					<a href="/api1/events.ical" onclick="showExportPopup(); return false;">
-						<div class="iconDownloadSmall"></div> export
-					</a>
-					{% if currentSite.getIsWebRobotsAllowed %}
-						<a href="#" onclick="showSharePopup(); return false;">
-							<div class="iconShareSmall"></div> share
-						</a>
-					{% endif %}
-				</li>
+			{% if events|length > 0 %}
+				<ul class="frontPageListEvents">
+				{%  set date = '' %}
 				{% for event in events %}
-					{% include '/site/common/mainListEvent.html.twig' with {'event':event, 'showCurrentUserOptions':true, 'showVenueAndArea':true}  %}
+					{%  if event.getStartAt|tolocaltimeformatted('j M', currentTimeZone) != date %}
+						{%  set date = event.getStartAt|tolocaltimeformatted('j M', currentTimeZone) %}
+						<li class="date">{{ event.getStartAt|tolocaltimeformatted('D jS M', currentTimeZone) }}</li>
+					{%  endif %}
+					<li class="event">
+						{% if event.isPhysical and  event.area  %}
+							<span class="where"><a href="/area/{{  event.area.slugForURL }}">{{ event.area.title }}</a></span>
+						{% else %}
+							<span class="where">&nbsp;</span>
+						{% endif %}
+						<a href="/event/{{ event.slugForURL }}">{{  event.summary }}</a>
+					</li>
 				{% endfor %}
-			</ul>
+				</ul>
+			{%  endif %}
 
 		</div>
 	</div>

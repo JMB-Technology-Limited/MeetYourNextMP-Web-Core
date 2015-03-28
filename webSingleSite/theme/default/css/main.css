@@ -2764,6 +2764,48 @@ form .bigSubmitActionWrapper input[type="submit"]:hover {
 form .afterBigSubmitActionWrapper {
   clear: right;
 }
+ul.frontPageListEvents li.date {
+  clear: both;
+  font-size: 120%;
+  font-weight: bold;
+  margin: 20px 0;
+}
+ul.frontPageListEvents li.event {
+  clear: both;
+  margin: 5px 0;
+}
+ul.frontPageListEvents li.event .where {
+  min-width: 200px;
+  padding-right: 10px;
+}
+ul.frontPageListEvents li.event a {
+  color: #000000;
+  text-decoration: none;
+}
+ul.frontPageListEvents li.event a:hover {
+  text-decoration: underline;
+}
+@media screen and (min-width: 600px) {
+  ul.frontPageListEvents li.event .where {
+    float: left;
+    display: block;
+  }
+}
+.infoBoxContentPostCodeText {
+  font-size: 150%;
+  text-align: center;
+}
+.infoBoxContentPostCodeForm {
+  font-size: 120%;
+  text-align: center;
+}
+.infoBoxContentPostCodeForm input {
+  font-size: 110%;
+}
+p.lead {
+  font-size: 150%;
+  line-height: 1.1;
+}
 #PopupMask {
   position: fixed;
   top: 0px;

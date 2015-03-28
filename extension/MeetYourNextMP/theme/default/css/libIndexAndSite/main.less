@@ -863,3 +863,56 @@ form {
 
 
 
+ul.frontPageListEvents {
+	li.date {
+		clear: both;
+		font-size: 120%;
+		font-weight: bold;
+		margin: 20px 0;
+	}
+	li.event {
+		clear: both;
+		margin: 5px 0;
+		.where {
+			min-width: 200px;
+			padding-right: 10px;
+		}
+		.title {
+
+		}
+		a {
+			color: #000000;
+			text-decoration: none;
+		}
+		a:hover {
+			text-decoration: underline;
+		}
+	}
+}
+@media screen and (min-width: 600px) {
+	ul.frontPageListEvents {
+		li.event {
+			.where {
+				float: left;
+				display: block;
+			}
+		}
+	}
+}
+
+.infoBoxContentPostCodeText {
+	font-size: 150%;
+	text-align: center;
+}
+.infoBoxContentPostCodeForm {
+	font-size: 120%;
+	text-align: center;
+	input {
+		font-size: 110%;
+	}
+}
+
+p.lead {
+	font-size: 150%;
+	line-height: 1.1;
+}
