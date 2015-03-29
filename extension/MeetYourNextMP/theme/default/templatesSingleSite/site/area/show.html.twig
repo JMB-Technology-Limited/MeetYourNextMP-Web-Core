@@ -144,29 +144,25 @@
 
 							<p>We list independent hustings events at the general election so voters can be better informed, but we don't know of any here :-(</p>
 
-							<p>Please help us by adding any events you know of for everyone's benefit!</p>
+							{%  if currentUser %}
 
-							<div class="bigButtonContainer">
-								<a  class="button" href="/event/new?area={{  area.slug }}">Add an event</a>
-							</div>
-
-							{%  if childAreas|length == 0 %}
-
-								<p>Or could you send a Tweet to your candidates asking them what events they are attending?</p>
+								<p>Please help us by adding any events you know of for everyone's benefit!</p>
 
 								<div class="bigButtonContainer">
-									<a  class="button" href="/area/{{ area.slugForUrl }}/tweetToCandidates"><div class="iconTwitterLarge" title="Twitter"></div> Tweet your candidates</a>
+									<a  class="button" href="/event/new?area={{  area.slug }}">Add an event</a>
 								</div>
+
+								{%  if childAreas|length == 0 %}
+
+									<p>Or could you send a Tweet to your candidates asking them what events they are attending?</p>
+
+									<div class="bigButtonContainer">
+										<a  class="button" href="/area/{{ area.slugForUrl }}/tweetToCandidates"><div class="iconTwitterLarge" title="Twitter"></div> Tweet your candidates</a>
+									</div>
+								{% endif %}
+
 							{% endif %}
 
-							{% if not currentUser %}
-
-								<p>Sign up to receive any updates for {{  area.title }}</p>
-
-								<div class="bigButtonContainer">
-									<a  class="button" href="{{ config.getWebIndexDomainSecure() }}/you/register?area={{ area.slug }}">Sign up for updates</a>
-								</div>
-							{% endif %}
 						{%  else %}
 
 							<p>No events found.</p>
