@@ -31,9 +31,15 @@
 {% endblock %}
 
 {% block tabDetails %}currentTab{% endblock %}
-		
+
+
 {% block innerContent %}
 
+
+	{%  set nextUpArea = null %}
+	{%  if parentAreas|length > 1 %}
+		{%  set nextUpArea = parentAreas[parentAreas|length -1] %}
+	{%  endif %}
 
 	<div class="mainShowArea" itemscope itemtype="http://schema.org/Place">
 		<meta itemprop="name" content="{{ area.title|e('html_attr') }}" />
@@ -44,8 +50,10 @@
 
 			<p>{{ area.description | nl2br  | linkify }}</p>
 
-			{%  if parentAreas|length > 1 %}
-				{%  set nextUpArea = parentAreas[parentAreas|length -1] %}
+
+
+
+			{%  if nextUpArea %}
 				<p>View <a href="/area/{{  nextUpArea.slugForURL }}">information for all the seats and events in {{ nextUpArea.title }}</a> instead.</p>
 			{%  endif %}
 
@@ -143,6 +151,15 @@
 						{% if currentUserActions.has("org.openacalendar","eventNew") or ( currentUser is null and anyVerifiedUserActions.has("org.openacalendar","eventNew") ) %}
 
 							<p>We don't know of any events here :-(</p>
+
+							{%  if nextUpArea %}
+								{%  set nextUpAreaEventsDefaultCount = nextUpArea|futureeventscount %}
+								{%  if nextUpAreaEventsDefaultCount == 1 %}
+									<p>Do you want to see <a href="/area/{{  nextUpArea.slugForURL }}">the one future event in {{ nextUpArea.title  }}</a> instead?</p>
+								{%  elseif nextUpAreaEventsDefaultCount > 1 %}
+									<p>Do you want to see <a href="/area/{{  nextUpArea.slugForURL }}">the {{ nextUpAreaEventsDefaultCount }} future events in {{ nextUpArea.title  }}</a> instead?</p>
+								{%  endif %}
+							{%  endif %}
 
 							{%  if currentUser %}
 
