@@ -41,127 +41,98 @@
 		{%  set nextUpArea = parentAreas[parentAreas|length -1] %}
 	{%  endif %}
 
-	<div class="mainShowArea" itemscope itemtype="http://schema.org/Place">
-		<meta itemprop="name" content="{{ area.title|e('html_attr') }}" />
+	{%  set eventsDefaultCount = 0 %}
+	{%  if  not eventListFilterParams.isDefaultFilters and events|length == 0 %}
+		{%  set eventsDefaultCount = area|futureeventscount %}
+	{%  endif %}
 
+	{%  if not currentUser and events|length == 0 and childAreas|length == 0 and eventsDefaultCount == 0 and anyVerifiedUserActions.has("org.openacalendar","eventNew") %}
 
-		<div  class="innerPageLeft">
+		<p><span style="font-weight: bold">We don't know of any events here :-(</span> We list independent hustings events at the general election so voters can be better informed.</p>
 
-
-			<p>{{ area.description | nl2br  | linkify }}</p>
-
-
-
-
-			{%  if nextUpArea %}
-				<p>View <a href="/area/{{  nextUpArea.slugForURL }}">information for all the seats and events in {{ nextUpArea.title }}</a> instead.</p>
+		{%  if nextUpArea %}
+			{%  set nextUpAreaEventsDefaultCount = nextUpArea|futureeventscount %}
+			{%  if nextUpAreaEventsDefaultCount == 1 %}
+				<p>Do you want to see <a href="/area/{{  nextUpArea.slugForURL }}">the one future event in {{ nextUpArea.title  }}</a> instead?</p>
+			{%  elseif nextUpAreaEventsDefaultCount > 1 %}
+				<p>Do you want to see <a href="/area/{{  nextUpArea.slugForURL }}">the {{ nextUpAreaEventsDefaultCount }} future events in {{ nextUpArea.title  }}</a> instead?</p>
+			{%  else %}
+				<p>Do you want to see <a href="/area/{{  nextUpArea.slugForURL }}">information for {{ nextUpArea.title  }}</a> instead?</p>
 			{%  endif %}
+		{%  endif %}
 
-			{%  if childAreas|length > 0 %}
-				<p style="display: inline;">
-					Enter your postcode <form action="/postcode/" method="get" style="display: inline;">
-						<input type="text" name="postcode" placeholder="eg EH1 1EG" style="display: inline;">
-						<input type="submit" value="to find your seat" style="display: inline;">
-					</form>
-					or choose from:</p>
-				{% include 'site/common/areaList.html.twig' with { 'areasToList':childAreas} %}
+		<p>Please help us by adding any events you know of for everyone's benefit!</p>
 
-			{%  endif %}
+		<div class="bigButtonContainer">
+			<a  class="button" href="/event/new?area={{  area.slug }}">Add an event</a>
+		</div>
 
-			<div class="locationWrapper">
-				<div class="location">
-					<div class="area"><a href="/area/{{ area.slugForUrl }}">{{ area.title }}</a></div>
-					{% for parentArea in parentAreas|reverse %}
-						<div class="area"><a href="/area/{{ parentArea.slugForUrl }}">{{ parentArea.title }}</a></div>
-					{% endfor %}
-					<div class="country"><a href="/country/{{ country.twoCharCode }}">{{ country.title }} <img src="/theme/default/img/countries/{{ country.twoCharCode|lower }}.png" alt="Flag"></a></div>
+		<p>Or could you send a Tweet to your candidates asking them what events they are attending?</p>
+
+		<div class="bigButtonContainer">
+			<a  class="button" href="/area/{{ area.slugForUrl }}/tweetToCandidates"><div class="iconTwitterLarge" title="Twitter"></div> Tweet your candidates</a>
+		</div>
+
+		<p>Sign up to receive any updates for {{  area.title }}</p>
+
+		<div class="bigButtonContainer">
+			<a  class="button" href="{{ config.getWebIndexDomainSecure() }}/you/register?area={{ area.slug }}">Sign up for updates</a>
+		</div>
+
+
+
+	{%  else %}
+
+		<div class="mainShowArea" itemscope itemtype="http://schema.org/Place">
+			<meta itemprop="name" content="{{ area.title|e('html_attr') }}" />
+
+
+			<div  class="innerPageLeft">
+
+
+				<p>{{ area.description | nl2br  | linkify }}</p>
+
+
+
+
+				{%  if nextUpArea %}
+					<p>View <a href="/area/{{  nextUpArea.slugForURL }}">information for all the seats and events in {{ nextUpArea.title }}</a> instead.</p>
+				{%  endif %}
+
+				{%  if childAreas|length > 0 %}
+					<p style="display: inline;">
+						Enter your postcode <form action="/postcode/" method="get" style="display: inline;">
+							<input type="text" name="postcode" placeholder="eg EH1 1EG" style="display: inline;">
+							<input type="submit" value="to find your seat" style="display: inline;">
+						</form>
+						or choose from:</p>
+					{% include 'site/common/areaList.html.twig' with { 'areasToList':childAreas} %}
+
+				{%  endif %}
+
+				<div class="locationWrapper">
+					<div class="location">
+						<div class="area"><a href="/area/{{ area.slugForUrl }}">{{ area.title }}</a></div>
+						{% for parentArea in parentAreas|reverse %}
+							<div class="area"><a href="/area/{{ parentArea.slugForUrl }}">{{ parentArea.title }}</a></div>
+						{% endfor %}
+						<div class="country"><a href="/country/{{ country.twoCharCode }}">{{ country.title }} <img src="/theme/default/img/countries/{{ country.twoCharCode|lower }}.png" alt="Flag"></a></div>
+					</div>
 				</div>
+
 			</div>
 
-		</div>
-		
-		<div  class="innerPageRight">
+			<div  class="innerPageRight">
 
 
-			{%  if not currentUser %}
-				{% if anyVerifiedUserActions.has("org.openacalendar","eventNew") %}
+				{%  if not currentUser %}
+					{% if anyVerifiedUserActions.has("org.openacalendar","eventNew") %}
 
-					<div class="infoBoxWrapper">
-						<div class="infoBoxTitle">Hello!</div>
-						<div class="infoBoxContent">
-							<p>We list independent hustings events at the general election so voters can be better informed.</p>
+						<div class="infoBoxWrapper">
+							<div class="infoBoxTitle">Hello!</div>
+							<div class="infoBoxContent">
+								<p>We list independent hustings events at the general election so voters can be better informed.</p>
 
-
-							<p>Please help us by adding any events you know of for everyone's benefit!</p>
-
-							<div class="bigButtonContainer">
-								<a  class="button" href="/event/new?area={{  area.slug }}">Add an event</a>
-							</div>
-
-							{%  if childAreas|length == 0 %}
-
-								<p>Or could you send a Tweet to your candidates asking them what events they are attending?</p>
-
-								<div class="bigButtonContainer">
-									<a  class="button" href="/area/{{ area.slugForUrl }}/tweetToCandidates"><div class="iconTwitterLarge" title="Twitter"></div> Tweet your candidates</a>
-								</div>
-							{% endif %}
-
-							<p>Sign up to receive any updates for {{  area.title }}</p>
-
-							<div class="bigButtonContainer">
-								<a  class="button" href="{{ config.getWebIndexDomainSecure() }}/you/register?area={{ area.slug }}">Sign up for updates</a>
-							</div>
-
-						</div>
-					</div>
-				{%  endif %}
-			{%  else %}
-
-				<div id="MapWrapper">
-					<div id="Map" class="map"></div>
-					{% if currentSite.isFeatureMap %}
-						<ul class="actionList">
-							<li><a href="/map?area={{ area.slug }}"><div class="iconEyeLarge"></div> View larger map</a></li>
-						</ul>
-					{% endif %}
-				</div>
-
-			{%  endif %}
-
-		</div>
-
-		<div class="afterInnerPageContent"></div>
-
-
-		{% include '/site/eventListFilterParams.html.twig' %}
-
-		<ul class="mainListEvents">
-			{% for event in events %}
-				{% include '/site/common/mainListEvent.html.twig' with {'event':event, 'showCurrentUserOptions':true, 'showVenueAndArea':true}  %}
-			{% else %}
-				<li class="nodata">
-					{%  set eventsDefaultCount = area|futureeventscount %}
-					{%  if not eventListFilterParams.isDefaultFilters and eventsDefaultCount == 1 %}
-						No events found with that filter. Do you want to see <a href="/area/{{  area.slugForURL }}">the one future event</a> instead?
-					{%  elseif not eventListFilterParams.isDefaultFilters and eventsDefaultCount > 1 %}
-						No events found with that filter. Do you want to see <a href="/area/{{  area.slugForURL }}">the {{ eventsDefaultCount }} future events</a> instead?
-					{%  else %}
-
-						{% if currentUserActions.has("org.openacalendar","eventNew") or ( currentUser is null and anyVerifiedUserActions.has("org.openacalendar","eventNew") ) %}
-
-							<p>We don't know of any events here :-(</p>
-
-							{%  if nextUpArea %}
-								{%  set nextUpAreaEventsDefaultCount = nextUpArea|futureeventscount %}
-								{%  if nextUpAreaEventsDefaultCount == 1 %}
-									<p>Do you want to see <a href="/area/{{  nextUpArea.slugForURL }}">the one future event in {{ nextUpArea.title  }}</a> instead?</p>
-								{%  elseif nextUpAreaEventsDefaultCount > 1 %}
-									<p>Do you want to see <a href="/area/{{  nextUpArea.slugForURL }}">the {{ nextUpAreaEventsDefaultCount }} future events in {{ nextUpArea.title  }}</a> instead?</p>
-								{%  endif %}
-							{%  endif %}
-
-							{%  if currentUser %}
 
 								<p>Please help us by adding any events you know of for everyone's benefit!</p>
 
@@ -178,22 +149,94 @@
 									</div>
 								{% endif %}
 
-							{% endif %}
+								<p>Sign up to receive any updates for {{  area.title }}</p>
 
+								<div class="bigButtonContainer">
+									<a  class="button" href="{{ config.getWebIndexDomainSecure() }}/you/register?area={{ area.slug }}">Sign up for updates</a>
+								</div>
+
+							</div>
+						</div>
+					{%  endif %}
+				{%  else %}
+
+					<div id="MapWrapper">
+						<div id="Map" class="map"></div>
+						{% if currentSite.isFeatureMap %}
+							<ul class="actionList">
+								<li><a href="/map?area={{ area.slug }}"><div class="iconEyeLarge"></div> View larger map</a></li>
+							</ul>
+						{% endif %}
+					</div>
+
+				{%  endif %}
+
+			</div>
+
+			<div class="afterInnerPageContent"></div>
+
+
+			{% include '/site/eventListFilterParams.html.twig' %}
+
+			<ul class="mainListEvents">
+				{% for event in events %}
+					{% include '/site/common/mainListEvent.html.twig' with {'event':event, 'showCurrentUserOptions':true, 'showVenueAndArea':true}  %}
+				{% else %}
+					<li class="nodata">
+						{%  if eventsDefaultCount == 1 %}
+							No events found with that filter. Do you want to see <a href="/area/{{  area.slugForURL }}">the one future event</a> instead?
+						{%  elseif  eventsDefaultCount > 1 %}
+							No events found with that filter. Do you want to see <a href="/area/{{  area.slugForURL }}">the {{ eventsDefaultCount }} future events</a> instead?
 						{%  else %}
 
-							<p>No events found.</p>
+							{% if currentUserActions.has("org.openacalendar","eventNew") or ( currentUser is null and anyVerifiedUserActions.has("org.openacalendar","eventNew") ) %}
 
-						{% endif %}
+								<p>We don't know of any events here :-(</p>
 
-					{%  endif %}
+								{%  if nextUpArea %}
+									{%  set nextUpAreaEventsDefaultCount = nextUpArea|futureeventscount %}
+									{%  if nextUpAreaEventsDefaultCount == 1 %}
+										<p>Do you want to see <a href="/area/{{  nextUpArea.slugForURL }}">the one future event in {{ nextUpArea.title  }}</a> instead?</p>
+									{%  elseif nextUpAreaEventsDefaultCount > 1 %}
+										<p>Do you want to see <a href="/area/{{  nextUpArea.slugForURL }}">the {{ nextUpAreaEventsDefaultCount }} future events in {{ nextUpArea.title  }}</a> instead?</p>
+									{%  endif %}
+								{%  endif %}
 
-				</li>
-			{% endfor %}
-		</ul>
+								{%  if currentUser %}
 
-	</div>
+									<p>Please help us by adding any events you know of for everyone's benefit!</p>
 
+									<div class="bigButtonContainer">
+										<a  class="button" href="/event/new?area={{  area.slug }}">Add an event</a>
+									</div>
+
+									{%  if childAreas|length == 0 %}
+
+										<p>Or could you send a Tweet to your candidates asking them what events they are attending?</p>
+
+										<div class="bigButtonContainer">
+											<a  class="button" href="/area/{{ area.slugForUrl }}/tweetToCandidates"><div class="iconTwitterLarge" title="Twitter"></div> Tweet your candidates</a>
+										</div>
+									{% endif %}
+
+								{% endif %}
+
+							{%  else %}
+
+								<p>No events found.</p>
+
+							{% endif %}
+
+						{%  endif %}
+
+					</li>
+				{% endfor %}
+			</ul>
+
+		</div>
+
+
+	{%  endif %}
 {% endblock %}
 
 {% block scripts %}
