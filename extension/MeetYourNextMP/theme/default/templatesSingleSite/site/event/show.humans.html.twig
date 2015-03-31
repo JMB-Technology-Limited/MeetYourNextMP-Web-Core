@@ -21,6 +21,40 @@
 		</div>
 		<div class="afterInnerPageContent"></div>
 	{% endfor %}
+	{%  if humans|length < 3 %}
+		{%  if currentUserActions.has("org.openacalendar","eventEditHumans") %}
+			<div class="innerPageLeft">
+				<div class="infoBoxWrapper">
+					<div class="infoBoxTitle">Who is attending?</div>
+					<div class="infoBoxContent">
+						<p>If you know other candidates attending this event, can you create an account and let everyone know?</p>
+						<div class="bigButtonContainer">
+							<a class="button" href="/event/{{  event.slugForURL }}/edit/humans">Edit Candidates Attending</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="innerPageRight">
+			</div>
+			<div class="afterInnerPageContent"></div>
+		{%  else %}
+			<div class="innerPageLeft">
+				<div class="infoBoxWrapper">
+					<div class="infoBoxTitle">Who is attending?</div>
+					<div class="infoBoxContent">
+						<p>If you know other candidates attending this event, can you create an account and let everyone know?</p>
+						<div class="bigButtonContainer">
+							<a  class="button" href="{{ config.getWebIndexDomainSecure() }}/you/login">Login</a>
+							<a  class="button" href="{{ config.getWebIndexDomainSecure() }}/you/register">Register</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="innerPageRight">
+			</div>
+			<div class="afterInnerPageContent"></div>
+		{%  endif %}
+	{%  endif %}
 {% elseif humansToAdd|length > 0  and currentUserActions.has("org.openacalendar","eventEditHumans") %}
 	<div class="innerPageLeft">
 
