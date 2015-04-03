@@ -128,6 +128,7 @@ class ExtensionMeetYourNextMP extends \BaseExtension {
 		return array(
 			new \com\meetyournextmp\tasks\ImportPopItHumansTask($this->app),
 			new \com\meetyournextmp\tasks\CacheNumbersTask($this->app),
+			new \com\meetyournextmp\tasks\MadeDataDumpYNMPReadTask($this->app),
 		);
 	}
 

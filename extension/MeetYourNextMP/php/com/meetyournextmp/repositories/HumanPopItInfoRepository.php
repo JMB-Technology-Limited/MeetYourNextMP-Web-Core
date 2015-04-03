@@ -27,6 +27,18 @@ class HumanPopItInfoRepository {
 			return $p;
 		}
 	}
+	/** @return HumanPopItInfoModel */
+	public function getByHumanID($id) {
+		global $DB;
+		$stat = $DB->prepare("SELECT human_popit_information.* FROM human_popit_information ".
+				" WHERE human_popit_information.human_id =:human_id ");
+		$stat->execute(array( 'human_id'=> $id));
+		if ($stat->rowCount() > 0) {
+			$p = new HumanPopItInfoModel();
+			$p->setFromDataBaseRow($stat->fetch());
+			return $p;
+		}
+	}
 
 	public function create(HumanPopItInfoModel $humanPopItInfoModel) {
 		global $DB;

@@ -25,6 +25,18 @@ class AreaMapItInfoRepository {
 		}
 	}
 
+	public function getByAreaID($id) {
+		global $DB;
+		$stat = $DB->prepare("SELECT area_mapit_information.* FROM area_mapit_information ".
+				" WHERE area_mapit_information.area_id =:area_id ");
+		$stat->execute(array( 'area_id'=> $id));
+		if ($stat->rowCount() > 0) {
+			$a = new AreaMapItInfoModel();
+			$a->setFromDataBaseRow($stat->fetch());
+			return $a;
+		}
+	}
+
 	public function getByMapItID($id) {
 		global $DB;
 		$stat = $DB->prepare("SELECT area_mapit_information.* FROM area_mapit_information ".
