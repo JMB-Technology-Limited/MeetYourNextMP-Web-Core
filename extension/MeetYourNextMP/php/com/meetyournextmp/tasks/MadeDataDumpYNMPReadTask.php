@@ -131,7 +131,7 @@ class MadeDataDumpYNMPReadTask extends \BaseTask {
 
 			}
 
-			$thisOut['mapitids'] = array_unique($mapitids);
+			$thisOut['mapitids'] = array_values(array_unique($mapitids));
 
 			$out['data'][] = $thisOut;
 
