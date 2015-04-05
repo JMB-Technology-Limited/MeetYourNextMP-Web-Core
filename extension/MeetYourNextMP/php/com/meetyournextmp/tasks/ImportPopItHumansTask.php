@@ -108,6 +108,7 @@ class ImportPopItHumansTask extends \BaseTask {
 					$twitter = null;
 					$imageURL = null;
 					$imageProxyURL = null;
+					$imageHumanURL = null;
 
 					if (isset($humanObj->links)) {
 						foreach($humanObj->links as $linkData) {
@@ -130,8 +131,11 @@ class ImportPopItHumansTask extends \BaseTask {
 							$imageDataArray = get_object_vars($imageData);
 							$imageProxyURL = $imageDataArray['proxy_url'];
 							$imageURL = $imageDataArray['url'];
+							$imageHumanURL  = $imageProxyURL ? $imageProxyURL : $imageURL;
 						}
 					}
+
+
 
 					$this->logVerbose( " - Standing in 2015!");
 
@@ -157,7 +161,7 @@ class ImportPopItHumansTask extends \BaseTask {
 							$human->getUrl() != $humanUrl ||
 							$human->getTwitter() != $twitter ||
 							$human->getParty() != $partyMemberships2015['name'] ||
-							$human->getImageUrl() != $imageURL) {
+							$human->getImageUrl() != $imageHumanURL) {
 
 							$this->logVerbose(" - Updating existing Human record");
 							$human->setTitle($humanObj->name);
@@ -165,7 +169,7 @@ class ImportPopItHumansTask extends \BaseTask {
 							$human->setEmail($humanObj->email);
 							$human->setTwitter($twitter);
 							$human->setParty($partyMemberships2015['name']);
-							$human->setImageUrl($imageURL);
+							$human->setImageUrl($imageHumanURL);
 							$human->setUrl($humanUrl);
 							$humanRepo->edit($human);
 						}
@@ -198,7 +202,7 @@ class ImportPopItHumansTask extends \BaseTask {
 						$human->setDescription($description);
 						$human->setEmail($humanObj->email);
 						$human->setTwitter($twitter);
-						$human->setImageUrl($imageURL);
+						$human->setImageUrl($imageHumanURL);
 						$human->setUrl($humanUrl);
 						$human->setParty($partyMemberships2015['name']);
 
