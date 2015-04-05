@@ -724,7 +724,8 @@ form.styled .actionWrapperBig input[type="submit"] {
   font-size: 1.20em;
   text-decoration: none;
 }
-form.styled .actionWrapperBig input[type="submit"]:hover {
+form.styled .actionWrapperBig input[type="submit"]:hover,
+form.styled .actionWrapperBig input[type="submit"]:focus {
   color: black;
   text-decoration: underline;
 }
@@ -749,7 +750,9 @@ form.styled .actionWrapperBig input[type="submit"]:hover {
   text-decoration: none;
 }
 .oneActionFormRight input[type="submit"]:hover,
-.oneActionFormRight a.button:hover {
+.oneActionFormRight a.button:hover,
+.oneActionFormRight input[type="submit"]:focus,
+.oneActionFormRight a.button:focus {
   color: black;
   text-decoration: underline;
 }
@@ -801,7 +804,9 @@ div.group .title a {
   text-decoration: none;
 }
 ul.mainListGroups li.group .title a:hover,
-div.group .title a:hover {
+ul.mainListGroups li.group .title a:focus,
+div.group .title a:hover,
+div.group .title a:focus {
   color: black;
   text-decoration: underline;
 }
@@ -847,7 +852,8 @@ ul.mainListCountries li.country .title a {
   color: #333;
   text-decoration: none;
 }
-ul.mainListCountries li.country .title a:hover {
+ul.mainListCountries li.country .title a:hover,
+ul.mainListCountries li.country .title a:focus {
   color: black;
   text-decoration: underline;
 }
@@ -869,7 +875,8 @@ ul.mainListVenues li.venue .title a {
   color: #333;
   text-decoration: none;
 }
-ul.mainListVenues li.venue .title a:hover {
+ul.mainListVenues li.venue .title a:hover,
+ul.mainListVenues li.venue .title a:focus {
   color: black;
   text-decoration: underline;
 }
@@ -937,7 +944,8 @@ ul.mainListImporturls li.importurl .title a {
   color: #333;
   text-decoration: none;
 }
-ul.mainListImporturls li.importurl .title a:hover {
+ul.mainListImporturls li.importurl .title a:hover,
+ul.mainListImporturls li.importurl .title a:focus {
   color: black;
   text-decoration: underline;
 }
@@ -964,7 +972,8 @@ ul.mainListUserGroups li.userGroup .title a {
   color: #333;
   text-decoration: none;
 }
-ul.mainListUserGroups li.userGroup .title a:hover {
+ul.mainListUserGroups li.userGroup .title a:hover,
+ul.mainListUserGroups li.userGroup .title a:focus {
   color: black;
   text-decoration: underline;
 }
@@ -991,7 +1000,8 @@ ul.mainListTags li.tag .title a {
   color: #333;
   text-decoration: none;
 }
-ul.mainListTags li.tag .title a:hover {
+ul.mainListTags li.tag .title a:hover,
+ul.mainListTags li.tag .title a:focus {
   color: black;
   text-decoration: underline;
 }
@@ -1096,7 +1106,8 @@ table.data a.button {
   display: block;
   text-decoration: none;
 }
-table.data a.button:hover {
+table.data a.button:hover,
+table.data a.button:focus {
   color: red;
   text-decoration: underline;
 }
@@ -1372,7 +1383,8 @@ ul.history li.deleted {
   color: #333;
   text-decoration: none;
 }
-#MediaPopup #MediaPopupContents a:hover {
+#MediaPopup #MediaPopupContents a:hover,
+#MediaPopup #MediaPopupContents a:focus {
   color: black;
   text-decoration: underline;
 }
@@ -1463,7 +1475,8 @@ ul.mapTimeEvents li p.eventTitle a {
   color: #333;
   text-decoration: none;
 }
-ul.mapTimeEvents li p.eventTitle a:hover {
+ul.mapTimeEvents li p.eventTitle a:hover,
+ul.mapTimeEvents li p.eventTitle a:focus {
   color: black;
   text-decoration: underline;
 }
@@ -1540,7 +1553,9 @@ div.filterListVenueWrapper form.filterListVenue div.submitField input {
   text-decoration: none;
 }
 .bigButtonContainer a.button:hover,
-.bigButtonContainer input.button:hover {
+.bigButtonContainer input.button:hover,
+.bigButtonContainer a.button:focus,
+.bigButtonContainer input.button:focus {
   color: black;
   text-decoration: underline;
 }
@@ -1590,7 +1605,8 @@ ul.areasList li.area .title a {
   color: #333;
   text-decoration: none;
 }
-ul.areasList li.area .title a:hover {
+ul.areasList li.area .title a:hover,
+ul.areasList li.area .title a:focus {
   color: black;
   text-decoration: underline;
 }
@@ -1815,7 +1831,9 @@ div.importedevent div.title a {
   text-decoration: none;
 }
 ul.mainListImportedEvents li.importedevent div.title a:hover,
-div.importedevent div.title a:hover {
+ul.mainListImportedEvents li.importedevent div.title a:focus,
+div.importedevent div.title a:hover,
+div.importedevent div.title a:focus {
   color: black;
   text-decoration: underline;
 }
@@ -2939,7 +2957,8 @@ p.lead {
   text-decoration: none;
   font-weight: bold;
 }
-.popupBox ul#ExportPopupMenu li .wrapper:hover {
+.popupBox ul#ExportPopupMenu li .wrapper:hover,
+.popupBox ul#ExportPopupMenu li .wrapper:focus {
   background: #f2f2f2;
 }
 .popupBox ul#ExportPopupMenu li .wrapper img {
