@@ -135,7 +135,9 @@ class ImportPopItHumansTask extends \BaseTask {
 
 					$this->logVerbose( " - Standing in 2015!");
 
-					$description = "Standing in ".$standingIn2015['name']." for ".$partyMemberships2015['name']."\n\nFind out more at https://yournextmp.com/person/".$humanObj->id;
+					$description = "Standing in ".$standingIn2015['name']." for ".$partyMemberships2015['name'].".";
+					$humanUrl = "https://yournextmp.com/person/".$humanObj->id;
+
 
 					$bits = explode('/', $standingIn2015['mapit_url']);
 					$mapItID = $bits[4];
@@ -152,6 +154,7 @@ class ImportPopItHumansTask extends \BaseTask {
 						if ($human->getTitle() != $humanObj->name ||
 							$description != $human->getDescription() ||
 							$human->getEmail() != $humanObj->email ||
+							$human->getUrl() != $humanUrl ||
 							$human->getTwitter() != $twitter ||
 							$human->getParty() != $partyMemberships2015['name'] ||
 							$human->getImageUrl() != $imageURL) {
@@ -163,6 +166,7 @@ class ImportPopItHumansTask extends \BaseTask {
 							$human->setTwitter($twitter);
 							$human->setParty($partyMemberships2015['name']);
 							$human->setImageUrl($imageURL);
+							$human->setUrl($humanUrl);
 							$humanRepo->edit($human);
 						}
 
@@ -195,6 +199,7 @@ class ImportPopItHumansTask extends \BaseTask {
 						$human->setEmail($humanObj->email);
 						$human->setTwitter($twitter);
 						$human->setImageUrl($imageURL);
+						$human->setUrl($humanUrl);
 						$human->setParty($partyMemberships2015['name']);
 
 						$humanRepo->create($human, $site);

@@ -22,6 +22,7 @@ class HumanModel  {
 	protected $party;
 	protected $email;
 	protected $image_url;
+	protected $url;
 	protected $is_duplicate_of_id;
 
 	public function setFromDataBaseRow($data) {
@@ -35,6 +36,7 @@ class HumanModel  {
 		$this->party = $data['party'];
 		$this->email = $data['email'];
 		$this->image_url = $data['image_url'];
+		$this->url = $data['url'];
 		$this->is_duplicate_of_id = $data['is_duplicate_of_id'];
 	}
 
@@ -183,6 +185,22 @@ class HumanModel  {
 	public function setParty($party)
 	{
 		$this->party = $party;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getUrl()
+	{
+		return $this->url;
+	}
+
+	/**
+	 * @param mixed $url
+	 */
+	public function setUrl($url)
+	{
+		$this->url = $url;
 	}
 
 

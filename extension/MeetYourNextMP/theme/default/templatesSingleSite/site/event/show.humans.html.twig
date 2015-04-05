@@ -14,7 +14,9 @@
 				<img src="{{ human.imageUrl }}" class="humanImage" alt="{{ human.title }} image">
 			{% endif %}
 			<p class="humanDescription">{{ human.description | nl2br  | linkify }}</p>
-
+			{%  if human.url %}
+				<p class="humanDescription">Find out more at <a href="{{  human.url }}">YourNextMP</a>.</p>
+			{%  endif %}
 		</div>
 		<div class="innerPageRight">
 
