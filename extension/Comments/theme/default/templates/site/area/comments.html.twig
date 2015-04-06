@@ -9,6 +9,10 @@
 {% block pageTitle %}Comment on {{ area.title }} - {% endblock %}
 
 
+{% block htmlHeader %}
+	<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+{% endblock %}
+	
 
 {% block actions %}
 	{%  if currentUserActions.has("org.openacalendar.comments","actionAreaNewComment") %}

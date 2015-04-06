@@ -45,7 +45,6 @@
 			{%  if childAreas|length == 0 %}
 				<li class="tab {% block tabHumans %}{% endblock %}"><a href="/area/{{ area.slugForUrl }}/humans">Candidates</a></li>
 			{% endif %}
-			<li class="tab"><a href="/area/{{ area.slugForUrl }}/comment">Want to organise a hustings?</a></li>
 			{%  if currentUserActions.has("org.openacalendar","areaHistory") %}<li class="tab {% block tabHistory %}{% endblock %}"><a href="/area/{{ area.slugForUrl }}/history">History of changes</a></li>{%  endif %}
 		</ul>
 		<div id="innerPage">
