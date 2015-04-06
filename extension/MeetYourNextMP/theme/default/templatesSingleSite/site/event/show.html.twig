@@ -160,6 +160,15 @@
 
 
 				{%  endif %}
+
+				{%  for customField in currentSite.getCachedEventCustomFieldDefinitionsAsModels %}
+					{% if customField.isActive and event.hasCustomField(customField) %}
+						<p>
+							{{  customField.label }}:<br>
+							{{ event.getCustomField(customField) | nl2br | linkify }}
+						</p>
+					{%  endif %}
+				{%  endfor %}
 			</p>
 
 
