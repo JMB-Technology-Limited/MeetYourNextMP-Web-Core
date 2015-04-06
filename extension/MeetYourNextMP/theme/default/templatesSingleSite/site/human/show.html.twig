@@ -23,7 +23,7 @@
 	<div class="mainShowHuman">
 
 		<div class="innerPageLeft">
-			{% if human.imageUrl %}
+			{% if config.showHumanImages and human.imageUrl %}
 				<img src="{{ human.imageUrl }}" class="image" alt="{{ human.title }} image">
 			{% endif %}
 

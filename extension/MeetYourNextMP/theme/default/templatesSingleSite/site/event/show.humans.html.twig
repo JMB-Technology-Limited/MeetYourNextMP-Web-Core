@@ -10,7 +10,7 @@
 			<p class="humanTitle">About <a href="/human/{{ human.slugForUrl }}">{{ human.title }}</a></p>
 		</div>
 		<div class="innerPageLeft">
-			{% if human.imageUrl %}
+			{% if config.showHumanImages and human.imageUrl %}
 				<img src="{{ human.imageUrl }}" class="humanImage" alt="{{ human.title }} image">
 			{% endif %}
 			<p class="humanDescription">{{ human.description | nl2br  | linkify }}</p>
