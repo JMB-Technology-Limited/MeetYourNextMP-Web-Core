@@ -20,6 +20,7 @@ class HumanTweetModel
 	protected $text;
 	protected $created_at;
 	protected $sent_at;
+	protected $twitter_id;
 
 	/**
 	 * @return mixed
@@ -111,6 +112,22 @@ class HumanTweetModel
 	public function setText($text)
 	{
 		$this->text = $text;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getTwitterId()
+	{
+		return $this->twitter_id;
+	}
+
+	/**
+	 * @param mixed $twitter_id
+	 */
+	public function setTwitterId($twitter_id)
+	{
+		$this->twitter_id = $twitter_id;
 	}
 
 

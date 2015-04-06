@@ -1,4 +1,6 @@
 <?php
+use Abraham\TwitterOAuth\TwitterOAuth;
+
 define('APP_ROOT_DIR',__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR);
 require_once (defined('COMPOSER_ROOT_DIR') ? COMPOSER_ROOT_DIR : APP_ROOT_DIR).'/vendor/autoload.php';
 require_once APP_ROOT_DIR.'/core/php/autoload.php';
@@ -92,11 +94,15 @@ foreach($humans as $human) {
 
 sleep(5);
 
+$connection = new TwitterOAuth($CONFIG->TWITTER_APP_APP_KEY, $CONFIG->TWITTER_APP_APP_SECRET, $CONFIG->TWITTER_APP_USER_TOKEN, $CONFIG->TWITTER_APP_USER_SECRET);
+
 foreach($humanTweets as $humanTweet) {
 
-// TODO
+	$data = $connection->post("statuses/update", array("status" => $humanTweet->getText()));
 
+	$humanTweet->setTwitterId($data->id_str);
 
 	$humanTweetRepo->markSent($humanTweet);
+
 }
 

@@ -42,9 +42,10 @@ class HumanTweetRepository {
 	public function markSent(HumanTweetModel $humanTweetModel) {
 		global $DB;
 
-		$stat = $DB->prepare("UPDATE human_tweet SET sent_at=:sent_at WHERE id=:id");
+		$stat = $DB->prepare("UPDATE human_tweet SET sent_at=:sent_at, twitter_id=:twitter_id WHERE id=:id");
 		$stat->execute(array(
 			'id'=>$humanTweetModel->getId(),
+			'twitter_id'=>$humanTweetModel->getTwitterId(),
 			'sent_at'=>\TimeSource::getFormattedForDataBase(),
 		));
 
