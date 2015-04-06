@@ -30,19 +30,35 @@ sleep(5);
 print "Running\n";
 
 $stat = $DB->prepare("UPDATE human_popit_information ".
-		" SET email= id || '@jarofgreen.co.uk', twitter='jogtest1' ".
+		" SET email= id || '@jarofgreen.co.uk' ".
 		" WHERE email IS NOT NULL ");
 $stat->execute();
 
 
 $stat = $DB->prepare("UPDATE human_information ".
-		" SET email= id || '@jarofgreen.co.uk', twitter='jogtest1' ".
+		" SET email= id || '@jarofgreen.co.uk' ".
 		" WHERE email IS NOT NULL ");
 $stat->execute();
 
 $stat = $DB->prepare("UPDATE human_history ".
-		" SET email= human_id || '@jarofgreen.co.uk', twitter='jogtest1' ".
+		" SET email= human_id || '@jarofgreen.co.uk' ".
 		" WHERE email IS NOT NULL ");
+$stat->execute();
+
+$stat = $DB->prepare("UPDATE human_popit_information ".
+		" SET  twitter='jogtest1' ".
+		" WHERE twitter IS NOT NULL ");
+$stat->execute();
+
+
+$stat = $DB->prepare("UPDATE human_information ".
+		" SET  twitter='jogtest1' ".
+		" WHERE twitter IS NOT NULL ");
+$stat->execute();
+
+$stat = $DB->prepare("UPDATE human_history ".
+		" SET  twitter='jogtest1' ".
+		" WHERE twitter IS NOT NULL ");
 $stat->execute();
 
 print "Done\n";
