@@ -129,7 +129,7 @@ class ImportPopItHumansTask extends \BaseTask {
 					if (isset($humanObj->images)) {
 						foreach($humanObj->images as $imageData) {
 							$imageDataArray = get_object_vars($imageData);
-							$imageProxyURL = $imageDataArray['proxy_url'];
+							$imageProxyURL = $imageDataArray['proxy_url'].'/300/0';
 							$imageURL = $imageDataArray['url'];
 							$imageHumanURL  = $imageProxyURL ? $imageProxyURL : $imageURL;
 						}
