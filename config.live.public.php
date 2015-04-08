@@ -12,7 +12,7 @@ $CONFIG->databaseUser = 'meetyournextmp';
 
 $CONFIG->assetsVersion = 20;
 
-$CONFIG->showHumanImages = false;
+$CONFIG->showHumanImages = true;
 
 $CONFIG->isSingleSiteMode = true;
 $CONFIG->singleSiteID = 1;
