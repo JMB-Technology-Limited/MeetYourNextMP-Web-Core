@@ -1,0 +1,45 @@
+{#
+ # @package com.meetyournextmp
+ # @license Closed Source
+ # @copyright (c) 2013-2015, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+
+<div class="innerPageLeft">
+	<p class="lead">We want to help everyone meet their candidates and make an informed choice at the UK general election.</p>
+
+	<p>We list independent events and hustings only, as we believe such events are more likely to promote frank
+		and full debate and are more informative for voters.</p>
+
+	<p>(Hustings are events where voters can question a panel of candidates from different parties)</p>
+
+	<p>
+		{% if currentUserActions.has("org.openacalendar","eventNew") or ( currentUser is null and anyVerifiedUserActions.has("org.openacalendar","eventNew") ) %}
+			We crowd source the data by asking people like you to <a href="/event/new">add events they know of</a>.
+		{%  endif %}
+		We make all the data available as Open Data for reuse by anyone who wants to publicse such events.
+	</p>
+
+	{% if currentUser is null %}
+		<p>Please <a href="{{ config.getWebIndexDomainSecure() }}/you/register">create an account</a> to add events using our easy web process.</p>
+	{%  endif %}
+
+</div>
+
+<div class="innerPageRight">
+	<div class="infoBoxWrapper">
+		<div class="infoBoxTitle">Your seat</div>
+		<div class="infoBoxContent">
+			<p class="infoBoxContentPostCodeText">What is your postcode?</p>
+			<form action="/postcode/" method="get" class="infoBoxContentPostCodeForm">
+				<input type="text" name="postcode" placeholder="eg EH1 1EG">
+				<input type="submit" value="Find my events!">
+			</form>
+			<p class="infoBoxContentPostCodeText">Or <a href="/seat">browse a list of seats</a>.</p>
+		</div>
+	</div>
+
+
+</div>
+
+<div class="afterInnerPageContent"></div>
