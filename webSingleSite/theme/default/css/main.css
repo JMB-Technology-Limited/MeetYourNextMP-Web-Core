@@ -2953,6 +2953,10 @@ p.lead {
   text-decoration: underline;
   color: black;
 }
+.wizardProgressWrapper ul.steps li.arrow {
+  display: inline;
+  padding: 3px;
+}
 #PopupMask {
   position: fixed;
   top: 0px;
