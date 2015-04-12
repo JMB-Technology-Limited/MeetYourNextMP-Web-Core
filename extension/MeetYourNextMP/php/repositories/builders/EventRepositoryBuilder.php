@@ -176,8 +176,15 @@ class EventRepositoryBuilder extends BaseRepositoryBuilder {
 		$this->startAfter = $a;
 		return $this;
 	}
-	
-	
+
+	/** @var \DateTime **/
+	protected $endBefore;
+
+	public function setBeforeNow() {
+		$this->endBefore = \TimeSource::getDateTime();
+		return $this;
+	}
+
 	/** @var \DateTime **/
 	protected $start;
 	
@@ -357,26 +364,30 @@ class EventRepositoryBuilder extends BaseRepositoryBuilder {
 				$this->select[] = " group_information_cl.title AS in_curated_list_group_title ";
 			}
 		}
-		
+
 		if ($this->end) {
 			$this->where[] = ' event_information.end_at = :end';
-			$this->params['end'] = $this->end->format("Y-m-d H:i:s");			
+			$this->params['end'] = $this->end->format("Y-m-d H:i:s");
 		} else if ($this->after) {
 			$this->where[] = ' event_information.end_at > :after';
 			$this->params['after'] = $this->after->format("Y-m-d H:i:s");
-		} else if ($this->startAfter) {
-			$this->where[] = ' event_information.start_at > :startAfter';
-			$this->params['startAfter'] = $this->startAfter->format("Y-m-d H:i:s");
+		} else if ($this->endBefore) {
+			$this->where[] = ' event_information.end_at < :before';
+			$this->params['before'] = $this->endBefore->format("Y-m-d H:i:s");
 		}
-		
+
 		if ($this->start) {
 			$this->where[] = ' event_information.start_at = :start';
 			$this->params['start'] = $this->start->format("Y-m-d H:i:s");
 		} else if ($this->before) {
 			$this->where[] = ' event_information.start_at < :before';
 			$this->params['before'] = $this->before->format("Y-m-d H:i:s");
+		} else if ($this->startAfter) {
+			$this->where[] = ' event_information.start_at > :startAfter';
+			$this->params['startAfter'] = $this->startAfter->format("Y-m-d H:i:s");
 		}
-		
+
+
 		if (!$this->include_deleted) {
 			$this->where[] = " event_information.is_deleted = '0' ";
 		}
