@@ -10,7 +10,7 @@ $CONFIG->databaseUser = 'meetyournextmp';
 
 
 
-$CONFIG->assetsVersion = 20;
+$CONFIG->assetsVersion = 21;
 
 $CONFIG->showHumanImages = true;
 
