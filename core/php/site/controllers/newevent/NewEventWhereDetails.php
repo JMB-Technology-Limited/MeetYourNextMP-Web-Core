@@ -139,8 +139,6 @@ class NewEventWhereDetails extends BaseNewEvent
 				}
 			}
 
-			//var_dump($this->draftEvent->getDetails()); 	var_dump($out); die();
-
 			return $out;
 		} else if ($this->getCurrentMode() == $this->MODE_AREA) {
 			$out = array('searchAreas'=>$this->request->get('searchAreas'), 'areas'=>array());
@@ -209,8 +207,6 @@ class NewEventWhereDetails extends BaseNewEvent
 			$this->draftEvent->setDetailsValue('venue.address_code', $venueModel->getAddressCode());
 			$this->draftEvent->setDetailsValue('venue.field_area_search_text', $this->request->request->get('fieldAreaSearchText'));
 			$this->draftEvent->setDetailsValue('venue.area_id', $venueModel->getAreaId());
-
-			//var_dump($this->draftEvent); die();
 
 			return true;
 		}
@@ -329,8 +325,6 @@ class NewEventWhereDetails extends BaseNewEvent
 			}
 
 			$this->draftEvent->setDetailsValue('where.setthisnewvenue.submitted', true);
-
-			//var_dump($this->draftEvent->getDetails());			var_dump($this->isAllInformationGathered); die();
 
 			return true;
 		}
