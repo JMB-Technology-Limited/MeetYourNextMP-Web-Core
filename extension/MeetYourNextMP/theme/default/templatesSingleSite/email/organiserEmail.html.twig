@@ -1,0 +1,83 @@
+{#
+ # @package com.meetyournextmp
+ # @license Closed Source
+ # @copyright (c) 2013-2015, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% extends 'email/email.html.twig' %}
+
+{% block content %}
+
+	<p>Dear {{ email }}</p>
+
+	<p>MeetYourNextMP is a non-partisan website that lists hustings events.
+		We then make these listings available to the public and anyone else who wants to use them for free. </p>
+
+	<p>In this way, we help people be better informed about their candidates and encourage them to get involved
+		in local and national politics.</p>
+
+	<p>We are referenced by people like Citizens Advice Bureau, MIND for better mental health, The Campaign against the Arms trade,
+		MacMillian Cancer Support, Concern and The Power Of The Cross. We have served over 87,000 pageviews to people wanting to
+		meet their candidates at events like yours, with support from prominent politicians in several different parties.</p>
+
+	<p style="font-style: italic">Event:</p>
+	<p>{{  event.summary }}</p>
+
+	{%  if event.description %}
+		<p style="font-style: italic">Description:</p>
+		<p>{{  event.description|nl2br }}</p>
+	{%  endif %}
+
+	<p style="font-style: italic">URL:</p>
+	<p>{%  if event.url %}{{  event.url }}{%  else %}unknown{%  endif %}</p>
+
+	<p style="font-style: italic">Tickets URL:</p>
+	<p>{%  if event.ticketURL %}{{  event.ticketURL }}{%  else %}unknown{%  endif %}</p>
+
+	<p style="font-style: italic">Organiser Email:</p>
+	<p>{{ email }}</p>
+
+	{%  if venue %}
+		<p style="font-style: italic">Venue:</p>
+		<p>{{ venue.title }}</p>
+
+		<p style="font-style: italic">Address:</p>
+		<p>{{ venue.address|nl2br }}<br>{%  if area %}{{  area.title }}<br>{%  endif %}{{  venue.addressCode }}</p>
+
+		{%  if venue.description %}
+			<p style="font-style: italic">Notes about venue:</p>
+			<p>{{ venue.description|nl2br }}</p>
+		{%  endif %}
+
+	{%  elseif area %}
+
+		<p style="font-style: italic">Area:</p>
+		<p>{{ area.title }}</p>
+
+	{%  endif %}
+
+	{%  if humans %}
+		<p style="font-style: italic">Speaking at event:</p>
+		<p>
+			{%  for human in humans %}
+				{{  human.title }} - {{ human.description }}<br>
+			{%  endfor %}
+		</p>
+	{%  endif %}
+
+	<p>You are listed <a href="https://meetyournextmp.com/event/{{  event.slugForURL }}">as the organiser of this event</a> - could you help us check all details are correct?</p>
+
+	{%  if not venue %}
+		<p>In particular, could you tell us where the venue is?</p>
+	{%  endif %}
+
+	<p>If <a href="https://meetyournextmp.com/event/{{  event.slugForURL }}">there are any corrections you can make a user account on our site and edit the event</a>, or just let us know.</p>
+
+	<p>Please <a href="https://meetyournextmp.com/contact">do get in touch</a> if you have any questions or any feedback - you can simply hit reply.</p>
+
+	<p>Thank you,<br>
+		James of MeetYourNextMP.</p>
+
+	<p>(This site is supported by the non-partisan <a href="https://democracyclub.org.uk/">Democracy Club</a>.)</p>
+
+{% endblock %}

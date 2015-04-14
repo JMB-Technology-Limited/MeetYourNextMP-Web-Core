@@ -1,0 +1,92 @@
+{#
+ # @package com.meetyournextmp
+ # @license Closed Source
+ # @copyright (c) 2013-2015, JMB Technology Limited, http://jmbtechnology.co.uk/
+ # @author James Baster <james@jarofgreen.co.uk>
+ #}
+{% extends 'email/email.txt.twig' %}
+
+{% block content %}
+
+Dear {{ email }}
+
+MeetYourNextMP is a non-partisan website that lists hustings events. We then make
+these listings available to the public and anyone else who wants to use them for
+free.
+
+In this way, we help people be better informed about their candidates and encourage
+them to get involved in local and national politics.
+
+We are referenced by people like Citizens Advice Bureau, MIND for better mental
+health, The Campaign against the Arms trade, MacMillian Cancer Support, Concern
+and The Power Of The Cross. We have served over 87,000 pageviews to people wanting
+to meet their candidates at events like yours, with support from prominent
+politicians in several different parties.
+
+Event:
+{{  event.summary }}
+
+{%  if event.description %}
+Description:
+{{  event.description|nl2br }}
+{%  endif %}
+
+URL:
+{%  if event.url %}{{  event.url }}{%  else %}unknown{%  endif %}
+
+
+Tickets URL:
+{%  if event.ticketURL %}{{  event.ticketURL }}{%  else %}unknown{%  endif %}
+
+
+Organiser Email:
+{{ email }}
+
+{%  if venue %}
+Venue:
+{{  venue.title }}
+
+Address:
+{{ venue.address }}
+{%  if area %}{{  area.title }}{%  endif %}
+
+{{  venue.addressCode }}
+
+{%  if venue.description %}
+Notes about venue:
+{{ venue.description }}
+{%  endif %}
+
+{%  elseif area %}
+
+Area:
+{{ area.title }}
+
+{%  endif %}
+
+{%  if humans %}
+Speaking at event:
+{%  for human in humans %}
+{{  human.title }} - {{ human.description }}
+{%  endfor %}
+{%  endif %}
+
+You are listed as the organiser of this event - could you help us check all details are correct?
+https://meetyournextmp.com/event/{{  event.slugForURL }}
+
+{%  if not venue %}
+In particular, could you tell us where the venue is?
+
+{%  endif %}
+
+If there are any corrections you can make a user account on our site and edit the event, or just let us know.
+
+Please do get in touch if you have any questions or any feedback - you can simply hit reply.
+https://meetyournextmp.com/contact
+
+Thank you,
+James of MeetYourNextMP.
+
+(This site is supported by the non-partisan Democracy Club.)
+
+{% endblock %}
