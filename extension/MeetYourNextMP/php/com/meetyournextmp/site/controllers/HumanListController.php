@@ -17,16 +17,24 @@ use Symfony\Component\HttpFoundation\Request;
 class HumanListController {
 	
 	
-	function index(Application $app) {
-		
-		$trb = new HumanRepositoryBuilder();
-		$trb->setSite($app['currentSite']);
-		$trb->setIncludeDeleted(false);
-		$humans = $trb->fetchAll();
-		
-		return $app['twig']->render('site/humanlist/index.html.twig', array(
-				'humans'=>$humans,
+	function index(Application $app, Request $request) {
+
+		if ($request->query->get('search')) {
+			$trb = new HumanRepositoryBuilder();
+			$trb->setSite($app['currentSite']);
+			$trb->setIncludeDeleted(false);
+			$trb->setFreeTextsearch($request->query->get('search'));
+			return $app['twig']->render('site/humanlist/index.html.twig', array(
+				'humans'=>$trb->fetchAll(),
+				'search'=>$request->query->get('search'),
 			));
+		} else {
+			return $app['twig']->render('site/humanlist/index.html.twig', array(
+				'humans'=>array(),
+				'search'=>null,
+			));
+		}
+
 	}
 	
 		

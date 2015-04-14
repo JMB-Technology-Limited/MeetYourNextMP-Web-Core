@@ -26,7 +26,7 @@
 		<div id="innerPage">
 
 			<div class="innerPageLeft">
-				&nbsp;
+				<p>If you just want to see information on your candidates in general, try <a href="https://yournextmp.com/">YourNextMP</a></p>
 			</div>
 
 			<div class="innerPageRight">
@@ -40,6 +40,11 @@
 							<input type="submit" value="Find my candidates!">
 						</form>
 						<p>Or <a href="/seat">browse a list of seats</a>.</p>
+						<p>Or search by name.</p>
+						<form action="" method="get">
+							<input type="text" name="search" value="{{  search }}">
+							<input type="submit" value="Find a candidate by name!">
+						</form>
 					</div>
 				</div>
 			</div>
@@ -47,17 +52,22 @@
 			<div class="afterInnerPageContent"></div>
 
 			<ul class="mainListHumans">
-				{% for human in humans %}
-					<li class="human">
-						<div class="title"><a href="/human/{{ human.slugForURL }}">{{ human.title }}</a></div>
-						{{ human.description | nl2br }}
-						<div class="afterHumanListing"></div>
-					</li>
-				{% else %}
-					<li class="nodata">
-						No humans found.
-					</li>
-				{% endfor %}
+				{%  if search %}
+					{% for human in humans %}
+						<li class="human">
+							{% if config.showHumanImages and human.imageUrl %}
+								<img src="{{ human.imageUrl }}" class="image" alt="{{ human.title }} image">
+							{% endif %}
+							<div class="title"><a href="/human/{{ human.slugForURL }}">{{ human.title }}</a></div>
+							{{ human.description | nl2br }}
+							<div class="afterHumanListing"></div>
+						</li>
+					{% else %}
+						<li class="nodata">
+							No humans found.
+						</li>
+					{% endfor %}
+				{%  endif %}
 			</ul>
 
 			<div id="afterInnerPageContent"></div>
