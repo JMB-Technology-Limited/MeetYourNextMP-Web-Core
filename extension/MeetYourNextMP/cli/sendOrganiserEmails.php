@@ -7,7 +7,6 @@ require_once APP_ROOT_DIR.'/core/php/autoload.php';
 require_once APP_ROOT_DIR.'/core/php/autoloadCLI.php';
 
 
-sleep(5);
 
 /**
  *
