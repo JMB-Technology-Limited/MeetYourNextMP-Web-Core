@@ -63,7 +63,7 @@ class MadeDataDumpYNMPReadTask extends \BaseTask {
 
 		$areaMapItRepo = new AreaMapItInfoRepository();
 
-		$out = array('data'=>array());
+		$out = array('data'=>array(), 'areasPastEvents'=>array());
 
 		$erb = new EventRepositoryBuilder();
 		$erb->setSite($site);
@@ -137,6 +137,25 @@ class MadeDataDumpYNMPReadTask extends \BaseTask {
 
 
 		}
+
+		$arb = new \com\meetyournextmp\repositories\builders\AreaRepositoryBuilder();
+		$arb->setLimit(1000);
+		$arb->setIncludeDeleted(false);
+		$arb->setIsMapItAreaOnly(true);
+		foreach($arb->fetchAll() as $area) {
+
+			$erb = new EventRepositoryBuilder();
+			$erb->setIncludeDeleted(false);
+			$erb->setIncludeCancelled(false);
+			$erb->setArea($area);
+			$erb->setBeforeNow();
+
+			$areamapit = $areaMapItRepo->getByAreaID($area->getId());
+
+			$out['areasPastEvents'][$areamapit->getMapitId()] = $erb->fetchCount();
+
+		}
+
 
 		file_put_contents(APP_ROOT_DIR.DIRECTORY_SEPARATOR.'webSingleSite'.DIRECTORY_SEPARATOR.'datadump'.DIRECTORY_SEPARATOR.'ynmpread.json', json_encode($out));
 
