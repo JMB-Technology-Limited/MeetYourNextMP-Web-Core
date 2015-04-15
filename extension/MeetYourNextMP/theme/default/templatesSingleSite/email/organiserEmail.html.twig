@@ -77,6 +77,10 @@
 		<p>In particular, could you tell us where the venue is?</p>
 	{%  endif %}
 
+	{% if not humans %}
+		<p>Can you tell us who is speaking at the event?</p>
+	{%  endif %}
+
 	<p>If <a href="https://meetyournextmp.com/event/{{  event.slugForURL }}">there are any corrections you can make a user account on our site and edit the event</a>, or just let us know.</p>
 
 	<p>Please <a href="https://meetyournextmp.com/contact">do get in touch</a> if you have any questions or any feedback - you can simply hit reply.</p>
