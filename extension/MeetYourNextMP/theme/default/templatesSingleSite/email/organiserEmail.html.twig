@@ -16,8 +16,8 @@
 	<p>In this way, we help people be better informed about their candidates and encourage them to get involved
 		in local and national politics.</p>
 
-	<p>We are referenced by people like Citizens Advice Bureau, MIND for better mental health, The Campaign against the Arms trade,
-		MacMillian Cancer Support, Concern and The Power Of The Cross. We have served over 87,000 pageviews to people wanting to
+	<p>We are cited by people like Citizens Advice Bureau, MIND for better mental health, The Campaign against the Arms trade,
+		MacMillian Cancer Support, Concern and The Power Of The Cross. We have served over 90,000 pageviews to people wanting to
 		meet their candidates at events like yours, with support from prominent politicians in several different parties.</p>
 
 	<p style="font-style: italic">Event:</p>
@@ -36,6 +36,12 @@
 
 	<p style="font-style: italic">Organiser Email:</p>
 	<p>{{ email }}</p>
+
+	<p style="font-style: italic">Start:</p>
+	<p>{{ event.getStartAt|tolocaltimeformatted('D jS M Y g:ia', currentTimeZone) }}</p>
+
+	<p style="font-style: italic">End:</p>
+	<p>{{ event.getEndAt|tolocaltimeformatted('D jS M Y g:ia', currentTimeZone) }}</p>
 
 	{%  if venue %}
 		<p style="font-style: italic">Venue:</p>
