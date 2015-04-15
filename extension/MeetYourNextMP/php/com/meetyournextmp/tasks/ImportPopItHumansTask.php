@@ -183,9 +183,10 @@ class ImportPopItHumansTask extends \BaseTask {
 							$humanPopItInfo->setEmail($humanObj->email);
 						}
 						$humanPopItInfo->setParty($partyMemberships2015['name']);
-						if (isset($humanObj->birth_date)) {
-							$humanPopItInfo->setBirthDate($humanObj->birth_date);
-						}
+						// TODO if we reenable this we need to make sure it works for "YYYY" format to.
+						//if (isset($humanObj->birth_date)) {
+						//	$humanPopItInfo->setBirthDate($humanObj->birth_date);
+						//}
 						$humanPopItInfo->setFacebook($facebook);
 						$humanPopItInfo->setTwitter($twitter);
 						$humanPopItInfo->setImageUrl($imageURL);
@@ -220,9 +221,10 @@ class ImportPopItHumansTask extends \BaseTask {
 							$humanPopItInfo->setEmail($humanObj->email);
 						}
 						$humanPopItInfo->setParty($partyMemberships2015['name']);
-						if (isset($humanObj->birth_date)) {
-							$humanPopItInfo->setBirthDate($humanObj->birth_date);
-						}
+						// TODO if we reenable this we need to make sure it works for "YYYY" format to.
+						//if (isset($humanObj->birth_date)) {
+						//	$humanPopItInfo->setBirthDate($humanObj->birth_date);
+						//}
 						$humanPopItInfo->setFacebook($facebook);
 						$humanPopItInfo->setTwitter($twitter);
 						$humanPopItInfo->setImageUrl($imageURL);
