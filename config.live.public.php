@@ -66,6 +66,12 @@ $CONFIG->sysAdminLogInTimeOutSeconds = 900;  // 15 mins
 $CONFIG->newUsersAreEditors = true;
 $CONFIG->allowNewUsersToRegister = true;
 
+$CONFIG->CLIAPI1Enabled = true;
+
+
+
+
+
 
 $CONFIG->userAccountVerificationSecondsBetweenAllowedSends = 900;  // 15 mins
 
