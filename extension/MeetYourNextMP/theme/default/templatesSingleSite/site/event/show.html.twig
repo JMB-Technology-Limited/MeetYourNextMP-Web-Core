@@ -218,9 +218,7 @@
 
 		<div class="innerPageRight">
 
-			{%  set showMoreInfoPromptSignUp = currentUser is null and not event.isInPast and not event.isDeleted and not event.isCancelled and not event.ticketUrl  %}
-
-			{%  if showMoreInfoPromptSignUp or event.url or event.ticketUrl %}
+			{%  if event.url or event.ticketUrl %}
 				<div class="infoBoxWrapper">
 					<div class="infoBoxTitle">More Information</div>
 					<div class="infoBoxContent">
@@ -240,21 +238,6 @@
 							</div>
 						{% endif %}
 
-						{% if showMoreInfoPromptSignUp %}
-							<p>
-								Get reminders and notifications of this event and start to build up your personal calendar!
-							</p>
-							<p>
-								<a href="{{ config.getWebIndexDomainSecure() }}/you/register?event={{ event.slug }}{%  if not config.isSingleSiteMode %}&eventSite={{ currentSite.slug }}{% endif %}">
-									Create your free account
-								</a>
-							</p>
-							<p>
-								<a href="{{ config.getWebIndexDomainSecure() }}/you/login?event={{ event.slug }}{%  if not config.isSingleSiteMode %}&eventSite={{ currentSite.slug }}{% endif %}">
-									Login
-								</a>
-							</p>
-						{%  endif %}
 
 					</div>
 				</div>
