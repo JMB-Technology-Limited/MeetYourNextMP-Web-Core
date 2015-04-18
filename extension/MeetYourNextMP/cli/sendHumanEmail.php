@@ -27,49 +27,51 @@ $siteRepo = new \repositories\SiteRepository();
 $site = $siteRepo->loadById($CONFIG->singleSiteID);
 configureAppForSite($site);
 
+for ($i = 1; $i <= 10; $i++) {
 
-// Get Human
-$stat = $DB->prepare("SELECT human_information.* FROM human_information ".
-                " LEFT JOIN human_email ON human_email.human_id = human_information.id ".
-                " JOIN human_in_area ON human_in_area.human_id = human_information.id ".
-                " JOIN area_information ON area_information.id = human_in_area.area_id ".
-                " WHERE  human_information.is_deleted = '0' AND ".
-                " human_information.email IS NOT NULL AND human_information.email != '' AND human_email.id IS NULL".
-                " LIMIT 1");
-$stat->execute();
-if ($stat->rowCount() == 0) {
-	die("No Human Data");
+	// Get Human
+	$stat = $DB->prepare("SELECT human_information.* FROM human_information " .
+		" LEFT JOIN human_email ON human_email.human_id = human_information.id AND human_email.created_at > '2015-04-10 00:00:00'" .
+		" JOIN human_in_area ON human_in_area.human_id = human_information.id " .
+		" JOIN area_information ON area_information.id = human_in_area.area_id " .
+		" WHERE  human_information.is_deleted = '0' AND " .
+		" human_information.email IS NOT NULL AND human_information.email != '' AND human_email.id IS NULL" .
+		" LIMIT 1");
+	$stat->execute();
+	if ($stat->rowCount() == 0) {
+		die("No Human Data");
+	}
+
+	$human = new \com\meetyournextmp\models\HumanModel();
+	$human->setFromDataBaseRow($stat->fetch());
+
+	// Get Area
+	$stat = $DB->prepare("SELECT area_information.* FROM area_information " .
+		" JOIN human_in_area ON human_in_area.area_id = area_information.id AND human_in_area.human_id = :human_id");
+	$stat->execute(array('human_id' => $human->getId()));
+	$stat->execute();
+	if ($stat->rowCount() == 0) {
+		die("No Area Data");
+	}
+
+	$area = new \models\AreaModel();
+	$area->setFromDataBaseRow($stat->fetch());
+
+	// make email
+
+	$email = new \com\meetyournextmp\models\HumanEmailModel();
+	$email->setFromAppAndHumanAndArea($app, $human, $area);
+
+	// save email
+	$repo = new \com\meetyournextmp\repositories\HumanEmailRepository();
+	$repo->create($email);
+
+	// send email
+	$email->send($app);
+
+	// record sent
+	$repo->markSent($email);
+
 }
 
-$human = new \com\meetyournextmp\models\HumanModel();
-$human->setFromDataBaseRow($stat->fetch());
-
-// Get Area
-$stat = $DB->prepare("SELECT area_information.* FROM area_information ".
-	" JOIN human_in_area ON human_in_area.area_id = area_information.id AND human_in_area.human_id = :human_id");
-$stat->execute(array('human_id'=>$human->getId()));
-$stat->execute();
-if ($stat->rowCount() == 0) {
-	die("No Area Data");
-}
-
-$area = new \models\AreaModel();
-$area->setFromDataBaseRow($stat->fetch());
-
-// make email
-
-$email = new \com\meetyournextmp\models\HumanEmailModel();
-$email->setFromAppAndHumanAndArea($app, $human, $area);
-
-// save email
-
-$repo = new \com\meetyournextmp\repositories\HumanEmailRepository();
-$repo->create($email);
-
-// send email
-
-$email->send($app);
-
-// record sent
-$repo->markSent($email);
 
