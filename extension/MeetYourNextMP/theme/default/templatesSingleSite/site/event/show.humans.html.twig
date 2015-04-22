@@ -7,7 +7,7 @@
 {% if humans|length > 0 %}
 	{% for human in humans %}
 		<div class="innerPageLeftRightTitle">
-			<p class="humanTitle">About <a href="/human/{{ human.slugForUrl }}">{{ human.title }}</a></p>
+			<p class="humanTitle">Speaking at this event: <a href="/human/{{ human.slugForUrl }}">{{ human.title }}</a></p>
 		</div>
 		<div class="innerPageLeft">
 			{% if config.showHumanImages and human.imageUrl %}
