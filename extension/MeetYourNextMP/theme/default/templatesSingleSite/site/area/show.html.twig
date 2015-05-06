@@ -6,7 +6,7 @@
  #}
 {% extends 'site/area/page.html.twig' %}
 
-{% block pageTitle %}{{ area.title }} - {% endblock %} 
+{% block pageTitle %}{{ area.title }} - {% endblock %}
 
 
 {% block htmlHeader %}
@@ -76,6 +76,7 @@
 			<a  class="button" href="/event/new?area={{  area.slug }}">Add an event</a>
 		</div>
 
+		{#
 		<p>Or could you send a Tweet to your candidates asking them what events they are attending?</p>
 
 		<div class="bigButtonContainer">
@@ -88,7 +89,7 @@
 			<a  class="button" href="{{ config.getWebIndexDomainSecure() }}/you/register?area={{ area.slug }}">Sign up for updates</a>
 		</div>
 
-
+		#}
 
 	{%  else %}
 
@@ -149,6 +150,7 @@
 									<a  class="button" href="/event/new?area={{  area.slug }}">Add an event</a>
 								</div>
 
+								{#
 								{%  if childAreas|length == 0 %}
 
 									<p>Or could you send a Tweet to your candidates asking them what events they are attending?</p>
@@ -163,6 +165,7 @@
 								<div class="bigButtonContainer">
 									<a  class="button" href="{{ config.getWebIndexDomainSecure() }}/you/register?area={{ area.slug }}">Sign up for updates</a>
 								</div>
+								#}
 
 							</div>
 						</div>
@@ -226,6 +229,8 @@
 										<a  class="button" href="/event/new?area={{  area.slug }}">Add an event</a>
 									</div>
 
+									{#
+
 									{%  if childAreas|length == 0 %}
 
 										<p>Or could you send a Tweet to your candidates asking them what events they are attending?</p>
@@ -234,6 +239,8 @@
 											<a  class="button" href="/area/{{ area.slugForUrl }}/tweetToCandidates"><div class="iconTwitterLarge" title="Twitter"></div> Tweet your candidates</a>
 										</div>
 									{% endif %}
+
+									#}
 
 								{% endif %}
 
